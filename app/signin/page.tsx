@@ -8,11 +8,10 @@ import TypedAnimatedText from "@/components/TypeAnimatedText";
 import SignInForm from "@/components/signin";
 
 
-
 interface inputProperties  {
     email: string,
     password: string,
-  }
+}
 
 export default function SignIn() {
   const [status, setStatus] = useState<string>("");
