@@ -1,11 +1,18 @@
+import DashboardLayout from "@/components/layout/DashboardLayout"
+import Navbar from "@/components/navbar"
+import SideBar from "@/components/sidebar"
 
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <h2 className={`mb-3 text-2xl font-semibold`}>
-                Football-Club-Admin
-          </h2>
+    <main className="flex min-h-screen">
+        <SideBar/>
+        <div className="w-full">
+              <Navbar/>
+              <DashboardLayout style="min-h-screen">
+                Layout
+              </DashboardLayout>
+        </div>
     </main>
   )
 }
