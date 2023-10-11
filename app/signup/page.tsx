@@ -7,22 +7,34 @@ import FormOverlay from "@/components/auth/overlay";
 import TypedAnimatedText from "@/components/TypeAnimatedText";
 import SignUpForm from "@/components/signup/signUpForm";
 
-
-interface inputProperties  {
-    firstname: string,
-    lastname: string,
-    email: string,
-    password: string,
-  }
+interface inputProperties {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+}
 
 export default function SignUp() {
   const [status, setStatus] = useState<string>("");
 
   const validationSchema = Yup.object().shape({
-    firstname: Yup.string().required(),
-    lastname: Yup.string().required(),
+    firstname: Yup.string()
+      .matches(
+        /^[a-zA-Z0-9]+$/, 
+        "Only alphanumeric characters are allowed.")
+      .required(),
+    lastname: Yup.string()
+      .matches(
+        /^[a-zA-Z0-9]+$/,
+       "Only alphanumeric characters are allowed.")
+      .required(),
     email: Yup.string().required(),
-    password: Yup.string().required(),
+    password: Yup.string()
+      .matches(
+        /^[a-zA-Z0-9!#$%^&*()]+$/,
+        "Only letters, numbers and some specific punctuations allowed."
+      )
+      .required(),
   });
 
   const onSubmit = (values: inputProperties) => {
@@ -38,7 +50,7 @@ export default function SignUp() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values:inputProperties, { resetForm }) => {
+    onSubmit: async (values: inputProperties, { resetForm }) => {
       console.log(values, "in formik values");
       await onSubmit(values);
       resetForm();
@@ -63,7 +75,7 @@ export default function SignUp() {
         style="col-start-2"
       />
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 grid md:grid-cols-2 shadow-xl bg-white w-[80%] md:w-[60%]">
-       <SignUpForm formik={formik} />
+        <SignUpForm formik={formik} />
         <FormOverlay
           backgroundColor="bg-[#01041d]"
           opacity="bg-opacity-50"

@@ -12,7 +12,7 @@ export default function Logo({ width, height, style }: LogoProperties) {
   return (
     <>
       <Image
-        src="/football_dummy_logo.png"
+        src="/logo.svg"
         alt="logo"
         width={width}
         height={height}

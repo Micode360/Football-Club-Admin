@@ -8,7 +8,7 @@ interface alignProperties {
 
 export default function DashboardLayout ({ children, style }:alignProperties) {
     return (
-        <div className={`flex flex-col items-center justify-center ${style}`}>
+        <div className={`flex flex-col ${style}`}>
             { children }
         </div>
     )

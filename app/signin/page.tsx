@@ -18,7 +18,9 @@ export default function SignIn() {
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required(),
-    password: Yup.string().required(),
+    password: Yup.string()
+    .matches(/^[a-zA-Z0-9!#$%^&*()]+$/, 'Only letters, numbers and some specific punctuations allowed.')
+    .required(),
   });
 
   const onSubmit = (values: inputProperties) => {
