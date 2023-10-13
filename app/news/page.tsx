@@ -4,9 +4,9 @@
 
 
 export default function News () {
-    return(
+    return (
         <main className="grid md:grid-cols-2  min-h-screen">
-            fsdfsfsfsd
+            News
         </main>
     );
 }
