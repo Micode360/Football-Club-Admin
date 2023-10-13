@@ -1,8 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-
-
 export const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_API_PORT as string, 
+  uri: 'http://localhost:5000/api/main', 
   cache: new InMemoryCache(),
 });
