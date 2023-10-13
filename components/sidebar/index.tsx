@@ -8,7 +8,7 @@ export default function SideBar() {
   const iconComponents = [
     { id: 1, icon: <HouseIcon style="w-8 h-8" />, title: "Dashboard", path:"/"},
     { id: 2, icon: <NewsPaperIcon style="w-8 h-8" />, title: "News", path:"/news"},
-    { id: 2, icon: <ShieldIcon style="w-8 h-8"/>, title: "Leagues", path:"/leagues"},
+    { id: 3, icon: <ShieldIcon style="w-8 h-8"/>, title: "Leagues", path:"/leagues"},
   ];
   
   let active = "/";
