@@ -1,4 +1,5 @@
 "use client"
+import React, { useContext } from 'react';
 import EyeIcon from "@/components/icons/eye"
 import NewsPaperIcon from "@/components/icons/newspaperIcon"
 import DashboardLayout from "@/components/layout/DashboardLayout"
@@ -8,6 +9,9 @@ import SideBar from "@/components/sidebar"
 import StatsCard from "@/components/statsCard"
 import { gql } from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/client';
+import { MyContext } from "@/components/layout/mainLayout"
+
+
 
 const GET_SOME_DATA = gql`
 query ExampleQuery {
@@ -18,16 +22,22 @@ query ExampleQuery {
     email
   }
 }
-`;
+`
 
 
-
-console.log("port: ",process.env.API_PORT)
 
 export default function Home() {
   const { loading, error, data } = useQuery(GET_SOME_DATA);
  // const [createUser] = useMutation(CREATE_USER);
+ const { myData, updateData } = useContext(MyContext); 
+
+ const handleUpdateData = () => {
+   updateData('New data from OtherComponent');
+ };
+
   console.log({ loading, error, data }, "graphic ql");
+  updateData("newdata updated")
+  console.log(myData, "MyContext");
 
 
   return (

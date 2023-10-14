@@ -24,3 +24,29 @@
 .shadow-down {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+
+/* Animations */
+.boxes_loader {
+  width: 8px;
+  height: 22px;
+  display: block;
+  left: -40px;
+  position: relative;
+  border-radius: 4px;
+  box-sizing: border-box;
+  animation: animloader 1s linear infinite alternate;
+}
+
+@keyframes animloader {
+  0% {
+    box-shadow: 20px 0 rgba(255, 255, 255, 0.25), 40px 0 white, 60px 0 white;
+  }
+  50% {
+    box-shadow: 20px 0 white, 40px 0 rgba(255, 255, 255, 0.25), 60px 0 white;
+  }
+  100% {
+    box-shadow: 20px 0 white, 40px 0 white, 60px 0 rgba(255, 255, 255, 0.25);
+  }
+}
+    

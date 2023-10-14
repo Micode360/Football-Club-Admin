@@ -6,12 +6,12 @@ interface ErrorProperties {
   name: string;
 }
 
-export default function ErrorResponse({ formik, name }: ErrorProperties) {
+export default function FormikErrorResponse({ formik, name }: ErrorProperties) {
   return (
     <>
       {formik.touched[name] && formik.errors[name] && (
         <div className="text-[#9e3818] text-xs mb-1">
-          {formik.errors[name].replace(/^\w/, (c: string) => c.toUpperCase())}
+          {formik.errors[name].toLowerCase().replace(/^\w/, (c: string) => c.toUpperCase())}
         </div>
       )}
     </>

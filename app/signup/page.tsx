@@ -1,29 +1,36 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useMutation } from '@apollo/client';
 import Logo from "@/components/icons/logo";
 import FormOverlay from "@/components/auth/overlay";
 import TypedAnimatedText from "@/components/TypeAnimatedText";
 import SignUpForm from "@/components/signup/signUpForm";
+import { REGISTER_MUTATION } from "@/graphQL/mutations";
 
 interface inputProperties {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }
 
 export default function SignUp() {
+  const router = useRouter();
+  const [register] = useMutation(REGISTER_MUTATION);
   const [status, setStatus] = useState<string>("");
+  const [message, setMessage] = useState<any>({});
+  
 
   const validationSchema = Yup.object().shape({
-    firstname: Yup.string()
+    firstName: Yup.string()
       .matches(
         /^[a-zA-Z0-9]+$/, 
         "Only alphanumeric characters are allowed.")
       .required(),
-    lastname: Yup.string()
+    lastName: Yup.string()
       .matches(
         /^[a-zA-Z0-9]+$/,
        "Only alphanumeric characters are allowed.")
@@ -37,21 +44,46 @@ export default function SignUp() {
       .required(),
   });
 
-  const onSubmit = (values: inputProperties) => {
+  const onSubmit = async (values: inputProperties) => {
+    setMessage({});
     setStatus("pending");
-    console.log(values, "values");
+    const { firstName, lastName, email, password } = values;
+
+    try {
+      const { data } = await register({
+        variables: {
+          input: {
+            firstName,
+            lastName,
+            email,
+            password
+          }
+        },
+      });
+
+
+      if(data.Register.status === 200) {
+        setMessage({type:"success", response:data.Register.message})
+        router.push("/signin");
+      }else {
+        setStatus("");
+        setMessage({type:"error", response:data.Register.message})
+      }
+    } catch (error:any) {
+      console.error('Error updating indent:', error.message);
+      setMessage({type:"error", message:"Internal Server Error"})
+    }
   };
 
   const formik = useFormik<inputProperties>({
     initialValues: {
-      firstname: "",
-      lastname: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values: inputProperties, { resetForm }) => {
-      console.log(values, "in formik values");
       await onSubmit(values);
       resetForm();
     },
@@ -59,8 +91,8 @@ export default function SignUp() {
 
   useEffect(() => {
     formik.setValues({
-      firstname: "",
-      lastname: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
     });
@@ -75,7 +107,7 @@ export default function SignUp() {
         style="col-start-2"
       />
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 grid md:grid-cols-2 shadow-xl bg-white w-[80%] md:w-[60%]">
-        <SignUpForm formik={formik} />
+        <SignUpForm formik={formik} status={status} message={message} />
         <FormOverlay
           backgroundColor="bg-[#01041d]"
           opacity="bg-opacity-50"

@@ -6,7 +6,7 @@ import Button from "@/components/form/button";
 import Logo from "@/components/icons/logo";
 import LetterPlane from "@/components/icons/letterPlane";
 import ColumnLayout from "@/components/layout/ColumnLayout";
-import ErrorResponse from "@/components/form/errorResponse";
+import ErrorResponse from "@/components/form/errorResponseformik";
 
 
 
