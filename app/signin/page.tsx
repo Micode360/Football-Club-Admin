@@ -2,19 +2,23 @@
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useMutation } from '@apollo/client';
 import Logo from "@/components/icons/logo";
 import FormOverlay from "@/components/auth/overlay";
 import TypedAnimatedText from "@/components/TypeAnimatedText";
 import SignInForm from "@/components/signin";
+import { LOGIN_MUTATION } from "@/graphQL/mutations";
+import { storeToken } from "@/utils/utilsFunctions";
 
-
-interface inputProperties  {
+type inputProperties =  {
     email: string,
     password: string,
 }
 
 export default function SignIn() {
+  const [login] = useMutation(LOGIN_MUTATION);
   const [status, setStatus] = useState<string>("");
+  const [message, setMessage] = useState<any>({});
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required(),
@@ -23,9 +27,28 @@ export default function SignIn() {
     .required(),
   });
 
-  const onSubmit = (values: inputProperties) => {
+  const onSubmit = async (values: inputProperties) => {
+    setMessage({});
     setStatus("pending");
-    console.log(values, "values");
+    const { email, password } = values;
+
+    const { data } = await login({
+      variables: {
+        input: {
+          email,
+          password
+        }
+      },
+    });
+    if(data.Login.status === 200) {
+      console.log(data, "data")
+      const { accessToken } = data.Login;
+      storeToken("asstkn", accessToken, 604800);
+      window.location.href = "/";
+    }else {
+      setStatus("");
+      setMessage({type:"error", response:"Incorrect email or password."})
+    }
   };
 
   const formik = useFormik<inputProperties>({
@@ -35,7 +58,6 @@ export default function SignIn() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values:inputProperties, { resetForm }) => {
-      console.log(values, "in formik values");
       await onSubmit(values);
       resetForm();
     },
@@ -57,7 +79,7 @@ export default function SignIn() {
         style="col-start-2"
       />
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 grid md:grid-cols-2 shadow-xl bg-white w-[80%] md:w-[60%]">
-       <SignInForm formik={formik} />
+       <SignInForm formik={formik} status={status} message={message} />
         <FormOverlay
           backgroundColor="bg-[#01041d]"
           opacity="bg-opacity-50"

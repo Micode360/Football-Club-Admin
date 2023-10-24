@@ -1,5 +1,5 @@
 "use client"
-import { formattedNumber } from "@/utils/reusableFunctions";
+import { formattedNumber } from "@/utils/utilsFunctions";
 import React from "react"
 
 interface statsCardPrperties {

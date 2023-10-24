@@ -1,10 +1,13 @@
 import { gql } from "@apollo/client";
 
-// export const LOGIN_MUTATION = gql`
-//   mutation Login {
-//     // ...
-//   }
-// `;
+export const LOGIN_MUTATION = gql`
+  mutation Login($input: LoginInput!) {
+    Login(input: $input) {
+      status
+      accessToken
+    }
+  }
+`;
 
 export const REGISTER_MUTATION = gql`
   mutation RegisterUser($input: UserInput!) {

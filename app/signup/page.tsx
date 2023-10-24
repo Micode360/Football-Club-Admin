@@ -10,7 +10,7 @@ import TypedAnimatedText from "@/components/TypeAnimatedText";
 import SignUpForm from "@/components/signup/signUpForm";
 import { REGISTER_MUTATION } from "@/graphQL/mutations";
 
-interface inputProperties {
+type inputProperties = {
   firstName: string;
   lastName: string;
   email: string;

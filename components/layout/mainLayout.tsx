@@ -12,9 +12,9 @@ interface MyContextProps {
   updateData: (newData: string) => void;
 }
 
-const initialData:MyContextProps = {
-    myData: "",
-    updateData: () => ""
+const initialData: MyContextProps = {
+  myData: "",
+  updateData: () => "",
 };
 
 export const MyContext = createContext<MyContextProps>(initialData);
@@ -27,12 +27,11 @@ export default function MainLayout({ children }: mainLayoutProperties) {
   };
   return (
     <>
-      <MyContext.Provider value={{ myData, updateData }}>
-        <ApolloProvider client={client}>{children}</ApolloProvider>
-      </MyContext.Provider>
+      <ApolloProvider client={client}>
+        <MyContext.Provider value={{ myData, updateData }}>
+          {children}
+        </MyContext.Provider>
+      </ApolloProvider>
     </>
   );
 }
-
-
-
