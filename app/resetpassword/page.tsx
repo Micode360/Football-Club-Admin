@@ -1,116 +1,102 @@
 "use client";
+import Link from "next/link";
+import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
-import Link from "next/link";
-import * as Yup from "yup";
 import { useMutation } from "@apollo/client";
 import Logo from "@/components/icons/logo";
 import FormOverlay from "@/components/auth/overlay";
 import TypedAnimatedText from "@/components/TypeAnimatedText";
-import { REGISTER_MUTATION } from "@/graphQL/mutations";
-import { signUpInputprops, signUpAnimTextArray } from "@/utils/constantdatas";
+import { FORGOT_PASSWORD } from "@/graphQL/mutations";
 import Form from "@/components/form";
+import {
+  resetPasswordInputs,
+  resetPasswordAnimTextArray,
+} from "@/utils/constantdatas";
 
-type inputProperties = {
-  firstName: string;
-  lastName: string;
+type otpProperty = {
   email: string;
-  password: string;
 };
 
-export default function SignUp() {
+export default function ResetPassword() {
   const router = useRouter();
-  const [register] = useMutation(REGISTER_MUTATION);
+  const [forgotPassword] = useMutation(FORGOT_PASSWORD);
   const [status, setStatus] = useState<string>("");
   const [message, setMessage] = useState<any>({});
-  const formVakues = {
-    firstName: "",
-    lastName: "",
+
+  const formValues = {
     email: "",
-    password: "",
   };
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string()
-      .matches(/^[a-zA-Z0-9]+$/, "Only alphanumeric characters are allowed.")
-      .required(),
-    lastName: Yup.string()
-      .matches(/^[a-zA-Z0-9]+$/, "Only alphanumeric characters are allowed.")
-      .required(),
     email: Yup.string().required(),
-    password: Yup.string()
-      .matches(
-        /^[a-zA-Z0-9!#$%^&*()]+$/,
-        "Only letters, numbers and some specific punctuations allowed."
-      )
-      .required(),
   });
 
-  const onSubmit = async (values: inputProperties) => {
+  const onSubmit = async (values: otpProperty) => {
     setMessage({});
     setStatus("pending");
-    const { firstName, lastName, email, password } = values;
+    const { email } = values;
+
     try {
-      const { data } = await register({
+      const { data } = await forgotPassword({
         variables: {
           input: {
-            firstName,
-            lastName,
             email,
-            password,
           },
         },
       });
 
-      if (data.Register.status === 200) {
-        setMessage({ type: "success", response: data.Register.message });
-        router.push("/signin");
+      if (data.ForgotPassword.status === 200) {
+        setStatus("");
+        setMessage({ type: "success", response: data.ForgotPassword.message });
+        router.push(
+          `/verifyuser/confirm/${encodeURIComponent(data.ForgotPassword.value)}`
+        );
       } else {
         setStatus("");
-        setMessage({ type: "error", response: data.Register.message });
+        setMessage({ type: "error", response: data.ForgotPassword.message });
       }
     } catch (error: any) {
       setMessage({ type: "error", message: "Internal Server Error" });
     }
   };
-
-  const formik = useFormik<inputProperties>({
-    initialValues: formVakues,
+  const formik = useFormik<otpProperty>({
+    initialValues: formValues,
     validationSchema: validationSchema,
-    onSubmit: async (values: inputProperties, { resetForm }) => {
+    onSubmit: async (values: otpProperty, { resetForm }) => {
       await onSubmit(values);
       resetForm();
     },
   });
 
   useEffect(() => {
-    formik.setValues(formVakues);
+    formik.setValues(formValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <main className="grid md:grid-cols-2  min-h-screen">
+    <main className="grid md:grid-cols-2 min-h-screen">
       <FormOverlay
-        backgroundColor="bg-custom_orange"
+        backgroundColor="bg-custom_green"
         opacity="bg-opacity-80"
         style="col-start-2"
       />
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 grid md:grid-cols-2 shadow-xl bg-white w-[80%] md:w-[60%]">
         <Form
           formik={formik}
-          title="Welcome! Let's Get You Started."
-          subtitle="Register to become an Administrator."
+          title="Reset your password."
+          subtitle="Check your email to confirm your password."
           status={status}
           message={message}
-          inputs={signUpInputprops}
+          inputs={resetPasswordInputs}
           button={{
             type: "submit",
-            text: "Submit",
+            text: "Send OTP",
           }}
         >
           <div className="mt-1">
-            Already have an account,{" "}
+            Remember your password?{" "}
             <Link className="text-custom_blue" href="/signin">
               Sign in
             </Link>
@@ -123,10 +109,7 @@ export default function SignUp() {
           styleChild="flex flex-col items-center justify-center"
         >
           <Logo width={80} height={80} style="mb-2 w-[80] h-auto" />
-          <TypedAnimatedText
-            delay={1}
-            List={signUpAnimTextArray}
-          />
+          <TypedAnimatedText delay={1} List={resetPasswordAnimTextArray} />
         </FormOverlay>
       </div>
     </main>

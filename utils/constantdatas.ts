@@ -1,15 +1,145 @@
+import { LogOut } from "./utilsFunctions";
 
+
+//profile navigation
 export const profileNavData = [
-    {
-      id: 1,
-      name: "Settings",
-      type: "",
-    },
-    {
-      id: 2,
-      name: "Log Out",
-      type: "",
-    },
-  ];
+  {
+    id: 1,
+    name: "Settings",
+    type: "link",
+    path: "/settings"
+  },
+  {
+    id: 2,
+    name: "Log Out",
+    type: "itemClickCallbacks",
+    function:()=> LogOut()
+  },
+];
 
-  export const profileNavAttributes = ["name", "type"];
+
+// Sign Up
+export const signUpInputprops = [
+  {
+    name: "firstName",
+    type: "text",
+    label: "First Name",
+    placeholder: "First Name",
+  },
+  {
+    name: "lastName",
+    type: "text",
+    label: "Last Name",
+    placeholder: "Last Name",
+  },
+  {
+    name: "email",
+    type: "email",
+    label: "Email",
+    placeholder: "Email",
+  },
+  {
+    name: "password",
+    type: "password",
+    label: "Password",
+    placeholder: "Password",
+  },
+];
+
+export const signUpAnimTextArray = [
+  "Get started as an Administrator.",
+  "Join The League.",
+  "Just a few more words to go",
+  "You got this.",
+];
+
+// Sign In
+export const signInInputprops = [
+  {
+    name: "email",
+    type: "email",
+    label: "Email",
+    placeholder: "Email",
+  },
+  {
+    name: "password",
+    type: "password",
+    label: "Password",
+    placeholder: "Password",
+  },
+];
+
+export const signInLink = {
+  path: "/resetpassword",
+  text: "Forgot password",
+};
+
+export const signInAnimTextArray = [
+  "Hi good to see you.",
+  "Log into your account.",
+  "Come on, let's get this show on the road",
+  "You got this.",
+];
+
+// reset password
+export const resetPasswordInputs = [
+  {
+    name: "email",
+    type: "email",
+    label: "Email",
+    placeholder: "Email here",
+  },
+];
+
+export const resetPasswordLink = {
+  path: "/resetpassword",
+  text: "Send OTP",
+};
+
+export const resetPasswordAnimTextArray = [
+  "Reset Password.",
+  "Click Send OTP to to get OTP values.",
+];
+
+
+
+
+// otp
+export const otpInputs = [
+    {
+    name: "otp",
+    type: "text",
+    label: "OTP",
+    placeholder: "OTP here",
+  },
+];
+
+
+export const otpAnimTextArray = [
+  "Reset Password.",
+  "Type in your OTP values.",
+];
+
+// changePassword
+export const changePassordInputs = [
+  {
+    name: "password",
+    type: "password",
+    label: "New password",
+    placeholder: "New password",
+  },
+   {
+    name: "confirmPassword",
+    type: "password",
+    label: "Confirm Password",
+    placeholder: "Confirm new password",
+  }
+];
+
+
+export const changePassordAnimTextArray = [
+"Change Password.",
+"Type in your new password.",
+];
+
+

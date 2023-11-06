@@ -3,21 +3,21 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface dropdownProperties {
   data: Array<{}>;
-  column: Array<string>;
   showDropdown: boolean;
   setShowDropdown: any;
   onClickData: string;
+  style?: string;
 }
 
 export default function DropDownMenu({
   data,
-  column,
   showDropdown,
   setShowDropdown,
   onClickData,
+  style
 }: dropdownProperties) {
   const [dropdownData, setDropdownData] = useState(data);
-  const [dropdownColumnData, setColumnData] = useState(column);
+
 
   const ref = useRef() as any;
 
@@ -42,17 +42,21 @@ export default function DropDownMenu({
     <>
       {showDropdown && (
         <div
-          className="shadow-xl absolute top-full bg-white w-full p-2"
+          className={`shadow-xl absolute top-full bg-white md:w-full p-2 ${style}`}
           ref={ref}
         >
           {dropdownData.map((data: any) => {
             return (
               <div className="py-2" key={data.id}>
-                {dropdownColumnData.map((column) => (
-                  <a href="#" key={column}>
-                    {data[column]}
+                 {data.type === "link" ? (
+                  <a href={data.path} key={data.id}>
+                    {data.name}
                   </a>
-                ))}
+                ) : data.type === "itemClickCallbacks" ? (
+                  <span className="cursor-pointer" onClick={()=>data.function()} key={data.id}>
+                    {data.name}
+                  </span>
+                ) : null}
               </div>
             );
           })}
