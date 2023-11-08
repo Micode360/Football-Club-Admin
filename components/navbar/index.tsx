@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DropDownMenu from "../dropDownMenu";
 import Logo from "../icons/logo";
 import MessageIcon from "../icons/message";
@@ -10,9 +10,13 @@ import {
 } from "../../utils/constantdatas";
 
 export default function Navbar() {
-  let title = "Darsboard";
   const [showDropdown, setShowDropdown] = useState(false);
   const [onClickData, setOnClickData] = useState("");
+  const [ url, setUrl ] = useState("");
+
+  useEffect(() => {
+    setUrl(window.location.pathname.split("/")[1]);
+  }, []);
 
   return (
     <nav className="fixed top-0 left-0 md:pl-[6rem] right-0 z-[2] bg-white flex items-center justify-between shadow-xl py-2 px-4 md:py-4 md:px-6">
@@ -22,7 +26,7 @@ export default function Navbar() {
           The <span className="text-custom_orange font-[600]">League</span>
         </h1>
         <span className="hidden md:block text-basic font-[600] mx-2">/</span>
-        <h1 className="hidden md:block text-basic font-[600] text-custom_gray">{title}</h1>
+        <h1 className="hidden md:block text-basic font-[600] text-custom_gray">{url === ""?"Darshboard":url.replace(/^\w/, (c: string) => c.toUpperCase())}</h1>
       </div>
 
       <div className="flex items-center">

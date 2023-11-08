@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import ArrowIcon from "../icons/arrow";
+import Modal from "@/components/modal";
+import ExIcon from "@/components/icons/exclamationIcon";
 
 const data = [
   {
@@ -155,12 +157,26 @@ const data = [
   },
 ];
 
+const headers = ["S/N", "Title", "Created at", "League", "Categories", "Tags"];
+
+const columns = [
+  { name: "sn", type: "string" },
+  { name: "title", type: "string" },
+  { name: "createdAt", type: "string" },
+  { name: "league", type: "string" },
+  { name: "categories", type: "string" },
+  { name: "tags", type: "string" },
+];
+
 export default function Table() {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectStatus, setSelectStatus] = useState<boolean>(false);
+  const [isModal, setIsModal] = useState<boolean>(false);
   const itemsPerPage: number = 10;
   const pageCount: number = Math.ceil(data.length / itemsPerPage);
-  const [currentPage, setCurrentPage] = useState<number>(0); 
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
+  console.log(selectedItems, "items");
 
   const handlePageChange = ({ selected }: { selected: number }) => {
     setCurrentPage(selected);
@@ -171,7 +187,6 @@ export default function Table() {
     (currentPage + 1) * itemsPerPage
   );
 
-
   const handleCheckboxChange = (itemId: number) => {
     if (selectedItems.includes(itemId)) {
       setSelectedItems(selectedItems.filter((item) => item !== itemId));
@@ -180,20 +195,75 @@ export default function Table() {
     }
   };
 
+  // const handleAllSelect = async () => {
+  //   let bool = false;
+  //   setSelectStatus(!selectStatus);
+  //   await selectAll(!bool);
+  // };
+  console.log(selectedItems.length, "select status")
+
+  const handleAllSelect = () => {
+    setSelectStatus((prevSelectStatus) => {
+      const updatedSelectStatus = !prevSelectStatus;
+  
+      if (updatedSelectStatus) {
+        // Select all items
+        setSelectedItems(data.map((item) => item.id));
+      } else {
+        // Deselect all items
+        setSelectedItems([]);
+      }
+  
+      return updatedSelectStatus;
+    });
+  };
+
   return (
     <section>
+      <div className="bg-white shadow-lg flex justify-between my-4 py-3 px-4 rounded">
+        <button
+          onClick={handleAllSelect}
+          className={`${
+            !selectStatus
+              ? "bg-custom_orange hover:bg-orange-500"
+              : "bg-custom_blue"
+          } text-white shadow-md py-2 px-4 rounded`}
+        >
+          {!selectStatus ? "Select All" : "Selected"}
+        </button>
+
+        <div>
+          {selectedItems.length < 1 ? (
+            ""
+          ) : (
+            <button
+              onClick={() => setIsModal(!isModal)}
+              className="bg-custom_orange text-white shadow-md py-2 px-4 rounded"
+            >
+              Delete Selected
+            </button>
+          )}
+        </div>
+      </div>
+
       <div className="bg-white rounded shadow-lg my-4 md:my-8 overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
               <th className="px-6 py-3"></th>
-              <th className="px-6 py-3 text-xs md:text-base text-left">S/N</th>
-              <th className="px-6 py-3 text-xs md:text-base text-left">Title</th>
-              <th className="px-6 py-3 text-xs md:text-base text-left">Created At</th>
-              <th className="px-6 py-3 text-xs md:text-base text-left">League</th>
-              <th className="px-6 py-3 text-xs md:text-base text-left">Categories</th>
-              <th className="px-6 py-3 text-xs md:text-base text-left">Tags</th>
-              <th className="px-6 py-3 text-xs md:text-base text-left"><div className="flex items-center justify-center text-center cursor-pointer">Options</div></th>
+              {headers.map((header, id) => (
+                <th
+                  key={id}
+                  className="px-6 py-3 text-xs md:text-base text-left"
+                >
+                  {header}
+                </th>
+              ))}
+              <th className="px-6 py-3 text-xs md:text-base text-left">
+                <div className="flex items-center justify-center text-center cursor-pointer">
+                  Options
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -202,21 +272,28 @@ export default function Table() {
                 <td className="px-6 py-4">
                   <input
                     type="checkbox"
+                    className="w-15 h-15"
                     onChange={() => handleCheckboxChange(item.id)}
                     checked={selectedItems.includes(item.id)}
                   />
                 </td>
-                <td className="px-6 py-47 text-xs md:text-base whitespace-nowrap">{item.sn}</td>
-                <td className="px-6 py-4 text-xs md:text-base whitespace-nowrap">{item.title}</td>
+                {columns.map(({ name, type }: any) => {
+                  if (type === "string") {
+                    return (
+                      <td
+                        className="px-6 py-47 text-xs md:text-base whitespace-nowrap"
+                        key={name}
+                      >
+                        {item[name]}
+                      </td>
+                    );
+                  }
+                })}
                 <td className="px-6 py-4 text-xs md:text-base whitespace-nowrap">
-                  {item.createdAt}
+                  <div className="flex items-center justify-center text-center cursor-pointer">
+                    {item.options}
+                  </div>
                 </td>
-                <td className="px-6 py-4 text-xs md:text-base whitespace-nowrap">{item.league}</td>
-                <td className="px-6 py-4 text-xs md:text-base whitespace-nowrap">
-                  {item.categories}
-                </td>
-                <td className="px-6 py-4 text-xs md:text-base whitespace-nowrap">{item.tags}</td>
-                <td className="px-6 py-4 text-xs md:text-base whitespace-nowrap"><div className="flex items-center justify-center text-center cursor-pointer">{item.options}</div></td>
               </tr>
             ))}
           </tbody>
@@ -235,6 +312,16 @@ export default function Table() {
         onPageChange={handlePageChange}
         containerClassName={"pagination"}
         activeClassName={"active"}
+      />
+      <Modal 
+        isOpen={isModal}
+        Icon={<ExIcon style="cursor-pointer" type={"circle"}/>}
+        setIsOpen={setIsModal} 
+        text={`Are you sure you want to delete the selected news article${selectedItems.length > 1 ?"s":""}?`}
+        button1={()=>console.log("Deleted")}
+        button1Text="Yes, I'm sure"
+        button2={()=>setIsModal(!isModal)}
+        button2Text="No, I take it back"  
       />
     </section>
   );

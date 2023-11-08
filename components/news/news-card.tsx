@@ -31,7 +31,7 @@ export default function NewsCard({ header }:NewsCardProps) {
   ];
 
   return (
-    <div className="shadow-lg p-4 h-full flex flex-col justify-between">
+    <div className="bg-white shadow-lg p-4 h-full flex flex-col justify-between">
       <div>
         <h3 className="font-[700] text-[1.2rem] text-gray-600 mb-4"> { header } </h3>
         {arr.map(({ title, image_path, date }, id) => (

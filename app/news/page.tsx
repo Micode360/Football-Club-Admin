@@ -3,7 +3,6 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import VerifyUser from "@/components/verifyUser";
 import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
-import ShieldIcon from "@/components/icons/shield";
 import Tabs from "@/components/navbar/tabs";
 import Table from "@/components/table";
 

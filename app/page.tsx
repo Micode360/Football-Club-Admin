@@ -77,7 +77,7 @@ export default function Home() {
               />
             </section>
             <section className="md:grid md:grid-cols-3 py-8 gap-4 overflow-hidden pad_layout">
-              <div className="shadow-lg md:col-span-2">
+              <div className="bg-white shadow-lg rounded md:col-span-2">
                 <NewsCarousel />
               </div>
               <div className="mt-8 md:mt-0">

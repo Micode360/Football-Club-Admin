@@ -4,13 +4,15 @@ import React from "react";
 interface XIconProperties {
   style?: string;
   type: "circle" | "solid";
+  setOnClick?:()=> void;
 }
 
-export default function XIcon({ style, type }: XIconProperties) {
+export default function XIcon({ style, type, setOnClick }: XIconProperties) {
   return (
     <>
       {type === "circle" ? (
         <svg
+          onClick={setOnClick}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
