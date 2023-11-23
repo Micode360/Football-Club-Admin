@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import XIcon from "../icons/xIcon";
+import XIcon from "../icons/closeIcon";
 
 interface ResponseProperties {
   text: string;

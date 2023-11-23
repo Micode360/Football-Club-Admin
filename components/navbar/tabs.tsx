@@ -1,19 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 interface TabsProperties {
   headers: Array<string>;
   components: Array<React.ReactNode>;
+  tab?: string;
 }
 
-export default function Tabs({ headers, components }: TabsProperties) {
-  const [tabIndex, setTabIndex] = useState(0);
+export default function Tabs({ headers, components, tab }: TabsProperties) {
+  let tabIndex = Number(tab);
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    setUrl(window.location.pathname.split("/")[1]);
+  }, []);
+
 
   return (
     <section>
       <div className="border-b-2 border-[#E6E6E6] pb-2">
         {headers.map((header, id) => (
-          <span
-            onClick={() => setTabIndex(id)}
+          <Link
+            href={{
+              pathname: `/${url}`,
+              query: {
+                tab: `${id}`,
+              },
+            }}
             key={id}
             className={`${
               tabIndex === id &&
@@ -21,7 +34,7 @@ export default function Tabs({ headers, components }: TabsProperties) {
             } pb-2 px-5 cursor-pointer`}
           >
             {header}
-          </span>
+          </Link>
         ))}
       </div>
       <div>

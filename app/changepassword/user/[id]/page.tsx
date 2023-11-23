@@ -107,6 +107,7 @@ export default function ChangePassword({ params }: changePassordProps) {
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 grid md:grid-cols-2 shadow-xl bg-white w-[80%] md:w-[60%]">
         <Form
           formik={formik}
+          logo={true}
           title="New Password."
           subtitle="Fill in your new password."
           status={status}

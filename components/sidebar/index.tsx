@@ -28,6 +28,8 @@ export default function SideBar() {
     },
   ];
 
+  console.log(menuStatus, "menu status");
+
   useEffect(() => {
     setUrl(window.location.pathname.split("/")[1]);
   }, []);
@@ -36,7 +38,7 @@ export default function SideBar() {
     <>
       <nav
         onClick={() => setMenuStatus(true)}
-        className="fixed left-0 right-0 bottom-0 md:top-0 md:right-auto z-[3] flex md:flex-col items-center justify-center md:items-start md:justify-start shadow-xl bg-white"
+        className="fixed left-0 right-0 bottom-0 md:top-0 md:right-auto z-[15] flex md:flex-col items-center justify-center md:items-start md:justify-start shadow-xl bg-white"
       >
         {iconComponents.map((nav) => (
           <Link

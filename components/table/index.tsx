@@ -3,6 +3,8 @@ import ReactPaginate from "react-paginate";
 import ArrowIcon from "../icons/arrow";
 import Modal from "@/components/modal";
 import ExIcon from "@/components/icons/exclamationIcon";
+import DropDownMenu from "@/components/dropDownMenu";
+import { tableOptionsNavData } from "../../utils/constantdatas";
 
 const data = [
   {
@@ -175,8 +177,9 @@ export default function Table() {
   const itemsPerPage: number = 10;
   const pageCount: number = Math.ceil(data.length / itemsPerPage);
   const [currentPage, setCurrentPage] = useState<number>(0);
-
-  console.log(selectedItems, "items");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [onClickData, setOnClickData] = useState("");
+  const [selectOption, setSelectedOption] = useState("");
 
   const handlePageChange = ({ selected }: { selected: number }) => {
     setCurrentPage(selected);
@@ -188,32 +191,18 @@ export default function Table() {
   );
 
   const handleCheckboxChange = (itemId: number) => {
-    if (selectedItems.includes(itemId)) {
+    if (selectedItems.includes(itemId))
       setSelectedItems(selectedItems.filter((item) => item !== itemId));
-    } else {
-      setSelectedItems([...selectedItems, itemId]);
-    }
+    else setSelectedItems([...selectedItems, itemId]);
   };
-
-  // const handleAllSelect = async () => {
-  //   let bool = false;
-  //   setSelectStatus(!selectStatus);
-  //   await selectAll(!bool);
-  // };
-  console.log(selectedItems.length, "select status")
 
   const handleAllSelect = () => {
     setSelectStatus((prevSelectStatus) => {
       const updatedSelectStatus = !prevSelectStatus;
-  
-      if (updatedSelectStatus) {
-        // Select all items
-        setSelectedItems(data.map((item) => item.id));
-      } else {
-        // Deselect all items
-        setSelectedItems([]);
-      }
-  
+
+      if (updatedSelectStatus) setSelectedItems(data.map((item) => item.id));
+      else setSelectedItems([]);
+
       return updatedSelectStatus;
     });
   };
@@ -267,12 +256,12 @@ export default function Table() {
             </tr>
           </thead>
           <tbody>
-            {currentData.map((item: any) => (
-              <tr key={item.id}>
+            {currentData.map((item: any, id: number) => (
+              <tr key={id}>
                 <td className="px-6 py-4">
                   <input
                     type="checkbox"
-                    className="w-15 h-15"
+                    className="w-[1rem] h-[1rem] cursor-pointer"
                     onChange={() => handleCheckboxChange(item.id)}
                     checked={selectedItems.includes(item.id)}
                   />
@@ -290,8 +279,25 @@ export default function Table() {
                   }
                 })}
                 <td className="px-6 py-4 text-xs md:text-base whitespace-nowrap">
-                  <div className="flex items-center justify-center text-center cursor-pointer">
+                  <div
+                    onClick={(e: any) => {
+                      setShowDropdown(!showDropdown);
+                      setOnClickData(e.target.className);
+                      setSelectedOption(item.id);
+                    }}
+                    className="relative flex items-center justify-center text-center cursor-pointer"
+                  >
                     {item.options}
+
+                    {selectOption === item.id && (
+                      <DropDownMenu
+                        data={tableOptionsNavData}
+                        showDropdown={showDropdown}
+                        setShowDropdown={setShowDropdown}
+                        onClickData={onClickData}
+                        style="w-[8rem] right-0 md:right-none bg-white z-[2]"
+                      />
+                    )}
                   </div>
                 </td>
               </tr>
@@ -313,15 +319,17 @@ export default function Table() {
         containerClassName={"pagination"}
         activeClassName={"active"}
       />
-      <Modal 
+      <Modal
         isOpen={isModal}
-        Icon={<ExIcon style="cursor-pointer" type={"circle"}/>}
-        setIsOpen={setIsModal} 
-        text={`Are you sure you want to delete the selected news article${selectedItems.length > 1 ?"s":""}?`}
-        button1={()=>console.log("Deleted")}
+        Icon={<ExIcon style="cursor-pointer" type={"circle"} />}
+        setIsOpen={setIsModal}
+        text={`Are you sure you want to delete the selected news article${
+          selectedItems.length > 1 ? "s" : ""
+        }?`}
+        button1={() => console.log("Deleted")}
         button1Text="Yes, I'm sure"
-        button2={()=>setIsModal(!isModal)}
-        button2Text="No, I take it back"  
+        button2={() => setIsModal(!isModal)}
+        button2Text="No, I take it back"
       />
     </section>
   );

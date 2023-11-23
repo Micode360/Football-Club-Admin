@@ -1,6 +1,6 @@
 import React from "react";
 import { Dialog } from "@headlessui/react";
-import XIcon from "@/components/icons/xIcon";
+import CloseIcon from "@/components/icons/closeIcon";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ModalProps {
@@ -78,7 +78,7 @@ export default function Modal({
               >
                 <div className="relative w-full max-w-md max-h-full">
                   <div className="relative bg-white rounded-lg shadow-lg">
-                    <XIcon
+                    <CloseIcon
                       setOnClick={() => setIsOpen(!isOpen)}
                       style="text-black absolute top-3 right-2.5 w-7 h-7 cursor-pointer"
                       type={"circle"}

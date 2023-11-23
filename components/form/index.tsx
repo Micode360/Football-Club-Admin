@@ -11,9 +11,10 @@ import Response from "../Response";
 
 interface FormProperties {
   formik?: any;
+  logo?: boolean;
   title?: string;
-  subtitle?:string;
-  link?:{
+  subtitle?: string;
+  link?: {
     path: string;
     text: string;
   };
@@ -23,14 +24,16 @@ interface FormProperties {
   button: {
     type?: "button" | "submit" | "reset";
     text?: string;
-  }
+  };
+  style?: string;
+  inputStyle?: string;
+  customInput?: React.ReactNode;
   children?: React.ReactNode;
 }
 
-
-
 export default function Form({
   formik,
+  logo,
   title,
   subtitle,
   link,
@@ -38,22 +41,19 @@ export default function Form({
   status,
   inputs,
   button,
-  children
+  style,
+  inputStyle,
+  customInput,
+  children,
 }: FormProperties) {
-
-  
-
   return (
-    <ColumnLayout style="py-8 px-6">
-      <Logo width={80} height={80} style="md:hidden mb-2 w-[80] h-auto" />
+    <ColumnLayout style={`py-8 px-6 ${style}`}>
+      {logo && (
+        <Logo width={80} height={80} style="md:hidden mb-2 w-[80] h-auto" />
+      )}
       <div className="text-center md:text-left w-full mb-4">
-        {title && <h2 className="font-[700] text-2xl mb-1"> { title } </h2>}
-        {
-          subtitle &&
-          <p className="text-xs text-gray-400">
-            { subtitle }
-        </p>
-        }
+        {title && <h2 className="font-[700] text-2xl mb-1"> {title} </h2>}
+        {subtitle && <p className="text-xs text-gray-400">{subtitle}</p>}
       </div>
       {message.type === "error" && (
         <Response
@@ -68,44 +68,110 @@ export default function Form({
         />
       )}
       <form className="w-full" onSubmit={formik.handleSubmit}>
-        {inputs.map(({ name, type, label, placeholder }:any, id) => {
+        {inputs.map(({ name, type, label, inputs, placeholder }: any, id) => {
           return (
             <div key={id}>
-              <Label label={name} text={label} />
-              <Input
-                type={type}
-                name={name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values[`${name}`]}
-                placeholder={placeholder}
-              />
-              <FormikErrorResponse formik={formik} name={name} />
+              {type === "grid" ? (
+                <div className={`grid md:grid-cols-${inputs.length} gap-4`}>
+                  {inputs.map(
+                    ({ name, type, label, options, placeholder }: any) => (
+                      <div key={name}>
+                        {type === "select" ? (
+                          <>
+                            <Label label={name} text={label} />
+                            <select
+                              name={name}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={formik.values[`${name}`]}
+                              placeholder={placeholder}
+                              className={`w-full px-4 py-4 rounded-md bg-gray-100 border border-gray-200 placeholder-gray-500 text-xs focus:outline-none focus:border-gray-400 focus:bg-white mb-2`}
+                            >
+                              {options.map((option: any, index: number) => (
+                                <option key={index} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </select>
+                            <FormikErrorResponse formik={formik} name={name} />
+                          </>
+                        ) : type === "file" ? (
+                          <>
+                            <Label label={name} text={label} />
+                            <input
+                              type={type}
+                              accept="image/*"
+                              name={name}
+                              onChange={(event: any) => {
+                                formik.setFieldValue(
+                                  name,
+                                  event.currentTarget.files[0]
+                                );
+                              }}
+                              onBlur={formik.handleBlur}
+                              className={`w-full px-4 py-4 rounded-md bg-gray-100 border border-gray-200 placeholder-gray-500 text-xs focus:outline-none focus:border-gray-400 focus:bg-white mb-2`}
+                            />
+                            <FormikErrorResponse formik={formik} name={name} />
+                          </>
+                        ) : (
+                          <>
+                            <Label label={name} text={label} />
+                            <Input
+                              type={type}
+                              name={name}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={formik.values[`${name}`]}
+                              placeholder={placeholder}
+                              style={inputStyle}
+                            />
+                            <FormikErrorResponse formik={formik} name={name} />
+                          </>
+                        )}
+                      </div>
+                    )
+                  )}
+                </div>
+              ) : (
+                <>
+                  <Label label={name} text={label} />
+                  <Input
+                    type={type}
+                    name={name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values[`${name}`]}
+                    placeholder={placeholder}
+                    style={inputStyle}
+                  />
+                  <FormikErrorResponse formik={formik} name={name} />
+                </>
+              )}
             </div>
           );
         })}
-        {
-          link && 
+        {link && (
           <div className="flex justify-end">
-          <Link className="text-xs text-custom_blue" href={link.path}>
-            { link.text }
-          </Link>
-        </div>
-        }
+            <Link className="text-xs text-custom_blue" href={link.path}>
+              {link.text}
+            </Link>
+          </div>
+        )}
         <div>
-          <Button type={ button ? button.type: "submit"} style="bg-custom_blue">
+          {customInput}
+          <Button type={button ? button.type : "submit"} style="bg-custom_blue">
             {status === "pending" ? (
               <div className="boxes_loader"></div>
             ) : (
               <>
-                <span className="mr-2"> { button.text } </span>
+                <span className="mr-2"> {button.text} </span>
                 <LetterPlane />
               </>
             )}
           </Button>
         </div>
       </form>
-     { children }
+      {children}
     </ColumnLayout>
   );
 }

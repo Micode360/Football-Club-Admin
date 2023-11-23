@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { LogOut } from "./utilsFunctions";
 
 
@@ -142,4 +143,107 @@ export const changePassordAnimTextArray = [
 "Type in your new password.",
 ];
 
+
+//table options
+
+export const tableOptionsNavData = [
+  {
+    id: 1,
+    name: "Edit",
+    type: "link",
+    path: "/news",
+    query: {
+      tab: "1"
+    }
+  },
+  {
+    id: 2,
+    name: "Delete",
+    type: "itemClickCallbacks",
+    function:()=> ""
+  },
+];
+
+
+
+// News
+export const newsInputprops = [
+  {
+    name: "title",
+    type: "text",
+    label: "Title",
+    placeholder: "Add your title",
+  },
+  {
+    name: "description",
+    type: "text",
+    label: "Description",
+    placeholder: "Description",
+  },
+  {
+    type: "grid",
+    inputs: [
+      {
+        name: "author",
+        type: "text",
+        label: "Author",
+        placeholder: "Author",
+      },
+      {
+        name: "league",
+        type: "select",
+        label: "League",
+        placeholder: "League",
+        options: [
+          {
+            label:'Select league',
+            value:'select'
+          },
+          {
+            label:'Premier league',
+            value:'Premier league'
+          },
+          {
+            label: 'Spanish Laliga',
+            value:  'Spanish Laliga'
+          },
+ 
+        ]
+      }
+    ]
+  },
+  {
+    type: "grid",
+    inputs: [
+      {
+        name: "category",
+        type: "select",
+        label: "Category",
+        placeholder: "Category",
+        options: [
+          {
+            label:'Select Category',
+            value:'select'
+          },
+          {
+            label:'Recent',
+            value:'Recent'
+          },
+          {
+            label: 'Popular',
+            value:  'Popular'
+          },
+ 
+        ]
+      },
+    
+      {
+        name: "coverimage",
+        type: "file",
+        label: "Cover Image",
+      },
+    ]
+  },
+  
+];
 

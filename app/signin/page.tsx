@@ -82,6 +82,7 @@ export default function SignIn() {
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 grid md:grid-cols-2 shadow-xl bg-white w-[80%] md:w-[60%]">
         <Form
           formik={formik}
+          logo={true}
           title="Welcome! Let's Get You Signed In."
           subtitle="Log in to your Administrator account."
           status={status}

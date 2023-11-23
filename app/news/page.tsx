@@ -1,33 +1,30 @@
-"use client"
+"use client";
+import { useSearchParams } from "next/navigation";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import VerifyUser from "@/components/verifyUser";
 import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
 import Tabs from "@/components/navbar/tabs";
 import Table from "@/components/table";
+import AddNews from "@/components/news/addNews";
 
-
-
-const Comp1 = () => (
-  <div className="p-4">AddNews</div>
-)
-
-
-export default function News () {
+export default function News() {
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab") || "";
   const headers = ["News", "Add News"];
-  const components = [<Table/>, <Comp1/>];
-  
-    return (
-        <VerifyUser>
-        <main className="flex flex-col md:flex-row min-h-screen">
-          <SideBar />
-          <div className="w-full">
-            <Navbar />
-            <DashboardLayout style="py-16 mt-[3rem] ml-0 md:ml-[5rem] px-6">
-            <Tabs headers={headers} components={components}/>
-            </DashboardLayout>
-          </div>
-        </main>
-      </VerifyUser>
-    );
+  const components = [<Table />, <AddNews />];
+
+  return (
+    <VerifyUser>
+      <main className="flex flex-col md:flex-row min-h-screen">
+        <SideBar />
+        <div className="w-full">
+          <Navbar />
+          <DashboardLayout style="py-16 mt-[3rem] ml-0 md:ml-[5rem] px-6">
+            <Tabs headers={headers} components={components} tab={tab} />
+          </DashboardLayout>
+        </div>
+      </main>
+    </VerifyUser>
+  );
 }

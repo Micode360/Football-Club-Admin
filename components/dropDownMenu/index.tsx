@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
 interface dropdownProperties {
@@ -14,10 +15,9 @@ export default function DropDownMenu({
   showDropdown,
   setShowDropdown,
   onClickData,
-  style
+  style,
 }: dropdownProperties) {
   const [dropdownData, setDropdownData] = useState(data);
-
 
   const ref = useRef() as any;
 
@@ -42,18 +42,32 @@ export default function DropDownMenu({
     <>
       {showDropdown && (
         <div
-          className={`shadow-xl absolute top-full bg-white md:w-full p-2 ${style}`}
+          className={`shadow-xl absolute top-full md:w-full p-2 ${style}`}
           ref={ref}
         >
           {dropdownData.map((data: any) => {
             return (
               <div className="py-2" key={data.id}>
-                 {data.type === "link" ? (
-                  <a href={data.path} key={data.id}>
+                {data.type === "link" && data.query ? (
+                  <Link
+                    href={{
+                      pathname: data.path,
+                      query: data.query,
+                    }}
+                    key={data.id}
+                  >
                     {data.name}
-                  </a>
+                  </Link>
+                ) : data.type === "link" ? (
+                  <Link href={data.path} key={data.id}>
+                    {data.name}
+                  </Link>
                 ) : data.type === "itemClickCallbacks" ? (
-                  <span className="cursor-pointer" onClick={()=>data.function()} key={data.id}>
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => data.function()}
+                    key={data.id}
+                  >
                     {data.name}
                   </span>
                 ) : null}

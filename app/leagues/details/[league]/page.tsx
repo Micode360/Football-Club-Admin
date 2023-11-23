@@ -1,28 +1,19 @@
 "use client";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import VerifyUser from "@/components/verifyUser";
 import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
-import Tabs from "@/components/navbar/tabs";
-import LeagueList from "@/components/leagues/leagueList";
+import LeagueBio from "@/components/leagues/leagueBio";
+import LeagueStats from "@/components/leagues/leagueStats";
 
+interface leagueParamsProps {
+  params: { league: string };
+}
 
-const Comp = () => (
-  <>This is a comp</>
-)
-
-const Comp1 = () => (
-  <>This is another comp</>
-)
-
-export default function Leagues() {
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab") || "";
-  const headers = ["Leagues", "Add League"];
-  const components = [<LeagueList/>, <Comp1/>];
-
-  
+export default function LeagueDetails({ params }: leagueParamsProps) {
+  console.log(params, "params");
 
   return (
     <VerifyUser>
@@ -31,7 +22,8 @@ export default function Leagues() {
         <div className="w-full">
           <Navbar />
           <DashboardLayout style="py-16 mt-[3rem] ml-0 md:ml-[5rem] px-6">
-            <Tabs headers={headers} components={components} tab={tab} />
+            <LeagueBio/>
+            <LeagueStats/>
           </DashboardLayout>
         </div>
       </main>
