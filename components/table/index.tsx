@@ -207,6 +207,8 @@ export default function Table() {
     });
   };
 
+  tableOptionsNavData[1].function = (): any => setIsModal(!isModal); 
+
   return (
     <section>
       <div className="bg-white shadow-lg flex justify-between my-4 py-3 px-4 rounded">

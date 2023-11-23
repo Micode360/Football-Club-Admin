@@ -146,7 +146,7 @@ export const changePassordAnimTextArray = [
 
 //table options
 
-export const tableOptionsNavData = [
+export let tableOptionsNavData = [
   {
     id: 1,
     name: "Edit",
@@ -160,7 +160,7 @@ export const tableOptionsNavData = [
     id: 2,
     name: "Delete",
     type: "itemClickCallbacks",
-    function:()=> ""
+    function:():any =>""
   },
 ];
 
