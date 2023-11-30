@@ -1,51 +1,50 @@
 "use client";
-import dynamic from "next/dynamic";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Form from "@/components/form";
-import { newsInputprops } from "@/utils/constantdatas";
+import { leagueInputprops } from "@/utils/constantdatas";
 
 interface NewsFormProperties {
   setPreview: React.Dispatch<React.SetStateAction<any>>;
 }
 
 type inputProperties = {
-  title: string;
+  name: string;
   description: string;
-  author:string;
-  league: string;
-  category: string;
-  coverimage: File | null;
-  content: string;
+  country:{ imgPath: string, value: string };
+  logo:null;
+  website:string;
+  facebook: string;
+  xlink: string;
+  instagram: string;
+  youtube: string;
 };
 
-export default function NewsForm({ setPreview }: NewsFormProperties) {
-  const Editor = useMemo(
-    () => dynamic(() => import("./editor"), { ssr: false }),
-    []
-  );
+export default function LeagueForm({ setPreview }: NewsFormProperties) {
+
   const [status, setStatus] = useState<string>("");
   const [message, setMessage] = useState<any>({});
+  const [country, setCountry ] = useState([]);
 
   const formValues = {
-    title: "",
+    name: "",
     description: "",
-    author: "",
-    league: "",
-    category: "",
-    coverimage: null,
-    content: "",
+    country: { imgPath: "", value: "" },
+    logo: null,
+    website: "",
+    facebook: "",
+    xlink: "",
+    instagram: "",
+    youtube: ""
   };
 
+
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required(),
+    name: Yup.string().required(),
     description: Yup.string().required(),
-    author: Yup.string().required(),
-    league: Yup.string().required(),
-    category: Yup.string().required(),
-    coveriamge: Yup.string().required(),
-    content: Yup.string().required(),
+    country: Yup.string().required(),
+    logo: Yup.string().required(),
   });
 
   const onSubmit = async (values: inputProperties) => {
@@ -57,15 +56,15 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     initialValues: formValues,
     validationSchema: validationSchema,
     validate: (values) => {
-      if (values.coverimage) {
-        if (values.coverimage.size > 1024 * 1024 * 5) {
-          setMessage({
-            coverimage: "File size must be less than 5MB",
-          });
-          setStatus("error");
-          return Promise.reject();
-        }
-      }
+    //   if (values.coverimage) {
+    //     if (values.coverimage.size > 1024 * 1024 * 5) {
+    //       setMessage({
+    //         coverimage: "File size must be less than 5MB",
+    //       });
+    //       setStatus("error");
+    //       return Promise.reject();
+    //     }
+    //   }
       setTimeout(()=>{
         setPreview(values);
       },1000)
@@ -81,16 +80,30 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(()=>{
+    fetch(
+      "https://restcountries.com/v3.1/all?fields=name,flags"
+    )
+      .then((response) => response.json())
+      .then((data) =>
+        {
+          let mappingCountry = data.map((item:any) => ({ imagePath: item.flags.png, value: item.name.common }));
+          setCountry(mappingCountry)
+        }
+      );
+    
+  },[])
+
   return (
     <div className="bg-white">
       <Form
         style="!px-0 !py-0"
         formik={formik}
+        arr={country}
         status={status}
         message={message}
-        inputs={newsInputprops}
+        inputs={leagueInputprops}
         inputStyle="focus:border-[2px] focus:border-custom_orange"
-        customInput={<Editor formik={formik} />}
         button={{
           type: "submit",
           text: "Submit",
@@ -99,3 +112,4 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     </div>
   );
 }
+

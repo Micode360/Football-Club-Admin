@@ -6,23 +6,13 @@ import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
 import Tabs from "@/components/navbar/tabs";
 import LeagueList from "@/components/leagues/leagueList";
-
-
-const Comp = () => (
-  <>This is a comp</>
-)
-
-const Comp1 = () => (
-  <>This is another comp</>
-)
+import AddLeague from "@/components/leagues/addLeague";
 
 export default function Leagues() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "";
   const headers = ["Leagues", "Add League"];
-  const components = [<LeagueList/>, <Comp1/>];
-
-  
+  const components = [<LeagueList />, <AddLeague />];
 
   return (
     <VerifyUser>

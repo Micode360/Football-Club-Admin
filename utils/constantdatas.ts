@@ -2,6 +2,7 @@ import { useRouter } from 'next/navigation';
 import { LogOut } from "./utilsFunctions";
 
 
+
 //profile navigation
 export const profileNavData = [
   {
@@ -164,8 +165,6 @@ export let tableOptionsNavData = [
   },
 ];
 
-
-
 // News
 export const newsInputprops = [
   {
@@ -245,5 +244,84 @@ export const newsInputprops = [
     ]
   },
   
+];
+
+
+// League
+export const leagueInputprops = [
+  {
+    name: "name",
+    type: "text",
+    label: "League Name",
+    placeholder: "League",
+  },
+  {
+    name: "description",
+    type: "text",
+    label: "Description",
+    placeholder: "Description",
+  },
+  {
+    type: "grid",
+    inputs: [
+      {
+        name: "country",
+        type: "selectInput",
+        label: "Country",
+        placeholder: "Country"
+      },
+      {
+        name: "logo",
+        type: "file",
+        label: "Logo",
+      },
+    ]
+  },
+  {
+    name: "website",
+    type: "text",
+    label: "Website",
+    placeholder: "website link",
+    notImportant:true
+  },
+  {
+    type: "grid",
+    inputs: [
+      {
+        name: "facebook",
+        type: "text",
+        label: "Facebook",
+        placeholder: "Link here",
+        notImportant:true
+      },
+      {
+        name: "xlink",
+        type: "text",
+        label: "Twitter X",
+        placeholder: "Link here",
+        notImportant:true
+      },
+    ]
+  },
+  {
+    type: "grid",
+    inputs: [
+      {
+        name: "instagram",
+        type: "text",
+        label: "Instagram",
+        placeholder: "Link here",
+        notImportant:true
+      },
+      {
+        name: "youtube",
+        type: "text",
+        label: "Youtube",
+        placeholder: "Link here",
+        notImportant:true
+      }
+    ]
+  },
+ 
 ];
 
