@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import Form from "@/components/form";
 import { leagueInputprops } from "@/utils/constantdatas";
+import ColorPickerGrid from "./ColorPickerGrid";
 
 interface NewsFormProperties {
   setPreview: React.Dispatch<React.SetStateAction<any>>;
@@ -19,6 +20,8 @@ type inputProperties = {
   xlink: string;
   instagram: string;
   youtube: string;
+  fromColor: string;
+  toColor: string;
 };
 
 export default function LeagueForm({ setPreview }: NewsFormProperties) {
@@ -36,14 +39,15 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
     facebook: "",
     xlink: "",
     instagram: "",
-    youtube: ""
+    youtube: "",
+    fromColor: "",
+    toColor: ""
   };
 
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(),
     description: Yup.string().required(),
-    country: Yup.string().required(),
     logo: Yup.string().required(),
   });
 
@@ -55,16 +59,16 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
   const formik = useFormik<inputProperties>({
     initialValues: formValues,
     validationSchema: validationSchema,
-    validate: (values) => {
-    //   if (values.coverimage) {
-    //     if (values.coverimage.size > 1024 * 1024 * 5) {
-    //       setMessage({
-    //         coverimage: "File size must be less than 5MB",
-    //       });
-    //       setStatus("error");
-    //       return Promise.reject();
-    //     }
-    //   }
+    validate: (values:any) => {
+      if (values.logo) {
+        if (values.logo.size > 1024 * 1024 * 5) {
+          setMessage({
+            response: "File size must be less than 5MB",
+          });
+          setStatus("error");
+          return Promise.reject();
+        }
+      }
       setTimeout(()=>{
         setPreview(values);
       },1000)
@@ -104,6 +108,7 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
         message={message}
         inputs={leagueInputprops}
         inputStyle="focus:border-[2px] focus:border-custom_orange"
+        bottomCustomInput={<ColorPickerGrid formik={formik} />}
         button={{
           type: "submit",
           text: "Submit",

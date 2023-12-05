@@ -3,6 +3,7 @@ import Link from "next/link";
 import HouseIcon from "../icons/house";
 import NewsPaperIcon from "../icons/newspaperIcon";
 import ShieldIcon from "../icons/shield";
+import CogIcon from "../icons/cogIcon";
 
 export default function SideBar() {
   const [url, setUrl] = useState("");
@@ -26,9 +27,14 @@ export default function SideBar() {
       title: "Leagues",
       path: "/leagues",
     },
+    {
+      id: 4,
+      icon: <CogIcon style="w-5 h-5 md:w-8 md:h-8" property="outline" />,
+      title: "Settings",
+      path: "/settings"
+    }
   ];
 
-  console.log(menuStatus, "menu status");
 
   useEffect(() => {
     setUrl(window.location.pathname.split("/")[1]);

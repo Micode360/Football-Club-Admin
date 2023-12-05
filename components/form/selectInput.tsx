@@ -56,6 +56,9 @@ export default function SelectInput({
   );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    formik.setFieldValue(name, {
+      value: e.target.value,
+    });
     if (e.target.value === "") isOpen(false);
     else isOpen(true);
     setSearchTerm(e.target.value);
@@ -70,24 +73,19 @@ export default function SelectInput({
     isOpen(false);
   };
 
-  const handleDocumentClick = (e: any) => {
-    isOpen(false);
-    setOnClickData(e.target.className);
-  };
-
   return (
     <div className="relative flex items-center">
-      <div className="flex items-center border border-gray-200 w-full rounded-md">
+      <div className="flex items-center border bg-gray-100 border-gray-200 w-full rounded-md">
         <input
           className={`w-full px-4 py-4 text-xs bg-gray-100 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white ${style}`}
           type="text"
           placeholder={placeholder || "Search..."}
           onChange={handleInputChange}
-          value={searchTerm}
+          value={(name && formik.values[name].value) || ""}
           name={name}
         />
         <span className="cursor-pointer px-2" onClick={() => isOpen(!open)}>
-          <ArrowIcon direction={open ? "up" : "down"} style="!w-3 !h-3" />
+          <ArrowIcon direction={open ? "up" : "down"} style="!w-5 !h-5" />
         </span>
       </div>
       {open && (

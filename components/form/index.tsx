@@ -23,13 +23,14 @@ interface FormProperties {
   message?: any;
   status: string;
   inputs: Array<{}>;
-  button: {
+  button?: {
     type?: "button" | "submit" | "reset";
     text?: string;
   };
   style?: string;
   inputStyle?: string;
-  customInput?: React.ReactNode;
+  topCustomInput?: React.ReactNode;
+  bottomCustomInput?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -46,7 +47,8 @@ export default function Form({
   button,
   style,
   inputStyle,
-  customInput,
+  topCustomInput,
+  bottomCustomInput,
   children,
 }: FormProperties) {
   return (
@@ -71,6 +73,7 @@ export default function Form({
         />
       )}
       <form className="w-full" onSubmit={formik.handleSubmit}>
+        {topCustomInput}
         {inputs.map(
           (
             { name, type, label, inputs, placeholder, notImportant }: any,
@@ -218,17 +221,22 @@ export default function Form({
           </div>
         )}
         <div>
-          {customInput}
-          <Button type={button ? button.type : "submit"} style="bg-custom_blue">
-            {status === "pending" ? (
-              <div className="boxes_loader"></div>
-            ) : (
-              <>
-                <span className="mr-2"> {button.text} </span>
-                <LetterPlane />
-              </>
-            )}
-          </Button>
+          {bottomCustomInput}
+          {button && (
+            <Button
+              type={button ? button.type : "submit"}
+              style="bg-custom_blue"
+            >
+              {status === "pending" ? (
+                <div className="boxes_loader"></div>
+              ) : (
+                <>
+                  <span className="mr-2"> {button.text} </span>
+                  <LetterPlane />
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </form>
       {children}

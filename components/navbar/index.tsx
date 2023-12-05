@@ -53,9 +53,9 @@ export default function Navbar() {
               <DropDownMenu
                 data={profileNavData}
                 showDropdown={showDropdown}
-                setShowDropdown={setShowDropdown}
+                setShowDropdown={setShowDropdown} 
                 onClickData={onClickData}
-                style="w-[8rem] right-0 md:right-none bg-white"
+                style="w-[8rem] right-0 md:right-none bg-white rounded-md"
               />  
           </ProfileNav>            
         </div>

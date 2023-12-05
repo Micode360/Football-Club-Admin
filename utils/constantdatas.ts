@@ -1,24 +1,32 @@
-import { useRouter } from 'next/navigation';
 import { LogOut } from "./utilsFunctions";
-
-
+import CogIcon from "@/components/icons/cogIcon";
+import PowerIcon from "@/components/icons/powerIcon";
+import ProfileIcon from "@/components/icons/profileIcon";
 
 //profile navigation
 export const profileNavData = [
   {
     id: 1,
-    name: "Settings",
+    name: "My Profile",
+    icon: ProfileIcon({ property: "outline", style: "mr-2" }),
     type: "link",
-    path: "/settings"
+    path: "/myprofile",
   },
   {
     id: 2,
+    name: "Settings",
+    icon: CogIcon({ property: "outline", style: "mr-2" }),
+    type: "link",
+    path: "/settings",
+  },
+  {
+    id: 3,
     name: "Log Out",
+    icon: PowerIcon({ property: "outline", style: "mr-2 text-red-500" }),
     type: "itemClickCallbacks",
-    function:()=> LogOut()
+    function: () => LogOut(),
   },
 ];
-
 
 // Sign Up
 export const signUpInputprops = [
@@ -103,12 +111,9 @@ export const resetPasswordAnimTextArray = [
   "Click Send OTP to to get OTP values.",
 ];
 
-
-
-
 // otp
 export const otpInputs = [
-    {
+  {
     name: "otp",
     type: "text",
     label: "OTP",
@@ -116,11 +121,7 @@ export const otpInputs = [
   },
 ];
 
-
-export const otpAnimTextArray = [
-  "Reset Password.",
-  "Type in your OTP values.",
-];
+export const otpAnimTextArray = ["Reset Password.", "Type in your OTP values."];
 
 // changePassword
 export const changePassordInputs = [
@@ -130,20 +131,18 @@ export const changePassordInputs = [
     label: "New password",
     placeholder: "New password",
   },
-   {
+  {
     name: "confirmPassword",
     type: "password",
     label: "Confirm Password",
     placeholder: "Confirm new password",
-  }
+  },
 ];
-
 
 export const changePassordAnimTextArray = [
-"Change Password.",
-"Type in your new password.",
+  "Change Password.",
+  "Type in your new password.",
 ];
-
 
 //table options
 
@@ -154,14 +153,14 @@ export let tableOptionsNavData = [
     type: "link",
     path: "/news",
     query: {
-      tab: "1"
-    }
+      tab: "1",
+    },
   },
   {
     id: 2,
     name: "Delete",
     type: "itemClickCallbacks",
-    function:():any =>""
+    function: (): any => "",
   },
 ];
 
@@ -195,21 +194,20 @@ export const newsInputprops = [
         placeholder: "League",
         options: [
           {
-            label:'Select league',
-            value:'select'
+            label: "Select league",
+            value: "select",
           },
           {
-            label:'Premier league',
-            value:'Premier league'
+            label: "Premier league",
+            value: "Premier league",
           },
           {
-            label: 'Spanish Laliga',
-            value:  'Spanish Laliga'
+            label: "Spanish Laliga",
+            value: "Spanish Laliga",
           },
- 
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
   {
     type: "grid",
@@ -221,31 +219,28 @@ export const newsInputprops = [
         placeholder: "Category",
         options: [
           {
-            label:'Select Category',
-            value:'select'
+            label: "Select Category",
+            value: "select",
           },
           {
-            label:'Recent',
-            value:'Recent'
+            label: "Recent",
+            value: "Recent",
           },
           {
-            label: 'Popular',
-            value:  'Popular'
+            label: "Popular",
+            value: "Popular",
           },
- 
-        ]
+        ],
       },
-    
+
       {
         name: "coverimage",
         type: "file",
         label: "Cover Image",
       },
-    ]
+    ],
   },
-  
 ];
-
 
 // League
 export const leagueInputprops = [
@@ -268,21 +263,21 @@ export const leagueInputprops = [
         name: "country",
         type: "selectInput",
         label: "Country",
-        placeholder: "Country"
+        placeholder: "Country",
       },
       {
         name: "logo",
         type: "file",
         label: "Logo",
       },
-    ]
+    ],
   },
   {
     name: "website",
     type: "text",
     label: "Website",
     placeholder: "website link",
-    notImportant:true
+    notImportant: true,
   },
   {
     type: "grid",
@@ -292,16 +287,16 @@ export const leagueInputprops = [
         type: "text",
         label: "Facebook",
         placeholder: "Link here",
-        notImportant:true
+        notImportant: true,
       },
       {
         name: "xlink",
         type: "text",
         label: "Twitter X",
         placeholder: "Link here",
-        notImportant:true
+        notImportant: true,
       },
-    ]
+    ],
   },
   {
     type: "grid",
@@ -311,17 +306,15 @@ export const leagueInputprops = [
         type: "text",
         label: "Instagram",
         placeholder: "Link here",
-        notImportant:true
+        notImportant: true,
       },
       {
         name: "youtube",
         type: "text",
         label: "Youtube",
         placeholder: "Link here",
-        notImportant:true
-      }
-    ]
+        notImportant: true,
+      },
+    ],
   },
- 
 ];
-

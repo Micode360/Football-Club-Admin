@@ -60,7 +60,7 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
       if (values.coverimage) {
         if (values.coverimage.size > 1024 * 1024 * 5) {
           setMessage({
-            coverimage: "File size must be less than 5MB",
+            response: "File size must be less than 5MB",
           });
           setStatus("error");
           return Promise.reject();
@@ -90,7 +90,7 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
         message={message}
         inputs={newsInputprops}
         inputStyle="focus:border-[2px] focus:border-custom_orange"
-        customInput={<Editor formik={formik} />}
+        bottomCustomInput={<Editor formik={formik} />}
         button={{
           type: "submit",
           text: "Submit",

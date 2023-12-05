@@ -19,6 +19,8 @@ export default function AddLeague() {
     xlink: "",
     instagram: "",
     youtube: "",
+    fromColor: "",
+    toColor: "",
   });
 
   const handleLogoImage: any = () => {
@@ -26,20 +28,40 @@ export default function AddLeague() {
     return (
       <Image
         src={URL.createObjectURL(preview.logo)}
+        className="bg-white rounded-md"
         alt="league_logo"
-        width={150}
-        height={150}
+        width={200}
+        height={200}
         priority
       />
     );
   };
-  //
-  console.log(preview, "preview");
+
   return (
     <section className="bg-white shadow-lg grid md:grid-cols-2 gap-4 my-4 py-6 px-6 rounded">
       <LeagueForm setPreview={setPreview} />
-      <div className="n_preview border-l py-2 px-4">
-        <div className="my-4 flex justify-center">{handleLogoImage()}</div>
+      <div className="n_preview relative border-l py-2 px-4">
+        <div
+          style={{
+            background:
+              "linear-gradient(to right," +
+              preview.fromColor +
+              "," +
+              preview.toColor +
+              ")",
+          }}
+          className={`p-4 rounded-t-md relative overflow-hidden`}
+        >
+          <div className="my-4 flex justify-center">{handleLogoImage()}</div>
+          <Image
+            src="/curvy_lines.svg"
+            alt="logo"
+            width={80}
+            height={80}
+            className={`absolute top-0 bottom-[-12px] right-0 w-[40%]`}
+            priority
+          />
+        </div>
         <div>
           <div className="mt-6 text-center px-4 py-4 text-xs p-4">
             <h1 className="text-[1.5rem] text-[#3d185d] font-[800]">

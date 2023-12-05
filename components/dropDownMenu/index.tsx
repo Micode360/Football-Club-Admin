@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import CogIcon from "../icons/cogIcon";
 
 interface dropdownProperties {
   data: Array<{}>;
@@ -56,11 +57,11 @@ export default function DropDownMenu({
                     }}
                     key={data.id}
                   >
-                    {data.name}
+                    <div className="flex items-center">{data.icon && data.icon}  {data.name}</div>
                   </Link>
                 ) : data.type === "link" ? (
                   <Link href={data.path} key={data.id}>
-                    {data.name}
+                    <div className="flex items-center">{data.icon && data.icon}  {data.name}</div>
                   </Link>
                 ) : data.type === "itemClickCallbacks" ? (
                   <span
@@ -68,7 +69,7 @@ export default function DropDownMenu({
                     onClick={() => data.function()}
                     key={data.id}
                   >
-                    {data.name}
+                    <div className="flex items-center">{data.icon && data.icon}  {data.name}</div>
                   </span>
                 ) : null}
               </div>
