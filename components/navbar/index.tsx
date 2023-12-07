@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import DropDownMenu from "../dropDownMenu";
 import Logo from "../icons/logo";
-import MessageIcon from "../icons/message";
+import MessageIcon from "../icons/messageIcon";
 import NotificationIcon from "../icons/notificationIcon";
 import ProfileNav from "../profileNav";
 import {

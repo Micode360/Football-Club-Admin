@@ -6,15 +6,14 @@ import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
 import Tabs from "@/components/navbar/tabs";
 import GeneralInformation from "@/components/settings/generalInformation";
+import SubAdmins from "@/components/settings/subAdmins";
 
-const Comp1 = () => (
-    <>Comp</>
-)
+
 export default function Settings() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "";
-  const headers = ["General Settings", "Sub Admin"];
-  const components = [<GeneralInformation/>, <Comp1 />];
+  const headers = ["General Settings", "Sub Admins"];
+  const components = [<GeneralInformation/>, <SubAdmins/>];
 
   return (
     <VerifyUser>

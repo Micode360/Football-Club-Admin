@@ -4,6 +4,8 @@ import HouseIcon from "../icons/house";
 import NewsPaperIcon from "../icons/newspaperIcon";
 import ShieldIcon from "../icons/shield";
 import CogIcon from "../icons/cogIcon";
+import NotificationIcon from "../icons/notificationIcon";
+import MessageIcon from "../icons/messageIcon";
 
 export default function SideBar() {
   const [url, setUrl] = useState("");
@@ -29,10 +31,23 @@ export default function SideBar() {
     },
     {
       id: 4,
+      icon: <NotificationIcon style="w-5 h-5 md:w-8 md:h-8" active={false} property="outline" />,
+      title: "Notifications",
+      path: "/notifications"
+    },
+    {
+      id: 4,
+      icon: <MessageIcon active={false}/> ,
+      title: "Messages",
+      path: "/messages"
+    },
+    {
+      id: 4,
       icon: <CogIcon style="w-5 h-5 md:w-8 md:h-8" property="outline" />,
       title: "Settings",
       path: "/settings"
-    }
+    },
+ 
   ];
 
 
