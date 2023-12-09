@@ -241,3 +241,32 @@ body {
   }
 }
 
+/*Scroll Container*/
+.scroll-container {
+  overflow-y: auto;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: #625af3;
+  border-radius: 6px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background-color: #cbd5e0;
+}
+
+
+@media(max-width: 390px){
+  .min-390 {
+      display: none;
+  }
+
+  .modal-wrapper {
+    align-items: flex-end !important;
+  }
+}
+

@@ -19,6 +19,7 @@ export default function ProfileNav({
           height={50}
           className="w-[60] h-auto rounded-full"
           alt="profile pic"
+          priority
         />
         <span className="hidden md:flex cursor-pointer">
           Miracle King

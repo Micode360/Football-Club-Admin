@@ -3,14 +3,14 @@ import AdminCard from "./card";
 import Modal from "@/components/modal";
 import ExIcon from "@/components/icons/exclamationIcon";
 import ModalWrapper from "@/components/modal/modalWrapper";
-import SubAdminPreview from "./subAdminPreview";
+import AdminPreview from "./adminPreview";
 
-export default function SubAdmins() {
+export default function Admins() {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [previewModal, setPreviewModal] = useState<boolean>(false);
   return (
     <>
-      <div className="grid grid-cols-4 gap-8 rounded-md my-4 p-4">
+      <div className="grid justify-center md:justify-start md:grid-cols-4 gap-8 rounded-md my-4 p-4">
         <AdminCard
           setState={() => setIsModal(true)}
           setPreviewState={() => setPreviewModal(true)}
@@ -31,7 +31,7 @@ export default function SubAdmins() {
         setIsOpen={setPreviewModal}
         style={"!px-0 !pt-12"}
       >
-        <SubAdminPreview />
+        <AdminPreview />
       </ModalWrapper>
     </>
   );

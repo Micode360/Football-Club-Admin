@@ -1,17 +1,9 @@
 import { LogOut } from "./utilsFunctions";
 import CogIcon from "@/components/icons/cogIcon";
 import PowerIcon from "@/components/icons/powerIcon";
-import ProfileIcon from "@/components/icons/profileIcon";
 
 //profile navigation
 export const profileNavData = [
-  {
-    id: 1,
-    name: "My Profile",
-    icon: ProfileIcon({ property: "outline", style: "mr-2" }),
-    type: "link",
-    path: "/myprofile",
-  },
   {
     id: 2,
     name: "Settings",
@@ -316,5 +308,23 @@ export const leagueInputprops = [
         notImportant: true,
       },
     ],
+  },
+];
+
+export const leagueDropDownData = [
+  {
+    id: 1,
+    name: "Edit",
+    type: "link",
+    path: "/leagues",
+    query: {
+      tab: "1",
+    },
+  },
+  {
+    id: 2,
+    name: "Delete",
+    type: "itemClickCallbacks",
+    function: (): any => "",
   },
 ];

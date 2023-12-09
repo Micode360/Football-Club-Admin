@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Dialog } from "@headlessui/react";
 
-export default function SubAdminPreview() {
+export default function AdminPreview() {
   return (
     <div className="relative flex-col  justify-center text-left">
       <div className="relative">
@@ -36,11 +36,11 @@ export default function SubAdminPreview() {
       </div>
 
       <div className="flex justify-center mt-2">
-      <div className="grid grid-cols-2 gap-4 w-[90%]">
+      <div className="grid md:grid-cols-2 gap-4 w-[90%]">
         <div className="border rounded-md p-4 shadow-md">
           <Dialog.Title
             as="h3"
-            className="mb-2 text-base font-[700]"
+            className="mb-2 text-xs md:text-base font-[700]"
             id="modal-headline"
           >
             Country
@@ -51,17 +51,17 @@ export default function SubAdminPreview() {
         <div className="border rounded-md p-4 shadow-md">
           <Dialog.Title
             as="h3"
-            className="mb-2 text-base font-[700]"
+            className="mb-2 text-xs md:text-base font-[700]"
             id="modal-headline"
           >
             State
           </Dialog.Title>
           <p className="text-xs">{"Lagos"}</p>
         </div>
-        <div className="border rounded-md p-4 shadow-md">
+        <div className="border rounded-md p-4 shadow-md min-390">
           <Dialog.Title
             as="h3"
-            className="mb-2 text-base font-[700]"
+            className="mb-2 text-xs md:text-base font-[700]"
             id="modal-headline"
           >
             City
@@ -69,10 +69,10 @@ export default function SubAdminPreview() {
           <p className="text-xs">{"Ikeja"}</p>
         </div>
 
-        <div className="border rounded-md p-4 shadow-md">
+        <div className="border rounded-md p-4 shadow-md min-390">
           <Dialog.Title
             as="h3"
-            className="mb-2 text-xs font-[700]"
+            className="mb-2 text-xs md:text-base font-[700]"
             id="modal-headline"
           >
             First Seen
@@ -81,7 +81,7 @@ export default function SubAdminPreview() {
         </div>
       </div>
       </div>
-      <div className="h-8 border-t mt-4"></div>
+      <div className="md:h-8 border-t mt-4"></div>
     </div>
   );
 }

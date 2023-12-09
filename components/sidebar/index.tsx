@@ -36,13 +36,13 @@ export default function SideBar() {
       path: "/notifications"
     },
     {
-      id: 4,
-      icon: <MessageIcon active={false}/> ,
+      id: 5,
+      icon: <MessageIcon style="w-5 h-5 md:w-8 md:h-8" active={false}/> ,
       title: "Messages",
       path: "/messages"
     },
     {
-      id: 4,
+      id: 6,
       icon: <CogIcon style="w-5 h-5 md:w-8 md:h-8" property="outline" />,
       title: "Settings",
       path: "/settings"
@@ -65,7 +65,7 @@ export default function SideBar() {
           <Link
             href={nav.path}
             key={nav.id}
-            className={`flex items-center justify-center p-3 md:p-5 ${
+            className={`flex items-center justify-center w-full p-3 md:p-5 ${
               url === nav.path.split("/")[1]
                 ? "bg-custom_orange text-white"
                 : "bg-white text-custom_orange"

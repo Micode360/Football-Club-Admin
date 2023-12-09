@@ -23,9 +23,9 @@ export default function ModalWrapper({
           open={isOpen}
           onClose={setIsOpen}
           as="div"
-          className="fixed inset-0 z-10 flex items-center justify-center overflow-y-auto"
+          className="fixed inset-0 z-10 flex items-center modal-wrapper justify-center overflow-y-auto"
         >
-          <div className="flex flex-col justify-center items-center py-8 px-4 text-center w-[40%]">
+          <div className="flex flex-col justify-center items-center py-8 px-4 text-center w-[100%] md:w-[40%]">
             <Dialog.Overlay />
             <div
               className="fixed inset-0 transition-opacity"
@@ -64,7 +64,7 @@ export default function ModalWrapper({
                 className="w-full flex items-center"
               >
                 <div className="relative w-full max-h-full">
-                  <div className="relative bg-white rounded-lg shadow-lg">
+                  <div className="relative bg-white rounded-lg shadow-l ">
                     <CloseIcon
                       setOnClick={() => setIsOpen(!isOpen)}
                       style="text-black absolute top-3 right-2.5 w-7 h-7 cursor-pointer"

@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import VerifyUser from "@/components/verifyUser";
 import Navbar from "@/components/navbar";

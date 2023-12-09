@@ -2,16 +2,30 @@ import { string } from "prop-types";
 import React from "react";
 
 interface MessageProperties {
-    key: string | number;
-    message: string;
-    time: string;
-    read: boolean;
-    setOnClick?: () => void;
+  key: string | number;
+  message: string;
+  time: string;
+  read: boolean;
+  setOnClick?: () => void;
+  textHeadingsStyle?: string;
+  timeStyle?: string;
 }
 
-export default function MessageContainer({key, message, time, read, setOnClick}:MessageProperties) {
+export default function MessageContainer({
+  key,
+  message,
+  time,
+  read,
+  setOnClick,
+  textHeadingsStyle,
+  timeStyle,
+}: MessageProperties) {
   return (
-    <section onClick={setOnClick} className="flex items-center cursor-pointer mb-2 bg-white shadow-lg my-4 py-3 px-4 rounded" key={key}>
+    <section
+      onClick={setOnClick}
+      className="flex items-center cursor-pointer border-b py-3 px-4"
+      key={key}
+    >
       {true ? (
         <img
           src={"/mp.webp"}
@@ -24,12 +38,12 @@ export default function MessageContainer({key, message, time, read, setOnClick}:
         </div>
       )}
       <div>
-        <h4>
+        <h4 className={`${textHeadingsStyle}`}>
           {/* <span className="font-bold">James Card</span> created a new Article
           for the <span className="font-bold">Premier League</span> */}
           {message}
         </h4>
-        <p>{time}</p>
+        <p className={`${timeStyle}`}>{time}</p>
       </div>
     </section>
   );

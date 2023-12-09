@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 import BinIcon from "@/components/icons/binIcon";
 import EyeIcon from "@/components/icons/eye";
 import MessageIcon from "@/components/icons/messageIcon";
@@ -9,6 +10,7 @@ interface AdminCardProps {
 }
 
 export default function AdminCard({ setState, setPreviewState }: AdminCardProps) {
+  const router = useRouter();
   return (
     <div className="flex flex-col justify-center items-center w-[11.813rem] rounded-lg bg-white p-4 shadow-lg">
       <div>
@@ -29,7 +31,7 @@ export default function AdminCard({ setState, setPreviewState }: AdminCardProps)
         />
         <MessageIcon
           properties="outline"
-          setOnClick={()=>""}
+          setOnClick={()=>router.push('/messages')}
           active={false}
           style="!w-5 !h-5 text-gray-600 cursor-pointer"
         />
