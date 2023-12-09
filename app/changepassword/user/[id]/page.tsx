@@ -39,13 +39,13 @@ export default function ChangePassword({ params }: changePassordProps) {
     password: Yup.string()
       .matches(
         /^[a-zA-Z0-9!#$%^&*()]+$/,
-        "Only letters, numbers and some specific punctuations allowed."
+        "Only letters, numbers and some specific punctuations allowed.",
       )
       .required(),
     confirmPassword: Yup.string()
       .matches(
         /^[a-zA-Z0-9!#$%^&*()]+$/,
-        "Only letters, numbers and some specific punctuations allowed."
+        "Only letters, numbers and some specific punctuations allowed.",
       )
       .required(),
   });

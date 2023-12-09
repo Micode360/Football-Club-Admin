@@ -6,7 +6,10 @@ interface profileIconProperties {
   property: "solid" | "outline";
 }
 
-export default function ProfileIcon({ style, property }: profileIconProperties) {
+export default function ProfileIcon({
+  style,
+  property,
+}: profileIconProperties) {
   return (
     <>
       {property === "outline" ? (

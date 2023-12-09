@@ -18,7 +18,7 @@ export default function FacebookIcon({
     <>
       {type === "solid" ? (
         <svg
-        onClick={setOnClick}
+          onClick={setOnClick}
           xmlns="http://www.w3.org/2000/svg"
           fill={fill}
           height="1em"

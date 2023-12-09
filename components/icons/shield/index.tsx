@@ -2,10 +2,10 @@
 import React from "react";
 
 interface shieldIconProperties {
-  style?:string
-};
+  style?: string;
+}
 
-export default function ShieldIcon({ style }:shieldIconProperties) {
+export default function ShieldIcon({ style }: shieldIconProperties) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

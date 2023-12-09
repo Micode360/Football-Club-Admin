@@ -23,10 +23,7 @@ export default function ProfileNav({
         />
         <span className="hidden md:flex cursor-pointer">
           Miracle King
-          <ArrowIcon
-            direction={showDropdown ? "up" : "down"}
-            style="ml-1"
-          />
+          <ArrowIcon direction={showDropdown ? "up" : "down"} style="ml-1" />
         </span>
       </div>
       {children}

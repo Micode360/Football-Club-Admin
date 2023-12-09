@@ -11,7 +11,7 @@ export default function MessageIcon({
   style,
   active,
   properties,
-  setOnClick
+  setOnClick,
 }: MessageIconProperties) {
   return (
     <div className="relative">

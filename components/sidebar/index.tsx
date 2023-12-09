@@ -31,25 +31,29 @@ export default function SideBar() {
     },
     {
       id: 4,
-      icon: <NotificationIcon style="w-5 h-5 md:w-8 md:h-8" active={false} property="outline" />,
+      icon: (
+        <NotificationIcon
+          style="w-5 h-5 md:w-8 md:h-8"
+          active={false}
+          property="outline"
+        />
+      ),
       title: "Notifications",
-      path: "/notifications"
+      path: "/notifications",
     },
     {
       id: 5,
-      icon: <MessageIcon style="w-5 h-5 md:w-8 md:h-8" active={false}/> ,
+      icon: <MessageIcon style="w-5 h-5 md:w-8 md:h-8" active={false} />,
       title: "Messages",
-      path: "/messages"
+      path: "/messages",
     },
     {
       id: 6,
       icon: <CogIcon style="w-5 h-5 md:w-8 md:h-8" property="outline" />,
       title: "Settings",
-      path: "/settings"
+      path: "/settings",
     },
- 
   ];
-
 
   useEffect(() => {
     setUrl(window.location.pathname.split("/")[1]);

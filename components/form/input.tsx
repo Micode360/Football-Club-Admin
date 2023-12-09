@@ -26,7 +26,7 @@ export default function Input({
 
   const handlePasswordVisibility = () => {
     setIsPassword(!isPassword);
-    setPasswordType(!isPassword ? "password": "text");
+    setPasswordType(!isPassword ? "password" : "text");
   };
   return (
     <div className="relative flex items-center">

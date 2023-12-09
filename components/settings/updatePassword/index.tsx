@@ -13,13 +13,12 @@ type inputProperties = {
 export default function UpdatePassword() {
   const [status, setStatus] = useState<string>("");
   const [message, setMessage] = useState<any>({});
-  
+
   const formValues = {
     currentPassword: "",
     newPassword: "",
-    confirmPassword: ""
+    confirmPassword: "",
   };
-
 
   const onSubmit = async (values: inputProperties) => {
     setMessage({});
@@ -48,7 +47,7 @@ export default function UpdatePassword() {
         status={status}
         message={message}
         inputs={updatePasswordInputprops}
-        bottomCustomInput={<SettingsButton formik={formik}/>}
+        bottomCustomInput={<SettingsButton formik={formik} />}
       />
     </div>
   );

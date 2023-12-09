@@ -5,11 +5,14 @@ import EyeIcon from "@/components/icons/eye";
 import MessageIcon from "@/components/icons/messageIcon";
 
 interface AdminCardProps {
-  setState:() => void;
-  setPreviewState:() => void;
+  setState: () => void;
+  setPreviewState: () => void;
 }
 
-export default function AdminCard({ setState, setPreviewState }: AdminCardProps) {
+export default function AdminCard({
+  setState,
+  setPreviewState,
+}: AdminCardProps) {
   const router = useRouter();
   return (
     <div className="flex flex-col justify-center items-center w-[11.813rem] rounded-lg bg-white p-4 shadow-lg">
@@ -31,7 +34,7 @@ export default function AdminCard({ setState, setPreviewState }: AdminCardProps)
         />
         <MessageIcon
           properties="outline"
-          setOnClick={()=>router.push('/messages')}
+          setOnClick={() => router.push("/messages")}
           active={false}
           style="!w-5 !h-5 text-gray-600 cursor-pointer"
         />

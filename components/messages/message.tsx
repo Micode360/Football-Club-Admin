@@ -20,7 +20,9 @@ export default function MessageResponse({
   time,
 }: messageResponseProperties) {
   return (
-    <div className={`flex items-start ${justifyContainer} py-3 px-4 my-4 w-[90%] md:w-1/2`}>
+    <div
+      className={`flex items-start ${justifyContainer} py-3 px-4 my-4 w-[90%] md:w-1/2`}
+    >
       <div className={`flex items-start ${containerDirection}`}>
         <img
           src="/mp.webp"

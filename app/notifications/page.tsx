@@ -47,13 +47,11 @@ export default function Notifications() {
         <div className="w-full">
           <Navbar />
           <DashboardLayout style="py-16 mt-[3rem] ml-0 md:ml-[5rem] px-6">
-          <div className="bg-white shadow-lg flex justify-start my-4 py-3 px-4 rounded">
-            <button
-              className="bg-custom_orange text-white shadow-md py-2 px-4 rounded"
-            >
-              Mark all as Read
-            </button>
-        </div>
+            <div className="bg-white shadow-lg flex justify-start my-4 py-3 px-4 rounded">
+              <button className="bg-custom_orange text-white shadow-md py-2 px-4 rounded">
+                Mark all as Read
+              </button>
+            </div>
             <div className="bg-white shadow-lg my-4 rounded">
               {notificationMessages.map(({ id, message, time }) => (
                 <MessageContainer

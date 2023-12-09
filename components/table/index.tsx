@@ -187,7 +187,7 @@ export default function Table() {
 
   const currentData: any[] = data.slice(
     currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
+    (currentPage + 1) * itemsPerPage,
   );
 
   const handleCheckboxChange = (itemId: number) => {
@@ -207,7 +207,7 @@ export default function Table() {
     });
   };
 
-  tableOptionsNavData[1].function = (): any => setIsModal(!isModal); 
+  tableOptionsNavData[1].function = (): any => setIsModal(!isModal);
 
   return (
     <section>

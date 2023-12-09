@@ -13,7 +13,7 @@ interface NewsFormProperties {
 type inputProperties = {
   title: string;
   description: string;
-  author:string;
+  author: string;
   league: string;
   category: string;
   coverimage: File | null;
@@ -23,7 +23,7 @@ type inputProperties = {
 export default function NewsForm({ setPreview }: NewsFormProperties) {
   const Editor = useMemo(
     () => dynamic(() => import("./editor"), { ssr: false }),
-    []
+    [],
   );
   const [status, setStatus] = useState<string>("");
   const [message, setMessage] = useState<any>({});
@@ -66,9 +66,9 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
           return Promise.reject();
         }
       }
-      setTimeout(()=>{
+      setTimeout(() => {
         setPreview(values);
-      },1000)
+      }, 1000);
     },
     onSubmit: async (values: inputProperties, { resetForm }) => {
       await onSubmit(values);

@@ -113,7 +113,7 @@ export default function ChatRoom() {
           />
         </div>
       </div>
-      
+
       <div className="flex items-center p-2">
         <div className="flex items-center border w-full p-2">
           <TextareaAutosize

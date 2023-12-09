@@ -14,7 +14,7 @@ export default function TypedAnimatedText({ delay, List }: IRedoAnimTextProps) {
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
   const displayText = useTransform(rounded, (latest) =>
-    baseText.get().slice(0, latest)
+    baseText.get().slice(0, latest),
   );
   const updatedThisRound = useMotionValue(true);
 
@@ -38,12 +38,12 @@ export default function TypedAnimatedText({ delay, List }: IRedoAnimTextProps) {
           }
           updatedThisRound.set(true);
         }
-      }
+      },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <motion.span className="inline text-center">{displayText}</motion.span>;
+  return (
+    <motion.span className="inline text-center">{displayText}</motion.span>
+  );
 }
-
-

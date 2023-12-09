@@ -4,10 +4,14 @@ import React from "react";
 interface XIconProperties {
   style?: string;
   type: "circle" | "solid";
-  setOnClick?:()=> void;
+  setOnClick?: () => void;
 }
 
-export default function CloseIcon({ style, type, setOnClick }: XIconProperties) {
+export default function CloseIcon({
+  style,
+  type,
+  setOnClick,
+}: XIconProperties) {
   return (
     <>
       {type === "circle" ? (

@@ -12,14 +12,14 @@ type inputProperties = {
   city: string;
   country: string;
   state: string;
-  zipCode: string; 
+  zipCode: string;
 };
 
 export default function MyProfile() {
   const [status, setStatus] = useState<string>("");
   const [message, setMessage] = useState<any>({});
-  const [country, setCountry ] = useState([]);
-  
+  const [country, setCountry] = useState([]);
+
   const formValues = {
     profilePic: null,
     firstName: "",
@@ -28,9 +28,8 @@ export default function MyProfile() {
     city: "",
     country: "",
     state: "",
-    zipCode: ""
+    zipCode: "",
   };
-
 
   const onSubmit = async (values: inputProperties) => {
     setMessage({});
@@ -50,32 +49,29 @@ export default function MyProfile() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
-  useEffect(()=>{
-    fetch(
-      "https://restcountries.com/v3.1/all?fields=name,flags"
-    )
+  useEffect(() => {
+    fetch("https://restcountries.com/v3.1/all?fields=name,flags")
       .then((response) => response.json())
-      .then((data) =>
-        {
-          let mappingCountry = data.map((item:any) => ({ imagePath: item.flags.png, value: item.name.common }));
-          setCountry(mappingCountry)
-        }
-      );
-    
-  },[])
+      .then((data) => {
+        let mappingCountry = data.map((item: any) => ({
+          imagePath: item.flags.png,
+          value: item.name.common,
+        }));
+        setCountry(mappingCountry);
+      });
+  }, []);
 
   return (
     <div className="col-span-2">
       <Form
         style="!px-0 !py-0"
         formik={formik}
-        topCustomInput={<ImageUpload formik={formik}/>}
+        topCustomInput={<ImageUpload formik={formik} />}
         arr={country}
         status={status}
         message={message}
         inputs={MyProfileInputprops}
-        bottomCustomInput={<SettingsButton formik={formik}/>}
+        bottomCustomInput={<SettingsButton formik={formik} />}
       />
     </div>
   );

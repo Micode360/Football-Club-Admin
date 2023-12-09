@@ -15,11 +15,14 @@ export default function LeagueCard({
   backgroundColor,
   description,
   path,
-  imgPath
+  imgPath,
 }: CardProperties) {
   const router = useRouter();
   return (
-    <div onClick={()=>router.push("/leagues/details/premierleague")} className="relative overflow-hidden cursor-pointer h-fit w-[21.5rem] league_card grid grid-cols-2 px-4 py-4 bg-white shadow-lg rounded-md hover:scale-[1.1] transition">
+    <div
+      onClick={() => router.push("/leagues/details/premierleague")}
+      className="relative overflow-hidden cursor-pointer h-fit w-[21.5rem] league_card grid grid-cols-2 px-4 py-4 bg-white shadow-lg rounded-md hover:scale-[1.1] transition"
+    >
       <div className="relative">
         <div
           className={`${backgroundColor} flex flex-col justify-center league-slate p-4 rounded-md text-white relative overflow-hidden z-[10]`}

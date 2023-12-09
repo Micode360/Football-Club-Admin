@@ -1,21 +1,19 @@
 import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-
 interface pieChartProperties {
-    data: Array<{}>;
-    colors: Array<string>;
-    averageRatingsValue: string;
+  data: Array<{}>;
+  colors: Array<string>;
+  averageRatingsValue: string;
 }
 
-
-
-export default function MyPieChart({ data, colors, averageRatingsValue }:pieChartProperties) {
-
+export default function MyPieChart({
+  data,
+  colors,
+  averageRatingsValue,
+}: pieChartProperties) {
   return (
-    <div
-        style={{ width: 200, height: 200, position: "relative" }}
-    >
+    <div style={{ width: 200, height: 200, position: "relative" }}>
       <ResponsiveContainer>
         <PieChart>
           <Pie
@@ -38,7 +36,10 @@ export default function MyPieChart({ data, colors, averageRatingsValue }:pieChar
         </PieChart>
       </ResponsiveContainer>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-        <span className="text-[1.5rem] font-bold mt-auto mb-4"> { averageRatingsValue } </span>
+        <span className="text-[1.5rem] font-bold mt-auto mb-4">
+          {" "}
+          {averageRatingsValue}{" "}
+        </span>
       </div>
     </div>
   );

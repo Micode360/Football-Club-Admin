@@ -57,7 +57,7 @@ export default function MessageSideBar() {
         .filter((message: any) =>
           searchValue === ""
             ? message
-            : message.name.toLowerCase().includes(searchValue.toLowerCase())
+            : message.name.toLowerCase().includes(searchValue.toLowerCase()),
         )
         .map(({ id, name, image, text, time }: any) => (
           <div key={id}>

@@ -77,7 +77,7 @@ export default function Form({
         {inputs.map(
           (
             { name, type, label, inputs, placeholder, notImportant }: any,
-            id
+            id,
           ) => {
             return (
               <div key={id}>
@@ -153,7 +153,7 @@ export default function Form({
                                 onChange={(event: any) => {
                                   formik.setFieldValue(
                                     name,
-                                    event.currentTarget.files[0]
+                                    event.currentTarget.files[0],
                                   );
                                 }}
                                 onBlur={formik.handleBlur}
@@ -187,7 +187,7 @@ export default function Form({
                             </>
                           )}
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 ) : (
@@ -211,7 +211,7 @@ export default function Form({
                 )}
               </div>
             );
-          }
+          },
         )}
         {link && (
           <div className="flex justify-end">

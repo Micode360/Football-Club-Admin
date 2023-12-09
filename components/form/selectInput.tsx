@@ -52,7 +52,7 @@ export default function SelectInput({
           .split(" ")
           .join()
           .toLowerCase()
-          .includes(searchTerm.split(" ").join().toLowerCase())
+          .includes(searchTerm.split(" ").join().toLowerCase()),
   );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

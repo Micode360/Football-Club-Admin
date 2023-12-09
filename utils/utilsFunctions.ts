@@ -24,17 +24,15 @@ export const removeToken = (name: string) => cookies.remove(name);
 export const LogOut = () => {
   console.log("Log out function keeps running");
   cookies.remove("asstkn");
-  return window.location.href = "/signin";
-}
+  return (window.location.href = "/signin");
+};
 
-
-export const toDate = (timestamp:number) => {
-    const isoTimestamp = timestamp;
-    const date = new Date(isoTimestamp);
-    const params:any = { day: 'numeric', month: 'long', year: 'numeric' };
-    const  dateFormat = date.toLocaleDateString('en-US', params).replace(/\b(\d{1,2})(th|nd|rd|st)\b/g, '$1');
-    return dateFormat;
-}
-
-
-
+export const toDate = (timestamp: number) => {
+  const isoTimestamp = timestamp;
+  const date = new Date(isoTimestamp);
+  const params: any = { day: "numeric", month: "long", year: "numeric" };
+  const dateFormat = date
+    .toLocaleDateString("en-US", params)
+    .replace(/\b(\d{1,2})(th|nd|rd|st)\b/g, "$1");
+  return dateFormat;
+};

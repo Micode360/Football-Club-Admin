@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 
-
 interface dropdownMenuWrapperProperties {
   showDropdown: boolean;
   setShowDropdown: any;
@@ -15,7 +14,7 @@ export default function DropDownMenuWrapper({
   setShowDropdown,
   onClickData,
   style,
-  children
+  children,
 }: dropdownMenuWrapperProperties) {
   const ref = useRef() as any;
 
@@ -43,7 +42,7 @@ export default function DropDownMenuWrapper({
           className={`shadow-xl absolute top-full md:w-full ${style}`}
           ref={ref}
         >
-         { children }
+          {children}
         </div>
       )}
     </>

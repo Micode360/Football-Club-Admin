@@ -8,7 +8,12 @@ interface eyeProperties {
   setOnClick?: () => void;
 }
 
-export default function EyeIcon({ style, closed, properties, setOnClick }: eyeProperties) {
+export default function EyeIcon({
+  style,
+  closed,
+  properties,
+  setOnClick,
+}: eyeProperties) {
   return (
     <>
       {closed ? (

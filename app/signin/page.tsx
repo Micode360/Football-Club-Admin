@@ -10,7 +10,11 @@ import TypedAnimatedText from "@/components/TypeAnimatedText";
 import { LOGIN_MUTATION } from "@/graphQL/mutations";
 import { storeToken } from "@/utils/utilsFunctions";
 import Form from "@/components/form";
-import { signInInputprops, signInLink, signInAnimTextArray } from "@/utils/constantdatas";
+import {
+  signInInputprops,
+  signInLink,
+  signInAnimTextArray,
+} from "@/utils/constantdatas";
 
 type inputProperties = {
   email: string;
@@ -31,7 +35,7 @@ export default function SignIn() {
     password: Yup.string()
       .matches(
         /^[a-zA-Z0-9!#$%^&*()]+$/,
-        "Only letters, numbers and some specific punctuations allowed."
+        "Only letters, numbers and some specific punctuations allowed.",
       )
       .required(),
   });
@@ -108,10 +112,7 @@ export default function SignIn() {
           styleChild="flex flex-col items-center justify-center"
         >
           <Logo width={80} height={80} style="mb-2 w-[80] h-auto" />
-          <TypedAnimatedText
-            delay={1}
-            List={signInAnimTextArray}
-          />
+          <TypedAnimatedText delay={1} List={signInAnimTextArray} />
         </FormOverlay>
       </div>
     </main>

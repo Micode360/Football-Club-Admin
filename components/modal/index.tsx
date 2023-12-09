@@ -86,12 +86,12 @@ export default function Modal({
                     <div className="p-6 text-center">
                       {Icon}
                       <Dialog.Title
-												as="h3"
-												className="mb-5 text-base"
-												id="modal-headline"
-											>
-												{text}
-											</Dialog.Title>
+                        as="h3"
+                        className="mb-5 text-base"
+                        id="modal-headline"
+                      >
+                        {text}
+                      </Dialog.Title>
                       {button1 && (
                         <button
                           onClick={button1}

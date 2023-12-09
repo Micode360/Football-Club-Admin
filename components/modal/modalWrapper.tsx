@@ -7,14 +7,14 @@ interface ModalProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
-  style?:string;
+  style?: string;
 }
 
 export default function ModalWrapper({
   isOpen,
   setIsOpen,
   children,
-  style
+  style,
 }: ModalProps) {
   return (
     <AnimatePresence>
@@ -70,9 +70,7 @@ export default function ModalWrapper({
                       style="text-black absolute top-3 right-2.5 w-7 h-7 cursor-pointer"
                       type={"circle"}
                     />
-                    <div className={`p-6 text-center ${style}`}>
-                      { children }
-                    </div>
+                    <div className={`p-6 text-center ${style}`}>{children}</div>
                   </div>
                 </div>
               </div>

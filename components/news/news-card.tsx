@@ -6,7 +6,7 @@ interface NewsCardProps {
   header: string;
 }
 
-export default function NewsCard({ header }:NewsCardProps) {
+export default function NewsCard({ header }: NewsCardProps) {
   let arr = [
     {
       title: "Newcastle vs Arsenal",
@@ -27,13 +27,16 @@ export default function NewsCard({ header }:NewsCardProps) {
       title: "It's going to be a great reunion.",
       image_path: "/mp.webp",
       date: Date.now(),
-    }
+    },
   ];
 
   return (
     <div className="bg-white shadow-lg p-4 h-full flex flex-col justify-between">
       <div>
-        <h3 className="font-[700] text-[1.2rem] text-gray-600 mb-4"> { header } </h3>
+        <h3 className="font-[700] text-[1.2rem] text-gray-600 mb-4">
+          {" "}
+          {header}{" "}
+        </h3>
         {arr.map(({ title, image_path, date }, id) => (
           <div className="grid grid-cols-3 mb-4" key={id}>
             <div className="col-span-2 text-custom_gray">
@@ -53,8 +56,13 @@ export default function NewsCard({ header }:NewsCardProps) {
         ))}
       </div>
       <div className="flex items-center justify-center">
-            <Link className="py-1 px-6 shadow-lg mt-2 rounded bg-custom_orange text-white" href="/">View More</Link>
-        </div>
+        <Link
+          className="py-1 px-6 shadow-lg mt-2 rounded bg-custom_orange text-white"
+          href="/"
+        >
+          View More
+        </Link>
+      </div>
     </div>
   );
 }

@@ -2,7 +2,6 @@
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
-
 interface dropdownProperties {
   data: Array<{}>;
   showDropdown: boolean;
@@ -57,11 +56,15 @@ export default function DropDownMenu({
                     }}
                     key={data.id}
                   >
-                    <div className="flex items-center">{data.icon && data.icon}  {data.name}</div>
+                    <div className="flex items-center">
+                      {data.icon && data.icon} {data.name}
+                    </div>
                   </Link>
                 ) : data.type === "link" ? (
                   <Link href={data.path} key={data.id}>
-                    <div className="flex items-center">{data.icon && data.icon}  {data.name}</div>
+                    <div className="flex items-center">
+                      {data.icon && data.icon} {data.name}
+                    </div>
                   </Link>
                 ) : data.type === "itemClickCallbacks" ? (
                   <span
@@ -69,7 +72,9 @@ export default function DropDownMenu({
                     onClick={() => data.function()}
                     key={data.id}
                   >
-                    <div className="flex items-center">{data.icon && data.icon}  {data.name}</div>
+                    <div className="flex items-center">
+                      {data.icon && data.icon} {data.name}
+                    </div>
                   </span>
                 ) : null}
               </div>

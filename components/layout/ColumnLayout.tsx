@@ -1,14 +1,12 @@
-
 interface alignProperties {
-    children: React.ReactNode;
-    style?:string;
+  children: React.ReactNode;
+  style?: string;
 }
 
-
-export default function ColumnLayout ({ children, style }:alignProperties) {
-    return (
+export default function ColumnLayout({ children, style }: alignProperties) {
+  return (
     <div className={`flex flex-col items-center justify-center ${style}`}>
-        { children }
+      {children}
     </div>
-    );
+  );
 }

@@ -13,9 +13,9 @@ interface NewsFormProperties {
 type inputProperties = {
   name: string;
   description: string;
-  country:{ imgPath: string, value: string };
-  logo:null;
-  website:string;
+  country: { imgPath: string; value: string };
+  logo: null;
+  website: string;
   facebook: string;
   xlink: string;
   instagram: string;
@@ -25,10 +25,9 @@ type inputProperties = {
 };
 
 export default function LeagueForm({ setPreview }: NewsFormProperties) {
-
   const [status, setStatus] = useState<string>("");
   const [message, setMessage] = useState<any>({});
-  const [country, setCountry ] = useState([]);
+  const [country, setCountry] = useState([]);
 
   const formValues = {
     name: "",
@@ -41,9 +40,8 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
     instagram: "",
     youtube: "",
     fromColor: "",
-    toColor: ""
+    toColor: "",
   };
-
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -59,7 +57,7 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
   const formik = useFormik<inputProperties>({
     initialValues: formValues,
     validationSchema: validationSchema,
-    validate: (values:any) => {
+    validate: (values: any) => {
       if (values.logo) {
         if (values.logo.size > 1024 * 1024 * 5) {
           setMessage({
@@ -69,9 +67,9 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
           return Promise.reject();
         }
       }
-      setTimeout(()=>{
+      setTimeout(() => {
         setPreview(values);
-      },1000)
+      }, 1000);
     },
     onSubmit: async (values: inputProperties, { resetForm }) => {
       await onSubmit(values);
@@ -84,19 +82,17 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(()=>{
-    fetch(
-      "https://restcountries.com/v3.1/all?fields=name,flags"
-    )
+  useEffect(() => {
+    fetch("https://restcountries.com/v3.1/all?fields=name,flags")
       .then((response) => response.json())
-      .then((data) =>
-        {
-          let mappingCountry = data.map((item:any) => ({ imagePath: item.flags.png, value: item.name.common }));
-          setCountry(mappingCountry)
-        }
-      );
-    
-  },[])
+      .then((data) => {
+        let mappingCountry = data.map((item: any) => ({
+          imagePath: item.flags.png,
+          value: item.name.common,
+        }));
+        setCountry(mappingCountry);
+      });
+  }, []);
 
   return (
     <div className="bg-white">
@@ -117,4 +113,3 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
     </div>
   );
 }
-

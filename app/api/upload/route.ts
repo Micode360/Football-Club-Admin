@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file: any = formData.get("upload");
-    
+
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
 
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
   } catch (error) {
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

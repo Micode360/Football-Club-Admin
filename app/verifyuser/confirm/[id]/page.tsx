@@ -54,8 +54,8 @@ export default function VerifyUser({ params }: verifyUserProps) {
         setMessage({ type: "success", response: data.ForgotPassword.message });
         router.push(
           `/changepassword/user/${encodeURIComponent(
-            data.ForgotPassword.value
-          )}`
+            data.ForgotPassword.value,
+          )}`,
         );
       } else {
         setStatus("");

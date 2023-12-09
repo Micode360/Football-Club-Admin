@@ -51,7 +51,9 @@ export default function ResetPassword() {
         setStatus("");
         setMessage({ type: "success", response: data.ForgotPassword.message });
         router.push(
-          `/verifyuser/confirm/${encodeURIComponent(data.ForgotPassword.value)}`
+          `/verifyuser/confirm/${encodeURIComponent(
+            data.ForgotPassword.value,
+          )}`,
         );
       } else {
         setStatus("");

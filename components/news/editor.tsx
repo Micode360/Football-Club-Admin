@@ -19,16 +19,16 @@ export default function Editor({ formik }: any) {
     },
     ckfinder: {
       uploadUrl: `/api/upload`,
-      onAfterFileUpload: (file:any, response:any) => {
-        console.log('Uploaded file:', file);
-        console.log('Cloudinary response:', response);
-    },
+      onAfterFileUpload: (file: any, response: any) => {
+        console.log("Uploaded file:", file);
+        console.log("Cloudinary response:", response);
+      },
     },
   };
 
   return (
     <>
-      <Label label={"content"} text={"Content"}/>
+      <Label label={"content"} text={"Content"} />
       <CKEditor
         editor={ClassicEditor}
         config={customConfig}

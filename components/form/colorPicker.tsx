@@ -43,7 +43,11 @@ export default function ColorPicker({
 
   return (
     <div className="relative">
-      {label && text? <Label label={label} text={text} notImportant={true} />:""}
+      {label && text ? (
+        <Label label={label} text={text} notImportant={true} />
+      ) : (
+        ""
+      )}
       <button
         type="button"
         className="p-1 rounded h-14 w-full border border-1"

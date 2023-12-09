@@ -11,7 +11,7 @@ export default function ChatPreviewContainer({
   image,
   text,
   time,
-  searchValue
+  searchValue,
 }: chatPreviewProperties) {
   return (
     <div className="flex items-start justify-between cursor-pointer border-b py-3 px-4">
@@ -34,7 +34,7 @@ export default function ChatPreviewContainer({
         </div>
       </div>
       <div className="flex flex-col items-end h-full">
-        <p className="mb-2 text-xs">{ time }</p>
+        <p className="mb-2 text-xs">{time}</p>
         <span className="py-1 px-2 text-xs bg-custom_orange rounded-full text-white">
           14
         </span>

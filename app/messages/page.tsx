@@ -15,7 +15,7 @@ export default function Messages() {
         <div className="w-full">
           <Navbar />
           <DashboardLayout style="py-16 mt-[3rem] ml-0 md:ml-[5rem] px-6">
-            <LargeDevices/>
+            <LargeDevices />
             <SmallDevices />
           </DashboardLayout>
         </div>
