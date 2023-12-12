@@ -1,23 +1,23 @@
 "use client";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
 interface dropdownProperties {
   data: Array<{}>;
-  column: Array<string>;
   showDropdown: boolean;
   setShowDropdown: any;
   onClickData: string;
+  style?: string;
 }
 
 export default function DropDownMenu({
   data,
-  column,
   showDropdown,
   setShowDropdown,
   onClickData,
+  style,
 }: dropdownProperties) {
   const [dropdownData, setDropdownData] = useState(data);
-  const [dropdownColumnData, setColumnData] = useState(column);
 
   const ref = useRef() as any;
 
@@ -42,17 +42,41 @@ export default function DropDownMenu({
     <>
       {showDropdown && (
         <div
-          className="shadow-xl absolute top-full bg-white w-full p-2"
+          className={`shadow-xl absolute top-full md:w-full p-2 ${style}`}
           ref={ref}
         >
           {dropdownData.map((data: any) => {
             return (
               <div className="py-2" key={data.id}>
-                {dropdownColumnData.map((column) => (
-                  <a href="#" key={column}>
-                    {data[column]}
-                  </a>
-                ))}
+                {data.type === "link" && data.query ? (
+                  <Link
+                    href={{
+                      pathname: data.path,
+                      query: data.query,
+                    }}
+                    key={data.id}
+                  >
+                    <div className="flex items-center">
+                      {data.icon && data.icon} {data.name}
+                    </div>
+                  </Link>
+                ) : data.type === "link" ? (
+                  <Link href={data.path} key={data.id}>
+                    <div className="flex items-center">
+                      {data.icon && data.icon} {data.name}
+                    </div>
+                  </Link>
+                ) : data.type === "itemClickCallbacks" ? (
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => data.function()}
+                    key={data.id}
+                  >
+                    <div className="flex items-center">
+                      {data.icon && data.icon} {data.name}
+                    </div>
+                  </span>
+                ) : null}
               </div>
             );
           })}

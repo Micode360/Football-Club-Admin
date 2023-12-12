@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import XIcon from "../icons/xIcon";
+import XIcon from "../icons/closeIcon";
 
 interface ResponseProperties {
   text: string;
@@ -24,7 +24,7 @@ export default function ErrorResponse({
           className={`relative p-3 mb-3 rounded-md w-full text-center ${style}`}
         >
           {text}
-          {close && (
+          {!close && (
             <span
               className="absolute right-4"
               onClick={() => (setHook ? setHook : "")}

@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import ArrowVertical from "../icons/arrowVertical";
+import ArrowIcon from "../icons/arrow";
 
 interface showDropdownProperties {
   showDropdown: boolean;
@@ -19,13 +19,11 @@ export default function ProfileNav({
           height={50}
           className="w-[60] h-auto rounded-full"
           alt="profile pic"
+          priority
         />
-        <span className="flex cursor-pointer">
+        <span className="hidden md:flex cursor-pointer">
           Miracle King
-          <ArrowVertical
-            direction={showDropdown ? "up" : "down"}
-            style="ml-1"
-          />
+          <ArrowIcon direction={showDropdown ? "up" : "down"} style="ml-1" />
         </span>
       </div>
       {children}

@@ -1,6 +1,25 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { getToken } from "../utils/utilsFunctions";
+
+const httpLink = createHttpLink({
+  uri: process.env.NEXT_PUBLIC_API_PORT,
+  credentials: "include",
+});
+
+const authLink = setContext((_, { headers }) => {
+  const accessToken = getToken("asstkn");
+
+  return {
+    headers: {
+      ...headers,
+      authorization: accessToken ? `Bearer ${accessToken}` : "",
+    },
+  };
+});
 
 export const client = new ApolloClient({
-  uri: 'http://localhost:5000/api/main', 
+  link: authLink.concat(httpLink),
+  credentials: "include",
   cache: new InMemoryCache(),
 });

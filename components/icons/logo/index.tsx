@@ -17,6 +17,7 @@ export default function Logo({ width, height, style }: LogoProperties) {
         width={width}
         height={height}
         className={`${style}`}
+        priority
       />
     </>
   );
