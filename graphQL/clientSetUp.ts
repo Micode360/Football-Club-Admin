@@ -3,7 +3,7 @@ import { setContext } from "@apollo/client/link/context";
 import { getToken } from "../utils/utilsFunctions";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:5000/api/main",
+  uri: process.env.NEXT_PUBLIC_API_PORT,
   credentials: "include",
 });
 
