@@ -7,7 +7,7 @@ import Logo from "@/components/icons/logo";
 import LetterPlane from "@/components/icons/letterPlane";
 import ColumnLayout from "@/components/layout/ColumnLayout";
 import FormikErrorResponse from "@/components/form/errorResponseformik";
-import Response from "../Response";
+import Response from "../Response/errorResponse";
 import SelectInput from "./selectInput";
 
 interface FormProperties {

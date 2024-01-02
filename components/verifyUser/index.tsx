@@ -12,7 +12,6 @@ interface alignProperties {
 export default function VerifyUser({ children }: alignProperties) {
   const { error, loading, data } = useQuery(AUTHORIZED_ACCESS);
   const router = useRouter();
-  console.log(data, "data");
 
   useEffect(() => {
     if (data && data.authorizedAccess === false) {

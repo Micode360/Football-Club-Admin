@@ -1,8 +1,15 @@
 import React from "react";
 import Image from "next/image";
 import { Dialog } from "@headlessui/react";
+import { toDate } from "@/utils/utilsFunctions";
 
-export default function AdminPreview() {
+interface previewDataProperties {
+  data: any;
+}
+
+export default function AdminPreview({ data }: previewDataProperties) {
+
+
   return (
     <div className="relative flex-col  justify-center text-left">
       <div className="relative">
@@ -17,7 +24,9 @@ export default function AdminPreview() {
           />
         </div>
         <img
-          src={"/mp.webp"}
+          src={
+            data.profilePic.imgUrl ? data.profilePic?.imgUrl : "/234567891.svg"
+          }
           className="rounded-full object-cover object-center absolute left-1/2 -translate-x-1/2 -bottom-8 border-[6px] border-white w-20 h-20"
           alt="profile photo"
         />
@@ -28,10 +37,12 @@ export default function AdminPreview() {
           className="mb-1 text-[1.5rem] text-center font-[800]"
           id="modal-headline"
         >
-          Jeremy Card
+          {data.firstName} {data.lastName}
         </Dialog.Title>
       </div>
-      <div className="text-gray-600 text-base text-center">{"Editor"}</div>
+      <div className="text-gray-600 text-base text-center">
+        {data.role.charAt(0).toUpperCase() + data.role.slice(1)}
+      </div>
 
       <div className="flex justify-center mt-2">
         <div className="grid md:grid-cols-2 gap-4 w-[90%]">
@@ -43,7 +54,19 @@ export default function AdminPreview() {
             >
               Country
             </Dialog.Title>
-            <p className="text-xs">{"Nigeria"}</p>
+            <div className="flex items-center">
+              {data.country.imgPath && (
+                <img
+                  src={data.country.imgPath}
+                  className="w-3 h-3 mr-1"
+                  alt="country"
+                />
+              )}
+
+              <p className="text-xs">
+                {data.country.value ? data.country.value : "unknown"}
+              </p>
+            </div>
           </div>
 
           <div className="border rounded-md p-4 shadow-md">
@@ -54,7 +77,7 @@ export default function AdminPreview() {
             >
               State
             </Dialog.Title>
-            <p className="text-xs">{"Lagos"}</p>
+            <p className="text-xs">{data.state ? data.state : "unknown"}</p>
           </div>
           <div className="border rounded-md p-4 shadow-md min-390">
             <Dialog.Title
@@ -64,7 +87,7 @@ export default function AdminPreview() {
             >
               City
             </Dialog.Title>
-            <p className="text-xs">{"Ikeja"}</p>
+            <p className="text-xs">{data.city ? data.city : "unknown"}</p>
           </div>
 
           <div className="border rounded-md p-4 shadow-md min-390">
@@ -75,7 +98,7 @@ export default function AdminPreview() {
             >
               First Seen
             </Dialog.Title>
-            <p className="text-xs">{"12 December 2023"}</p>
+            <p className="text-xs">{data.createdAt ? toDate(parseInt(data.createdAt, 10)) : "unknown"}</p>
           </div>
         </div>
       </div>
