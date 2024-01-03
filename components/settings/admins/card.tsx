@@ -35,7 +35,7 @@ export default function AdminCard({
         />
       </div>
       <h3 className="font-[700]">
-        {" "}
+        
         {currentUser ? "You" : `${data.firstName} ${data.lastName}`}
       </h3>
       <p className="text-gray-600 mb-2">
@@ -63,9 +63,7 @@ export default function AdminCard({
           style="!w-5 !h-5 text-gray-600 cursor-pointer"
         />
 
-        {userRole !== "Super Admin" ? (
-          ""
-        ) : (
+        {userRole === "Super Admin" && (
           <BinIcon
             type={"outline"}
             setOnClick={setState}

@@ -33,7 +33,7 @@ interface responseProps {
 
 export default function MyProfile() {
   const { myData, setMyData } = useContext(MyContext) ?? {};
-  const { profile } = myData;
+  const { profile, admins, role } = myData;
   const [updateUser] = useMutation(UPDATE_USER);
   const [status, setStatus] = useState<string>("");
   const [message, setMessage] = useState<any>({});
@@ -114,9 +114,18 @@ export default function MyProfile() {
       if (data.UpdateUser.status === 200) {
         setStatus("success");
         setResponse({ status: true, message: "User Updated", color: "green" });
+        const updateUserInAdmin = admins.filter(
+          (data: any) => data.id !== profile.id
+        );
+        updateUserInAdmin.push({
+          ...updatedProfile.input,
+          role: role,
+          createdAt: profile.createdAt,
+        });
         setMyData((prevData: any) => ({
           ...prevData,
           profile: updatedProfile.input,
+          admins: updateUserInAdmin,
         }));
       }
     } catch (error) {

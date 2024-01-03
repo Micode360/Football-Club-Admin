@@ -16,6 +16,7 @@ interface MyContextProps {
 
 const initialData: MyContextProps = {
   myData: {
+    role: "",
     profile: {},
     admins: [],
     league: [],
@@ -37,7 +38,7 @@ export default function UserContext({ children }: mainLayoutProperties) {
 
 useEffect(() => {
   if (!profileLoading && profile) {
-    setMyData((prevData:any) => ({ ...prevData, profile: profile.user }));
+    setMyData((prevData:any) => ({ ...prevData, profile: profile.user, role: profile.user.role }));
   }
 }, [setMyData, profileLoading, profile]);
 

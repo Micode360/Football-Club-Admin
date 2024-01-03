@@ -45,7 +45,7 @@ export default function NotiticationResponse({
                     ? "bg-custom_blue"
                     : "",
           }}
-          className={`flex items-center justify-between px-4 py-2 h-fit fixed top-[15%] left-1/2 -translate-x-1/2 z-[999999999] rounded-full ${style} text-white `}
+          className={`flex items-center justify-between text-center px-4 py-2 h-fit fixed top-[15%] left-1/2 -translate-x-1/2 z-[999999999] rounded-full ${style} text-white `}
         >
           <span className="mx-4">{isOpen.message}</span>
           <XIcon

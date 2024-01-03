@@ -1,54 +1,47 @@
 import { gql } from "@apollo/client";
 
+const userInfoFragment = gql`
+  fragment UserInfoFragment on User {
+    id
+    firstName
+    lastName
+    email
+    profilePic {
+      imgUrl
+      publicId
+    }
+    country {
+      imgPath
+      value
+    }
+    role
+    state
+    city
+    zipCode
+    createdAt
+  }
+`;
+
 export const AUTHORIZED_ACCESS = gql`
-  query Query {
+  query {
     authorizedAccess
   }
 `;
 
 export const USER_INFO = gql`
-  query ExampleQuery {
+  query {
     user {
-      id
-      firstName
-      lastName
-      email
-      profilePic {
-        imgUrl
-        publicId
-      }
-      country {
-        imgPath
-        value
-      }
-      role
-      state
-      city
-      zipCode
+      ...UserInfoFragment
     }
   }
+  ${userInfoFragment}
 `;
 
 export const USERS_INFO = gql`
-  query ExampleQuery {
+  query {
     users {
-      id
-      firstName
-      lastName
-      email
-      profilePic {
-        imgUrl
-        publicId
-      }
-      country {
-        imgPath
-        value
-      }
-      role
-      state
-      city
-      zipCode
-      createdAt
+      ...UserInfoFragment
     }
   }
+  ${userInfoFragment}
 `;
