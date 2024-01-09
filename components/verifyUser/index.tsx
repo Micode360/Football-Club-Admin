@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@apollo/client";
 import { AUTHORIZED_ACCESS } from "@/graphQL/queries";
 import Logo from "../icons/logo";
-import { getToken, removeToken } from "@/utils/utilsFunctions";
+
 
 interface alignProperties {
   children: React.ReactNode;

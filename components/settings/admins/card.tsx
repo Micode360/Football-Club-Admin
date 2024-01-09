@@ -7,16 +7,18 @@ import MessageIcon from "@/components/icons/messageIcon";
 interface AdminCardProps {
   currentUser?: boolean;
   userRole: string;
+  userId: string;
   data: any;
-  setState: () => void;
+  confirmDelete: () => void;
   setPreviewState: () => void;
 }
 
 export default function AdminCard({
+  userId,
   currentUser,
   userRole,
   data,
-  setState,
+  confirmDelete,
   setPreviewState,
 }: AdminCardProps) {
   const router = useRouter();
@@ -63,13 +65,14 @@ export default function AdminCard({
           style="!w-5 !h-5 text-gray-600 cursor-pointer"
         />
 
-        {userRole === "Super Admin" && (
-          <BinIcon
-            type={"outline"}
-            setOnClick={setState}
-            style="!w-5 !h-5 text-red-700 cursor-pointer"
-          />
-        )}
+      {(userRole === "Super Admin" || (userRole === "Admin" && data.id === userId)) && (
+        <BinIcon
+          type={"outline"}
+          setOnClick={confirmDelete}
+          style="!w-5 !h-5 text-red-700 cursor-pointer"
+        />
+      )}
+
       </div>
     </div>
   );

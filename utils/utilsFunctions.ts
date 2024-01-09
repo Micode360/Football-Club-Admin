@@ -22,7 +22,6 @@ export const getToken = (name: string) => cookies.get(name);
 export const removeToken = (name: string) => cookies.remove(name);
 
 export const LogOut = () => {
-  console.log("Log out function keeps running");
   cookies.remove("asstkn");
   return (window.location.href = "/signin");
 };
@@ -66,7 +65,7 @@ export const fetchCountry = (setState: any) => {
   fetch("https://restcountries.com/v3.1/all?fields=name,flags")
     .then((response) => response.json())
     .then((data) => {
-      let mappingCountry = data.map((item: any) => ({
+      const mappingCountry = data.map((item: any) => ({
         imagePath: item.flags.png,
         value: item.name.common,
       }));

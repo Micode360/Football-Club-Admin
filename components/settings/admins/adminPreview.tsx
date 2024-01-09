@@ -5,10 +5,19 @@ import { toDate } from "@/utils/utilsFunctions";
 
 interface previewDataProperties {
   data: any;
+  userId: string;
+  setTransferRoleModal:any;
+  setPreviewModal:any;
 }
 
-export default function AdminPreview({ data }: previewDataProperties) {
-
+export default function AdminPreview({ data, userId, setTransferRoleModal, setPreviewModal }: previewDataProperties) {
+  
+  const handleRoleAssign = () => {
+    setPreviewModal(false)
+    setTimeout(() => {
+      setTransferRoleModal(true)
+    }, 3000);
+  }
 
   return (
     <div className="relative flex-col  justify-center text-left">
@@ -43,6 +52,14 @@ export default function AdminPreview({ data }: previewDataProperties) {
       <div className="text-gray-600 text-base text-center">
         {data.role.charAt(0).toUpperCase() + data.role.slice(1)}
       </div>
+
+      {data.role === "Super Admin" && data.id === userId && (
+        <div className="flex items-center justify-center py-2">
+          <button onClick={handleRoleAssign} className="px-2 outline-none bg-[#27528a] hover:bg-[#2e60a1] active:bg-[#244b7e] text-white text-xs rounded py-1">
+            Transfer Role
+          </button>
+        </div>
+      )}
 
       <div className="flex justify-center mt-2">
         <div className="grid md:grid-cols-2 gap-4 w-[90%]">
@@ -98,7 +115,11 @@ export default function AdminPreview({ data }: previewDataProperties) {
             >
               First Seen
             </Dialog.Title>
-            <p className="text-xs">{data.createdAt ? toDate(parseInt(data.createdAt, 10)) : "unknown"}</p>
+            <p className="text-xs">
+              {data.createdAt
+                ? toDate(parseInt(data.createdAt, 10))
+                : "unknown"}
+            </p>
           </div>
         </div>
       </div>

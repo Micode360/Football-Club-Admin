@@ -60,3 +60,25 @@ export const DELETE_USER = gql`
     }
   }
 `;
+
+export const TRANSFER_ROLE = gql`
+    mutation Mutation($input: useId!) {
+      TransferRole(input: $input) {
+        success
+        status
+        message
+        value
+      }
+    }
+`;
+
+export const UPDATE_PASSWORD = gql`
+    mutation Mutation($input: ChangePassword!) {
+      UpdatePassword(input: $input) {
+        success
+        status
+        message
+        value
+      }
+    }
+`;

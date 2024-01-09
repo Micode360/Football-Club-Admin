@@ -1,5 +1,6 @@
 "use client";
 import React, { ReactNode, createContext, useState, useEffect } from "react";
+import _ from 'lodash';
 import { useQuery, useSubscription  } from "@apollo/client";
 import { USER_INFO, USERS_INFO } from "@/graphQL/queries";
 //import { USER_UPDATED } from "@/graphQL/subscriptions";
@@ -38,13 +39,15 @@ export default function UserContext({ children }: mainLayoutProperties) {
 
 useEffect(() => {
   if (!profileLoading && profile) {
-    setMyData((prevData:any) => ({ ...prevData, profile: profile.user, role: profile.user.role }));
+    const deepCopiedProfile = _.cloneDeep(profile.user);
+    setMyData((prevData:any) => ({ ...prevData, profile: deepCopiedProfile, role: deepCopiedProfile.role }));
   }
 }, [setMyData, profileLoading, profile]);
 
 useEffect(() => {
   if (!adminsLoading && admins) {
-    setMyData((prevData:any) => ({ ...prevData, admins: admins.users }));
+    const deepCopiedAdmins = _.cloneDeep(admins.users);
+    setMyData((prevData:any) => ({ ...prevData, admins: deepCopiedAdmins}));
   }
 }, [setMyData, adminsLoading, admins]);
 
