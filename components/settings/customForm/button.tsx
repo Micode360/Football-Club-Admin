@@ -1,8 +1,9 @@
 interface settingsButtonProperties {
   formik?: any;
+  status: string;
 }
 
-export default function SettingsButton({ formik }: settingsButtonProperties) {
+export default function SettingsButton({ formik, status }: settingsButtonProperties) {
   const handleDiscard = () => formik.resetForm();
   const handleSave = () => formik.handleSubmit();
 
@@ -20,7 +21,13 @@ export default function SettingsButton({ formik }: settingsButtonProperties) {
         onClick={handleSave}
         className="bg-custom_blue text-white text-xs shadow-md border border-custom_blue py-2 px-4 rounded cursor-pointer"
       >
-        Save
+        
+        { status === "pending"?
+          <div className="boxes_loader mx-2 !h-[16px] scale-[0.7] !left-[-28px]"></div>
+          :status === "success"?
+          "Save"
+          :"Save"
+        }
       </button>
     </div>
   );

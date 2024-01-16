@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@apollo/client";
 import { AUTHORIZED_ACCESS } from "@/graphQL/queries";
 import Logo from "../icons/logo";
-import { getToken, removeToken } from "@/utils/utilsFunctions";
+
 
 interface alignProperties {
   children: React.ReactNode;
@@ -12,7 +12,6 @@ interface alignProperties {
 export default function VerifyUser({ children }: alignProperties) {
   const { error, loading, data } = useQuery(AUTHORIZED_ACCESS);
   const router = useRouter();
-  console.log(data, "data");
 
   useEffect(() => {
     if (data && data.authorizedAccess === false) {

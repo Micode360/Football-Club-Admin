@@ -1,14 +1,27 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, createHttpLink, InMemoryCache, split } from "@apollo/client";
+import { getMainDefinition } from '@apollo/client/utilities';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
 import { setContext } from "@apollo/client/link/context";
 import { getToken } from "../utils/utilsFunctions";
+
+
+const accessToken = getToken("asstkn");
 
 const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_API_PORT,
   credentials: "include",
 });
 
+const wsLink = new GraphQLWsLink(createClient({
+  url: 'ws://localhost:5000/graphql',
+  connectionParams: {
+    authToken: accessToken,
+  },
+}));
+
 const authLink = setContext((_, { headers }) => {
-  const accessToken = getToken("asstkn");
+
 
   return {
     headers: {
@@ -18,8 +31,17 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+  },
+  wsLink,
+  authLink.concat(httpLink),
+);
+
 export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: splitLink,
   credentials: "include",
   cache: new InMemoryCache(),
 });

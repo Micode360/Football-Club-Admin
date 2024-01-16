@@ -25,9 +25,14 @@ export default function AddLeague() {
 
   const handleLogoImage: any = () => {
     if (!preview.logo) return "";
+
+    const isFileOrBlob = (value: any): value is File | Blob => {
+      return value instanceof File || value instanceof Blob;
+    };
+
     return (
       <Image
-        src={URL.createObjectURL(preview.logo)}
+        src={!preview.logo? "":isFileOrBlob(preview.logo)? URL.createObjectURL(preview.logo):preview.logo}
         className="bg-white rounded-md"
         alt="league_logo"
         width={200}
@@ -85,7 +90,7 @@ export default function AddLeague() {
             {preview.country.imgPath !== "" && (
               <Image
                 className="mr-2"
-                src={preview.country.imgPath}
+                src={!preview.country.imgPath? "": preview.country.imgPath}
                 alt="league_logo"
                 width={20}
                 height={20}

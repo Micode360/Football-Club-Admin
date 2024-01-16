@@ -1,8 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Form from "@/components/form";
 import { useFormik } from "formik";
 import { updatePasswordInputprops } from "../utils/formProps";
 import SettingsButton from "../customForm/button";
+import { useMutation } from "@apollo/client";
+import { UPDATE_PASSWORD } from "@/graphQL/mutations";
+import { MyContext } from "@/components/layout/userContext";
+import NotiticationResponse from "@/components/Response/notiticationResponse";
 
 type inputProperties = {
   currentPassword: string;
@@ -10,9 +14,24 @@ type inputProperties = {
   confirmPassword: string;
 };
 
+interface responseProps {
+  status: boolean | string;
+  message: string;
+  color: string;
+}
+
 export default function UpdatePassword() {
   const [status, setStatus] = useState<string>("");
   const [message, setMessage] = useState<any>({});
+  const [updatePassword] = useMutation(UPDATE_PASSWORD);
+  const {
+    myData: { profile },
+  } = useContext(MyContext);
+  const [response, setResponse] = useState<responseProps>({
+    status: false,
+    message: "",
+    color: "",
+  });
 
   const formValues = {
     currentPassword: "",
@@ -23,7 +42,45 @@ export default function UpdatePassword() {
   const onSubmit = async (values: inputProperties) => {
     setMessage({});
     setStatus("pending");
-    console.log(values, "submit");
+    const { currentPassword, newPassword, confirmPassword } = values;
+    if (newPassword !== confirmPassword) {
+      setStatus("");
+      return setResponse({
+        status: true,
+        message: "New passwords don't match",
+        color: "red",
+      });
+    }
+
+    try {
+      const { data } = await updatePassword({
+        variables: {
+          input: {
+            id: profile.id,
+            password: newPassword,
+            currentPassword,
+          },
+        },
+      });
+
+      if (data.UpdatePassword.status === 200) {
+        setStatus("");
+        setResponse({
+          status: true,
+          message: "Password updated.",
+          color: "green",
+        });
+      } else {
+        setStatus("");
+        setResponse({
+          status: true,
+          message: data.UpdatePassword.message,
+          color: "red",
+        });
+      }
+    } catch (error: any) {
+      setMessage({ type: "error", message: "Internal Server Error" });
+    }
   };
 
   const formik = useFormik<inputProperties>({
@@ -47,8 +104,9 @@ export default function UpdatePassword() {
         status={status}
         message={message}
         inputs={updatePasswordInputprops}
-        bottomCustomInput={<SettingsButton formik={formik} />}
+        bottomCustomInput={<SettingsButton formik={formik} status={status} />}
       />
+      <NotiticationResponse isOpen={response} setIsOpen={setResponse} />
     </div>
   );
 }

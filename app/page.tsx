@@ -9,45 +9,11 @@ import SideBar from "@/components/sidebar";
 import ShieldIcon from "@/components/icons/shield";
 import StatsCard from "@/components/statsCard";
 import { gql } from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/client";
-import { MyContext } from "@/components/layout/mainLayout";
 import NewsCarousel from "@/components/newsCarousel";
 import NewsCard from "@/components/news/news-card";
 
-const GET_SOME_DATA = gql`
-  query ExampleQuery {
-    user {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
-
-const AUTHORIZED_ACCESS = gql`
-  query Query {
-    authorizedAccess
-  }
-`;
 
 export default function Home() {
-  const { loading, error, data } = useQuery(GET_SOME_DATA);
-  const authorized = useQuery(AUTHORIZED_ACCESS);
-  // const [createUser] = useMutation(CREATE_USER);
-  const { myData, updateData } = useContext(MyContext);
-
-  const handleUpdateData = () => {
-    updateData("New data from OtherComponent");
-  };
-
-  useEffect(() => {
-    updateData("newdata updated");
-  }, []);
-
-  console.log({ loading, error, data }, "graphic ql");
-
-  console.log(myData, "MyContext");
 
   return (
     <VerifyUser>

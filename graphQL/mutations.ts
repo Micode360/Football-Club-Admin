@@ -40,3 +40,45 @@ export const CHANGE_PASSWORD = gql`
     }
   }
 `;
+
+export const UPDATE_USER = gql`
+  mutation Mutation($input: UserInput!) {
+    UpdateUser(input: $input) {
+      message
+      status
+      success
+      value
+    }
+  }
+`;
+
+export const DELETE_USER = gql`
+  mutation Mutation($input: Delete!) {
+    DeleteUser(input: $input) {
+      message
+      status
+    }
+  }
+`;
+
+export const TRANSFER_ROLE = gql`
+    mutation Mutation($input: useId!) {
+      TransferRole(input: $input) {
+        success
+        status
+        message
+        value
+      }
+    }
+`;
+
+export const UPDATE_PASSWORD = gql`
+    mutation Mutation($input: ChangePassword!) {
+      UpdatePassword(input: $input) {
+        success
+        status
+        message
+        value
+      }
+    }
+`;

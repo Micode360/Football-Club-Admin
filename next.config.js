@@ -3,7 +3,7 @@
 const nextConfig = {
   presets: ["next/babel"],
   images: {
-    domains: ["flagcdn.com", "upload.wikimedia.org"],
+    domains: ["flagcdn.com", "upload.wikimedia.org", "res.cloudinary.com"],
   },
 };
 

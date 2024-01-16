@@ -1,27 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MyContext } from "@/components/layout/userContext";
 
 interface imgUploadProperties {
   formik?: any;
 }
 
 export default function ImageUpload({ formik }: imgUploadProperties) {
+  const { profile } = useContext(MyContext)?.myData;
   const fileUpload: any = (event: any) => {
     const selectedFile = event.currentTarget.files[0];
 
     if (selectedFile) {
-      const objectUrl = URL.createObjectURL(selectedFile);
       formik.setFieldValue("profilePic", selectedFile);
     }
   };
 
+  const profilePicUrl = !formik.values.profilePic
+    ? "/234567891.svg"
+    : profile?.profilePic?.imgUrl ===
+        formik.values.profilePic
+      ? formik.values.profilePic
+      : formik.values.profilePic instanceof Blob
+        ? URL.createObjectURL(formik.values.profilePic)
+        : "/234567891.svg";
+
   return (
     <div className="flex items-center mb-2">
       <img
-        src={
-          formik.values.profilePic
-            ? URL.createObjectURL(formik.values.profilePic)
-            : "/234567891.svg"
-        }
+        src={profilePicUrl}
         className="rounded-md object-cover object-center w-20 h-20"
         alt="profile photo"
       />
