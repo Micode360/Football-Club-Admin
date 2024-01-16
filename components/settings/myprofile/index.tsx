@@ -78,9 +78,9 @@ export default function MyProfile() {
       formData.append("upload", profilePic);
 
       const imgUrlFromProfile = profile.profilePic?.imgUrl;
-      const isImgUrlEqual = imgUrlFromProfile === profilePic;
+      const isImgUrlEqualToProfilePic = imgUrlFromProfile === profilePic;
 
-      const imageResponse: any = isImgUrlEqual
+      const imageResponse: any = isImgUrlEqualToProfilePic
         ? ""
         : await axios.post(
             `${process.env.NEXT_PUBLIC_IMG_PORT}/api/upload`,

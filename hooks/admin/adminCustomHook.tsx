@@ -1,7 +1,7 @@
-import { useMutation } from '@apollo/client';
-import { MyContext } from '@/components/layout/userContext';
-import { useState, useContext } from 'react';
-import { DELETE_USER, TRANSFER_ROLE } from '@/graphQL/mutations';
+import { useMutation } from "@apollo/client";
+import { MyContext } from "@/components/layout/userContext";
+import { useState, useContext } from "react";
+import { DELETE_USER, TRANSFER_ROLE } from "@/graphQL/mutations";
 import { removeToken } from "@/utils/utilsFunctions";
 
 interface ResponseProps {
@@ -13,7 +13,10 @@ interface ResponseProps {
 export const useAdminFunctions = () => {
   const [deleteUser] = useMutation(DELETE_USER);
   const [transferRole] = useMutation(TRANSFER_ROLE);
-  const { myData: { admins, profile }, setMyData } = useContext(MyContext);
+  const {
+    myData: { admins, profile },
+    setMyData,
+  } = useContext(MyContext);
   const [isModal, setIsModal] = useState<boolean>(false);
   const [modalValue, setModalValue] = useState<any>({});
   const [previewModal, setPreviewModal] = useState<boolean>(false);
@@ -22,20 +25,19 @@ export const useAdminFunctions = () => {
   const [searchValue, setSearchValue] = useState("");
   const [response, setResponse] = useState<ResponseProps>({
     status: false,
-    message: '',
-    color: '',
+    message: "",
+    color: "",
   });
 
-
-  const handleAssign = async (id:string) => {
+  const handleAssign = async (id: string) => {
     setResponse({ ...response, status: "pending" });
 
     try {
       const { data } = await transferRole({
         variables: {
           input: {
-              id,
-              userId: profile.id
+            id,
+            userId: profile.id,
           },
         },
       });
@@ -47,17 +49,15 @@ export const useAdminFunctions = () => {
           color: "green",
         });
 
-
-        
         setMyData((prevData: any) => ({
           ...prevData,
           profile: { ...prevData.profile, role: "Admin" },
-          role: "Admin"
+          role: "Admin",
         }));
 
-        const filteredUsers = [...admins].filter((data:any) => {
-          if(data.id === id) data.role = "Super Admin";
-          else if(data.id === profile.id) data.role = "Admin";
+        const filteredUsers = [...admins].filter((data: any) => {
+          if (data.id === id) data.role = "Super Admin";
+          else if (data.id === profile.id) data.role = "Admin";
           return data;
         });
         setMyData((prevData: any) => ({ ...prevData, admins: filteredUsers }));
@@ -73,7 +73,6 @@ export const useAdminFunctions = () => {
   };
 
   const handleDelete = async (id: string, imgId: string) => {
-  
     setResponse({ ...response, status: "pending" });
     try {
       const { data } = await deleteUser({
@@ -94,11 +93,10 @@ export const useAdminFunctions = () => {
           color: "green",
         });
 
-
-        if(data.DeleteUser.message === 'Account deleted'){
-           removeToken('asstkn');
-           return window.location.href = '/signin'
-        };
+        if (data.DeleteUser.message === "Account deleted") {
+          removeToken("asstkn");
+          return (window.location.href = "/signin");
+        }
 
         const filteredUsers = [...admins].filter((data) => data.id !== id);
         setMyData((prevData: any) => ({ ...prevData, admins: filteredUsers }));
@@ -114,60 +112,58 @@ export const useAdminFunctions = () => {
   };
 
   const sortedAndFilterAdmins = [...admins]
-  .sort((a, b) => {
-    return profile.id === b.id ? 1 : profile.id === a.id ? -1 : 0;
-  })
-  .filter((data: any) =>
-    searchValue === ""
-      ? data
-      : `${data.firstName.toLowerCase()} ${data.lastName.toLowerCase()}`.includes(
-          searchValue.toLowerCase()
-        )
-  );
+    .sort((a, b) => {
+      return profile.id === b.id ? 1 : profile.id === a.id ? -1 : 0;
+    })
+    .filter((data: any) =>
+      searchValue === ""
+        ? data
+        : `${data.firstName.toLowerCase()} ${data.lastName.toLowerCase()}`.includes(
+            searchValue.toLowerCase()
+          )
+    );
 
-const modalDescription = (type: string) => {
-  switch (type) {
-    case "delete":
-      return `Are you sure you want to delete ${
-        modalValue?.isCurrentUser ? "your" : "this"
-      } account?`;
-      break;
-    case "assign":
-      return `Are you sure you want transfer your role to ${modalValue?.username}?`;
-      break;
+  const modalDescription = (type: string) => {
+    switch (type) {
+      case "delete":
+        return `Are you sure you want to delete ${
+          modalValue?.isCurrentUser ? "your" : "this"
+        } account?`;
+        break;
+      case "assign":
+        return `Are you sure you want transfer your role to ${modalValue?.username}?`;
+        break;
 
-    default:
-      return "";
-      break;
-  }
-};
+      default:
+        return "";
+        break;
+    }
+  };
 
-const modalAction = (type: string) => {
-  switch (type) {
-    case "delete":
-      setIsModal(false);
-      handleDelete(modalValue.id, modalValue.imgId);
-      return;
-    case "assign":
-      setIsModal(false);
-      handleAssign(modalValue.id);
-      return;
-    default:
-      break;
-  }
-};
+  const modalAction = (type: string) => {
+    switch (type) {
+      case "delete":
+        setIsModal(false);
+        handleDelete(modalValue.id, modalValue.imgId);
+        return;
+      case "assign":
+        setIsModal(false);
+        handleAssign(modalValue.id);
+        return;
+      default:
+        break;
+    }
+  };
 
-
-const confirmDelete = (isCurrentUser:boolean, data:any) => {
-  setIsModal(true);
-  setModalValue({
-    type: "delete",
-    isCurrentUser,
-    id: data.id,
-    imgId: data?.profilePic?.publicId,
-  });
-}
-
+  const confirmDelete = (isCurrentUser: boolean, data: any) => {
+    setIsModal(true);
+    setModalValue({
+      type: "delete",
+      isCurrentUser,
+      id: data.id,
+      imgId: data?.profilePic?.publicId,
+    });
+  };
 
   return {
     isModal,
@@ -189,6 +185,6 @@ const confirmDelete = (isCurrentUser:boolean, data:any) => {
     modalDescription,
     modalAction,
     confirmDelete,
-    sortedAndFilterAdmins
+    sortedAndFilterAdmins,
   };
 };

@@ -65,10 +65,15 @@ export const fetchCountry = (setState: any) => {
   fetch("https://restcountries.com/v3.1/all?fields=name,flags")
     .then((response) => response.json())
     .then((data) => {
+      const england = { 
+        imagePath: 'https://res.cloudinary.com/dw86qaw6y/image/upload/v1704913988/istockphoto-967320970-612x612_fnlx2i.jpg',
+        value: 'England'
+      }
       const mappingCountry = data.map((item: any) => ({
         imagePath: item.flags.png,
         value: item.name.common,
       }));
+      mappingCountry.push(england);
       setState(mappingCountry);
     });
 };

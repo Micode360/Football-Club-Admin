@@ -1,10 +1,17 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useSearchParams } from "next/navigation";
 import * as Yup from "yup";
+import axios from "axios";
 import { useFormik } from "formik";
 import Form from "@/components/form";
+import { useMutation } from "@apollo/client";
+import { ADD_LEAGUE, EDIT_LEAGUE } from "@/graphQL/mutations/leagues/index";
 import { leagueInputprops } from "@/utils/constantdatas";
 import ColorPickerGrid from "./ColorPickerGrid";
+import { fetchCountry } from "@/utils/utilsFunctions";
+import { MyContext } from "@/components/layout/userContext";
+import NotiticationResponse from "@/components/Response/notiticationResponse";
 
 interface NewsFormProperties {
   setPreview: React.Dispatch<React.SetStateAction<any>>;
@@ -14,7 +21,7 @@ type inputProperties = {
   name: string;
   description: string;
   country: { imgPath: string; value: string };
-  logo: null;
+  logo: string | Blob;
   website: string;
   facebook: string;
   xlink: string;
@@ -24,16 +31,34 @@ type inputProperties = {
   toColor: string;
 };
 
+interface responseProps {
+  status: boolean | string;
+  message: string;
+  color: string;
+}
+
 export default function LeagueForm({ setPreview }: NewsFormProperties) {
+  const searchParams = useSearchParams();
+  const editId = searchParams.get("edit");
+  const { myData, setMyData } = useContext(MyContext) ?? {};
+  const { profile, leagues, role } = myData;
+  const [addLeague] = useMutation(ADD_LEAGUE);
+  const [editLeague] = useMutation(EDIT_LEAGUE);
   const [status, setStatus] = useState<string>("");
   const [message, setMessage] = useState<any>({});
   const [country, setCountry] = useState([]);
+  const [editLogoId, setEditLogoId] = useState("");
+  const [response, setResponse] = useState<responseProps>({
+    status: false,
+    message: "",
+    color: "",
+  });
 
   const formValues = {
     name: "",
     description: "",
     country: { imgPath: "", value: "" },
-    logo: null,
+    logo: "",
     website: "",
     facebook: "",
     xlink: "",
@@ -50,8 +75,100 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
   });
 
   const onSubmit = async (values: inputProperties) => {
-    setMessage({});
-    setStatus("pending");
+    const {
+      name,
+      logo,
+      country,
+      description,
+      website,
+      facebook,
+      xlink,
+      instagram,
+      youtube,
+      fromColor,
+      toColor,
+    } = values;
+
+    try {
+      setMessage({});
+      setStatus("pending");
+
+      const formData = new FormData();
+      formData.append("upload", logo);
+
+      let imageResponse: any;
+
+      if (typeof logo === "object") {
+        imageResponse = await axios.post(
+          `${process.env.NEXT_PUBLIC_IMG_PORT}/api/upload`,
+          formData
+        );
+      } else {
+        imageResponse = "";
+      }
+
+      const img: any = imageResponse?.data || {};
+      const leagueValues = {
+        input: {
+          id: profile?.id,
+          leagueId: editId !== "" ? editId : "",
+          name,
+          logo: {
+            publicId: !img.public_id ? editLogoId : img.public_id,
+            imgUrl: !img.url ? logo : img.url,
+          },
+          country,
+          description,
+          website,
+          socials: {
+            facebook,
+            xlink,
+            instagram,
+            youtube,
+          },
+          backgroundGradient: {
+            fromColor,
+            toColor,
+          },
+        },
+      };
+
+      const { data } =
+        editId && editId !== ""
+          ? await editLeague({
+              variables: leagueValues,
+            })
+          : await addLeague({
+              variables: leagueValues,
+            });
+
+      if (data?.AddLeague?.status === 200 || data?.EditLeague?.status === 200) {
+        setStatus("");
+        setResponse({
+          status: true,
+          message: !editId || editId === "" ?  "League Added": "League Updated",
+          color: "green",
+        });
+
+        let newOrUpdatedLeague:any;
+
+        if(editId !== ""){
+          newOrUpdatedLeague = leagues.filter((league: any) => league.id !== editId);
+          newOrUpdatedLeague.push(leagueValues.input);
+        }else newOrUpdatedLeague = leagues.push(leagueValues.input);
+        setMyData((prevData: any) => ({
+          ...prevData,
+          leagues: newOrUpdatedLeague,
+        }));
+      }
+    } catch (error: any) {
+      setResponse({
+        status: true,
+        message: "Something went wrong",
+        color: "red",
+      });
+      setStatus("error");
+    }
   };
 
   const formik = useFormik<inputProperties>({
@@ -60,10 +177,12 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
     validate: (values: any) => {
       if (values.logo) {
         if (values.logo.size > 1024 * 1024 * 5) {
-          setMessage({
-            response: "File size must be less than 5MB",
+          setResponse({
+            status: false,
+            message: "File size must be less than 5MB",
+            color: "red",
           });
-          setStatus("error");
+          setStatus("");
           return Promise.reject();
         }
       }
@@ -78,38 +197,51 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
   });
 
   useEffect(() => {
-    formik.setValues(formValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (editId && editId !== "") {
+      const league = leagues.filter((league: any) => league.id === editId)[0];
+      setEditLogoId(league?.logo?.publicId);
+      formik.setValues({
+        name: league?.name || "",
+        description: league?.description || "",
+        country: {
+          imgPath: league?.country?.imgPath || "",
+          value: league?.country?.value || "",
+        },
+        logo: league?.logo?.imgUrl || "",
+        website: league?.website || "",
+        facebook: league?.socials?.facebook || "",
+        xlink: league?.socials?.xlink || "",
+        instagram: league?.socials?.instagram || "",
+        youtube: league?.socials?.youtube || "",
+        fromColor: league?.backgroundGradient?.fromColor || "",
+        toColor: league?.backgroundGradient?.toColor || "",
+      });
+    } else formik.setValues(formValues);
+  }, [editId, leagues]);
 
   useEffect(() => {
-    fetch("https://restcountries.com/v3.1/all?fields=name,flags")
-      .then((response) => response.json())
-      .then((data) => {
-        let mappingCountry = data.map((item: any) => ({
-          imagePath: item.flags.png,
-          value: item.name.common,
-        }));
-        setCountry(mappingCountry);
-      });
+    fetchCountry(setCountry);
   }, []);
 
   return (
-    <div className="bg-white">
-      <Form
-        style="!px-0 !py-0"
-        formik={formik}
-        arr={country}
-        status={status}
-        message={message}
-        inputs={leagueInputprops}
-        inputStyle="focus:border-[2px] focus:border-custom_orange"
-        bottomCustomInput={<ColorPickerGrid formik={formik} />}
-        button={{
-          type: "submit",
-          text: "Submit",
-        }}
-      />
-    </div>
+    <>
+      <div className="bg-white">
+        <Form
+          style="!px-0 !py-0"
+          formik={formik}
+          arr={country}
+          status={status}
+          message={message}
+          inputs={leagueInputprops}
+          inputStyle="focus:border-[2px] focus:border-custom_orange"
+          bottomCustomInput={<ColorPickerGrid formik={formik} />}
+          button={{
+            type: "submit",
+            text: "Submit",
+          }}
+        />
+      </div>
+      <NotiticationResponse isOpen={response} setIsOpen={setResponse} />
+    </>
   );
 }

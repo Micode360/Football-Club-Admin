@@ -168,13 +168,13 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-      <ModalWrapper
+      {/* <ModalWrapper
         isOpen={previewModal}
         setIsOpen={setPreviewModal}
         style={"!px-0 !pt-12"}
       >
-        <SubAdminPreview />
-      </ModalWrapper>
+        <SubAdminPreview data={undefined} userId={""} setTransferRoleModal={undefined} setPreviewModal={undefined} />
+      </ModalWrapper> */}
     </>
   );
 }
