@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import EllipsisIcon from "../icons/ellipsisIcon";
@@ -6,6 +6,7 @@ import leagueHooksAndProps from "@/hooks/leagues/leagueCustomHooks";
 import DropDownMenu from "../dropDownMenu";
 import Modal from "../modal";
 import ExIcon from "../icons/exclamationIcon";
+import { MyContext } from "@/components/layout/userContext";
 import NotiticationResponse from "../Response/notiticationResponse";
 
 interface CardProperties {
@@ -29,6 +30,7 @@ export default function LeagueCard({
   toColor,
   imgPath,
 }: CardProperties) {
+  const { myData: { role }} = useContext(MyContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [onClickData, setOnClickData] = useState("");
   const {
@@ -92,22 +94,26 @@ export default function LeagueCard({
           priority
         />
 
-        <span
-          className="league-card absolute top-2 right-1 w-fit cursor-pointer"
-          onClick={(e:any) => {
-            setShowDropdown(!showDropdown);
-            setOnClickData(e.target.className);
-          }}
-        >
-          <EllipsisIcon property={"horizontal"} />
-          <DropDownMenu
-            data={leagueDropDownData(id, imgId)}
-            showDropdown={showDropdown}
-            setShowDropdown={setShowDropdown}
-            onClickData={onClickData}
-            style="!w-[8rem] text-black rounded right-0 md:right-none bg-white z-[2]"
-          />
-        </span>
+
+        {role === "Super Admin" && (
+            <span
+            className="league-card absolute top-2 right-1 w-fit cursor-pointer"
+            onClick={(e:any) => {
+              setShowDropdown(!showDropdown);
+              setOnClickData(e.target.className);
+            }}
+            >
+            <EllipsisIcon property={"horizontal"} />
+            <DropDownMenu
+              data={leagueDropDownData(id, imgId)}
+              showDropdown={showDropdown}
+              setShowDropdown={setShowDropdown}
+              onClickData={onClickData}
+              style="!w-[8rem] text-black rounded right-0 md:right-none bg-white z-[2]"
+            />
+            </span>
+        )}
+       
       </div>
       <Modal
         isOpen={isModal}

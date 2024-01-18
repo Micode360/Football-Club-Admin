@@ -1,4 +1,5 @@
 "use client";
+import React, { useContext } from "react";
 import { useSearchParams } from "next/navigation";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import VerifyUser from "@/components/verifyUser";
@@ -7,11 +8,13 @@ import SideBar from "@/components/sidebar";
 import Tabs from "@/components/navbar/tabs";
 import LeagueList from "@/components/leagues/leagueList";
 import AddLeague from "@/components/leagues/addLeague";
+import { MyContext } from "@/components/layout/userContext";
 
 export default function Leagues() {
+  const { myData: { role }} = useContext(MyContext);
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "";
-  const headers = ["Leagues", "Add League"];
+  const headers = ["Leagues", role === "Super Admin"? "Add League":""];
   const components = [<LeagueList />, <AddLeague />];
 
   return (
