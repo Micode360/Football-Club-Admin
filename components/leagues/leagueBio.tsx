@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import FacebookIcon from "../icons/socials/facebook";
@@ -11,6 +11,7 @@ import DropDownMenu from "../dropDownMenu";
 import leagueHooksAndProps from "@/hooks/leagues/leagueCustomHooks";
 import Modal from "../modal";
 import ExIcon from "../icons/exclamationIcon";
+import { MyContext } from "@/components/layout/userContext";
 import NotiticationResponse from "../Response/notiticationResponse";
 
 interface leagueBioProps {
@@ -18,6 +19,9 @@ interface leagueBioProps {
 }
 
 export default function LeagueBio({ league }: leagueBioProps) {
+  const {
+    myData: { role },
+  } = useContext(MyContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [onClickData, setOnClickData] = useState("");
   const {
@@ -64,25 +68,27 @@ export default function LeagueBio({ league }: leagueBioProps) {
               className={`absolute top-0 bottom-[-12px] right-0 w-[40%]`}
               priority
             />
-            <span
-              className="league-edit absolute top-2 right-2 w-fit"
-              onClick={(e: any) => {
-                setShowDropdown(!showDropdown);
-                setOnClickData(e.target.className);
-              }}
-            >
-              <EllipsisIcon
-                property={"circle"}
-                style="bg-white text-black rounded-full cursor-pointer opacity-85 z-[50]"
-              />
-              <DropDownMenu
-                data={leagueDropDownData(league?.id, league?.logo?.publicId)}
-                showDropdown={showDropdown}
-                setShowDropdown={setShowDropdown}
-                onClickData={onClickData}
-                style="!w-[8rem] text-black rounded right-0 md:right-none bg-white z-[2]"
-              />
-            </span>
+            {role === "Super Admin" && (
+              <span
+                className="league-edit absolute top-2 right-2 w-fit"
+                onClick={(e: any) => {
+                  setShowDropdown(!showDropdown);
+                  setOnClickData(e.target.className);
+                }}
+              >
+                <EllipsisIcon
+                  property={"circle"}
+                  style="bg-white text-black rounded-full cursor-pointer opacity-85 z-[50]"
+                />
+                <DropDownMenu
+                  data={leagueDropDownData(league?.id, league?.logo?.publicId)}
+                  showDropdown={showDropdown}
+                  setShowDropdown={setShowDropdown}
+                  onClickData={onClickData}
+                  style="!w-[8rem] text-black rounded right-0 md:right-none bg-white z-[2]"
+                />
+              </span>
+            )}
           </div>
           <div className="bg-white p-4 rounded-b-md">
             <h2 className="font-[700] text-[1.2rem] text-gray-800 mb-4">

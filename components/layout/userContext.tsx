@@ -58,8 +58,6 @@ useEffect(()=>{
   if (!leaguesLoading && leaguesData) setMyData((prevData:any) => ({...prevData, leagues: deepCopiedLeagues}));
 },[setMyData, leaguesLoading, leaguesData])
 
-console.log(myData, "myData")
-
 
   return (
         <MyContext.Provider value={{ myData, setMyData }}>

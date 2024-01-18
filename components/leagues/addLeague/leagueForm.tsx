@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter ,useSearchParams } from "next/navigation";
 import * as Yup from "yup";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -12,6 +12,8 @@ import ColorPickerGrid from "./ColorPickerGrid";
 import { fetchCountry } from "@/utils/utilsFunctions";
 import { MyContext } from "@/components/layout/userContext";
 import NotiticationResponse from "@/components/Response/notiticationResponse";
+import MyOnPageLoader from "@/components/loader";
+import { convertCollapsedSelection } from "@ckeditor/ckeditor5-engine/src/conversion/downcasthelpers";
 
 interface NewsFormProperties {
   setPreview: React.Dispatch<React.SetStateAction<any>>;
@@ -38,10 +40,10 @@ interface responseProps {
 }
 
 export default function LeagueForm({ setPreview }: NewsFormProperties) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get("edit");
-  const { myData, setMyData } = useContext(MyContext) ?? {};
-  const { profile, leagues, role } = myData;
+  const { myData: { profile, leagues, role } , setMyData } = useContext(MyContext) ?? {};
   const [addLeague] = useMutation(ADD_LEAGUE);
   const [editLeague] = useMutation(EDIT_LEAGUE);
   const [status, setStatus] = useState<string>("");
@@ -108,10 +110,10 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
       }
 
       const img: any = imageResponse?.data || {};
-      const leagueValues = {
+      let leagueValues = {
         input: {
-          id: profile?.id,
-          leagueId: editId !== "" ? editId : "",
+          id: editId !== "" ? editId : "",
+          userId: profile?.id,
           name,
           logo: {
             publicId: !img.public_id ? editLogoId : img.public_id,
@@ -143,6 +145,9 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
             });
 
       if (data?.AddLeague?.status === 200 || data?.EditLeague?.status === 200) {
+        let { userId, ...filteredInput } = leagueValues.input;
+        if(editId === null)filteredInput.id = data?.AddLeague?.value;
+
         setStatus("");
         setResponse({
           status: true,
@@ -152,10 +157,13 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
 
         let newOrUpdatedLeague:any;
 
-        if(editId !== ""){
+        console.log(editId, "edit id")
+
+     
           newOrUpdatedLeague = leagues.filter((league: any) => league.id !== editId);
-          newOrUpdatedLeague.push(leagueValues.input);
-        }else newOrUpdatedLeague = leagues.push(leagueValues.input);
+          newOrUpdatedLeague.push(filteredInput);
+          console.log(newOrUpdatedLeague, "updated league")
+        
         setMyData((prevData: any) => ({
           ...prevData,
           leagues: newOrUpdatedLeague,
@@ -197,6 +205,7 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
   });
 
   useEffect(() => {
+    if(role !== "Super Admin") router.push('/leagues');
     if (editId && editId !== "") {
       const league = leagues.filter((league: any) => league.id === editId)[0];
       setEditLogoId(league?.logo?.publicId);
@@ -217,12 +226,19 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
         toColor: league?.backgroundGradient?.toColor || "",
       });
     } else formik.setValues(formValues);
-  }, [editId, leagues]);
+  }, [router, editId, leagues]);
 
   useEffect(() => {
     fetchCountry(setCountry);
   }, []);
 
+  if(role !== "Super Admin") {
+    return (
+      <div className="flex items-center justify-center">
+          <MyOnPageLoader text="Please wait" />
+      </div>
+    );
+  }
   return (
     <>
       <div className="bg-white">

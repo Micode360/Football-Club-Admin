@@ -6,6 +6,7 @@ export const ADD_LEAGUE = gql`
       success
       status
       message
+      value
     }
   }
 `;

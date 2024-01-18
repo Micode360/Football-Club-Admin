@@ -1,10 +1,13 @@
+import { useContext } from "react";
 import { useMutation } from "@apollo/client";
+import { usePathname ,useRouter } from 'next/navigation';
 import { MyContext } from "@/components/layout/userContext";
-import { useState, useContext } from "react";
 import { useGlobalFunctions } from "../global/globalHooks";
 import { DELETE_LEAGUE } from "@/graphQL/mutations/leagues/index";
 
 export default function leagueHooksAndProps() {
+  const router = useRouter();
+  const pathname = usePathname();
   const {
     isModal,
     setIsModal,
@@ -16,6 +19,7 @@ export default function leagueHooksAndProps() {
   }:any = useGlobalFunctions();
 
   const [deleteLeague] = useMutation(DELETE_LEAGUE);
+  
   const {
     myData: { profile, leagues },
     setMyData
@@ -79,6 +83,11 @@ export default function leagueHooksAndProps() {
 
         const filteredLeague = [...leagues].filter((data) => data.id !== id);
         setMyData((prevData: any) => ({ ...prevData, leagues: filteredLeague }));
+
+
+        if (pathname?.startsWith('/leagues/details/')) {
+          router.push('/leagues');
+        }
       } else
         setResponse({
           status: true,

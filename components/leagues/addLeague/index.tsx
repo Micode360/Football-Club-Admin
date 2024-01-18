@@ -43,7 +43,7 @@ export default function AddLeague() {
   };
 
   return (
-    <section className="bg-white shadow-lg grid md:grid-cols-2 gap-4 my-4 py-6 px-6 rounded">
+    <section className="bg-white relative shadow-lg grid md:grid-cols-2 gap-4 my-4 py-6 px-6 rounded">
       <LeagueForm setPreview={setPreview} />
       <div className="n_preview relative border-l py-2 px-4">
         <div
