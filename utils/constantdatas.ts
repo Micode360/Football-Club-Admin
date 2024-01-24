@@ -205,8 +205,8 @@ export const newsInputprops = [
     type: "grid",
     inputs: [
       {
-        name: "category",
-        type: "select",
+        name: "categories",
+        type: "selectCheckbox",
         label: "Category",
         placeholder: "Category",
         options: [

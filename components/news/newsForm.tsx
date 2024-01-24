@@ -15,7 +15,7 @@ type inputProperties = {
   description: string;
   author: string;
   league: string;
-  category: string;
+  categories: Array<string> ;
   coverimage: File | null;
   content: string;
 };
@@ -33,7 +33,7 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     description: "",
     author: "",
     league: "",
-    category: "",
+    categories: [],
     coverimage: null,
     content: "",
   };
@@ -43,14 +43,16 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     description: Yup.string().required(),
     author: Yup.string().required(),
     league: Yup.string().required(),
-    category: Yup.string().required(),
-    coveriamge: Yup.string().required(),
+    categories: Yup.array().required(),
+    coverimage: Yup.string().required(),
     content: Yup.string().required(),
   });
 
   const onSubmit = async (values: inputProperties) => {
     setMessage({});
     setStatus("pending");
+
+    console.log(values, "submit")
   };
 
   const formik = useFormik<inputProperties>({
@@ -81,6 +83,7 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
   return (
     <div className="bg-white">
       <Form
@@ -96,6 +99,7 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
           text: "Submit",
         }}
       />
+  
     </div>
   );
 }

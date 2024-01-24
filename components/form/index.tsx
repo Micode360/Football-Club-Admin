@@ -9,6 +9,7 @@ import ColumnLayout from "@/components/layout/ColumnLayout";
 import FormikErrorResponse from "@/components/form/errorResponseformik";
 import Response from "../Response/errorResponse";
 import SelectInput from "./selectInput";
+import SelectCheckboxtInput from "./selectCheckBoxInput";
 
 interface FormProperties {
   formik?: any;
@@ -77,7 +78,7 @@ export default function Form({
         {inputs.map(
           (
             { name, type, label, inputs, placeholder, notImportant }: any,
-            id,
+            id
           ) => {
             return (
               <div key={id}>
@@ -120,6 +121,25 @@ export default function Form({
                                 name={name}
                               />
                             </>
+                          ) : type === "selectCheckbox" ? (
+                            <>
+                              <Label
+                                label={name}
+                                text={label}
+                                notImportant={notImportant}
+                              />
+                              <SelectCheckboxtInput
+                                name={name}
+                                placeholder={placeholder}
+                                options={options}
+                                formik={formik}
+                                onBlur={formik.handleBlur}
+                              />
+                              <FormikErrorResponse
+                                formik={formik}
+                                name={name}
+                              />
+                            </>
                           ) : type === "selectInput" ? (
                             <>
                               <Label
@@ -153,7 +173,7 @@ export default function Form({
                                 onChange={(event: any) => {
                                   formik.setFieldValue(
                                     name,
-                                    event.currentTarget.files[0],
+                                    event.currentTarget.files[0]
                                   );
                                 }}
                                 onBlur={formik.handleBlur}
@@ -187,7 +207,7 @@ export default function Form({
                             </>
                           )}
                         </div>
-                      ),
+                      )
                     )}
                   </div>
                 ) : (
@@ -211,7 +231,7 @@ export default function Form({
                 )}
               </div>
             );
-          },
+          }
         )}
         {link && (
           <div className="flex justify-end">

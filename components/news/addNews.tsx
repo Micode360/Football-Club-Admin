@@ -8,10 +8,11 @@ export default function AddNews() {
     description: "",
     author: "",
     league: "",
-    category: "",
+    categories: [],
     coverimage: null,
     content: "",
   });
+
 
   const handleCoverImage = () => {
     if (!preview.coverimage) return "";
@@ -53,25 +54,33 @@ export default function AddNews() {
             </p>
           </div>
 
-          <div className="my-4 grid grid-cols-2 w-full px-4 py-4 rounded-md bg-gray-100 border border-gray-200 text-xs mb-2 p-4">
+          <div className="my-4 grid w-full px-4 py-4 rounded-md bg-gray-100 border border-gray-200 text-xs mb-2 p-4">
             <div className="flex items-center">
               <div className="text-xs md:text-base">League:</div>
               <div className="ml-4 bg-custom_orange text-xs rounded-md w-fit px-4 py-2 text-white">
                 {preview.league}
               </div>
             </div>
+          </div>
 
-            <div className="flex items-center">
+          <div className="my-4 grid w-full px-4 py-4 rounded-md bg-gray-100 border border-gray-200 text-xs mb-2 p-4">
+            <div className="flex items-center flex-wrap">
               <div className="text-xs md:text-base">Category:</div>
-              <div className="ml-4 bg-custom_blue text-xs rounded-md w-fit px-4 py-2 text-white">
-                {preview.category}
-              </div>
+              {preview.categories.map((category: string, index: number) => (
+                <div
+                  className="ml-4 mr-1 mb-1 bg-custom_blue text-xs rounded-md w-fit px-4 py-2 text-white"
+                  key={index}
+                >
+                  {category}
+                </div>
+              ))}
             </div>
           </div>
+
           <div className="my-4">{handleCoverImage()}</div>
           <div>
             <h1 className="text-xs md:text-base">Content:</h1>
-            <div className="n_content px-4 py-4 rounded-md bg-gray-100 border border-gray-100">
+            <div className="n_content h-[18vh] overflow-y-auto px-4 py-4 rounded-md bg-gray-100 border border-gray-100">
               {parse(preview.content)}
             </div>
           </div>
