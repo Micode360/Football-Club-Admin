@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Label from "../form/label";
 
 export default function Editor({ formik }: any) {
+  const [response, setResponse ] = useState<any>({});
   const handleEditorReady = (editor: any) => {
     editor.name = "content";
   };
+
 
   const handleEditorChange = (event: any, editor: any) => {
     const data = editor.getData();
@@ -20,8 +22,8 @@ export default function Editor({ formik }: any) {
     ckfinder: {
       uploadUrl: `/api/upload`,
       onAfterFileUpload: (file: any, response: any) => {
-        console.log("Uploaded file:", file);
-        console.log("Cloudinary response:", response);
+        const uploadedPublicId = response.public_id;
+        setResponse(uploadedPublicId);
       },
     },
   };
