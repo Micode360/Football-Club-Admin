@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import NewsForm from "./newsForm";
 import parse from "html-react-parser";
 
+let CoverImage = {
+  publicId: "",
+  imgUrl: ""
+};
+
 export default function AddNews() {
-  const [preview, setPreview] = useState({
+  const [preview, setPreview] = useState<any>({
     title: "",
     description: "",
     author: "",
@@ -13,11 +18,19 @@ export default function AddNews() {
     content: "",
   });
 
-
   const handleCoverImage = () => {
     if (!preview.coverimage) return "";
     return (
-      <img src={URL.createObjectURL(preview.coverimage)} alt="cover image" />
+      <img
+        src={
+            preview?.coverimage?.imgUrl
+            ? preview?.coverimage?.imgUrl
+            :typeof preview.coverimage === "string"?
+              preview.coverimage
+            : URL.createObjectURL(preview.coverimage)
+        }
+        alt="cover image"
+      />
     );
   };
 
@@ -32,7 +45,7 @@ export default function AddNews() {
               <span className="text-xs text-[1.2rem] md:text-base font-[400] mr-2">
                 Title:
               </span>
-              {preview.title}
+              {preview?.title}
             </h1>
           </div>
 
@@ -41,7 +54,7 @@ export default function AddNews() {
               <span className="text-xs text-[1.2rem] md:text-base mr-2">
                 Description:
               </span>
-              {preview.description}
+              {preview?.description}
             </p>
           </div>
 
@@ -50,7 +63,7 @@ export default function AddNews() {
               <span className="text-xs text-[1.2rem] md:text-base mr-2">
                 Author:
               </span>
-              {preview.author}
+              {preview?.author}
             </p>
           </div>
 
@@ -58,7 +71,7 @@ export default function AddNews() {
             <div className="flex items-center">
               <div className="text-xs md:text-base">League:</div>
               <div className="ml-4 bg-custom_orange text-xs rounded-md w-fit px-4 py-2 text-white">
-                {preview.league}
+                {preview?.league}
               </div>
             </div>
           </div>
@@ -66,22 +79,23 @@ export default function AddNews() {
           <div className="my-4 grid w-full px-4 py-4 rounded-md bg-gray-100 border border-gray-200 text-xs mb-2 p-4">
             <div className="flex items-center flex-wrap">
               <div className="text-xs md:text-base">Category:</div>
-              {preview.categories.map((category: string, index: number) => (
-                <div
-                  className="ml-4 mr-1 mb-1 bg-custom_blue text-xs rounded-md w-fit px-4 py-2 text-white"
-                  key={index}
-                >
-                  {category}
-                </div>
-              ))}
+              {preview?.categories &&
+                preview?.categories.map((category: string, index: number) => (
+                  <div
+                    className="ml-4 mr-1 mb-1 bg-custom_blue text-xs rounded-md w-fit px-4 py-2 text-white"
+                    key={index}
+                  >
+                    {category}
+                  </div>
+                ))}
             </div>
           </div>
 
           <div className="my-4">{handleCoverImage()}</div>
           <div>
             <h1 className="text-xs md:text-base">Content:</h1>
-            <div className="n_content h-[18vh] overflow-y-auto px-4 py-4 rounded-md bg-gray-100 border border-gray-100">
-              {parse(preview.content)}
+            <div className="n_content max-h-[18vh] overflow-y-auto px-4 py-4 rounded-md bg-gray-100 border border-gray-100">
+              {preview.content && parse(preview.content)}
             </div>
           </div>
         </div>

@@ -165,6 +165,8 @@ body {
   word-wrap: break-word;
   word-break: break-word;
   max-width: 100%;
+  max-height: 50rem;
+  overflow-y: auto;
 }
 
 .n_content h1 {
@@ -270,4 +272,8 @@ body {
   .modal-wrapper {
     align-items: flex-end !important;
   }
+}
+
+.ck .ck-content, .ck-editor__editable {
+  max-height: 20rem;
 }
