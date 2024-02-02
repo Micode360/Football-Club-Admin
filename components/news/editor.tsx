@@ -28,6 +28,11 @@ export default function Editor({ formik }: any) {
     },
   };
 
+  const editorStyle = {
+    height: '300px',  // Set the desired height
+  };
+
+
   return (
     <>
       <Label label={"content"} text={"Content"} />
@@ -36,6 +41,7 @@ export default function Editor({ formik }: any) {
         config={customConfig}
         onReady={handleEditorReady}
         onChange={handleEditorChange}
+        data={(formik?.values?.content) || ""}
       />
     </>
   );

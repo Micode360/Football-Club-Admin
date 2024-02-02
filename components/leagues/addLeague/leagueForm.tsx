@@ -12,8 +12,7 @@ import ColorPickerGrid from "./ColorPickerGrid";
 import { fetchCountry } from "@/utils/utilsFunctions";
 import { MyContext } from "@/components/layout/userContext";
 import NotiticationResponse from "@/components/Response/notiticationResponse";
-import MyOnPageLoader from "@/components/loader";
-import { convertCollapsedSelection } from "@ckeditor/ckeditor5-engine/src/conversion/downcasthelpers";
+
 
 interface NewsFormProperties {
   setPreview: React.Dispatch<React.SetStateAction<any>>;
@@ -157,12 +156,9 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
 
         let newOrUpdatedLeague:any;
 
-        console.log(editId, "edit id")
-
      
           newOrUpdatedLeague = leagues.filter((league: any) => league.id !== editId);
           newOrUpdatedLeague.push(filteredInput);
-          console.log(newOrUpdatedLeague, "updated league")
         
         setMyData((prevData: any) => ({
           ...prevData,
@@ -232,13 +228,6 @@ export default function LeagueForm({ setPreview }: NewsFormProperties) {
     fetchCountry(setCountry);
   }, []);
 
-  if(role !== "Super Admin") {
-    return (
-      <div className="flex items-center justify-center">
-          <MyOnPageLoader text="Please wait" />
-      </div>
-    );
-  }
   return (
     <>
       <div className="bg-white">

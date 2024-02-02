@@ -2,8 +2,7 @@
 import React, { ReactNode, createContext, useState, useEffect } from "react";
 import _ from 'lodash';
 import { useQuery, useSubscription  } from "@apollo/client";
-import { USER_INFO, USERS_INFO } from "@/graphQL/queries";
-import { LEAGUES } from "@/graphQL/queries/index";
+import { USER_INFO, USERS_INFO, GET_NEWS, LEAGUES } from "@/graphQL/queries";
 //import { USER_UPDATED } from "@/graphQL/subscriptions";
 
 
@@ -33,6 +32,7 @@ export default function UserContext({ children }: mainLayoutProperties) {
   const { loading: profileLoading, data: profile } = useQuery(USER_INFO);
   const { loading: adminsLoading, data:admins } = useQuery(USERS_INFO);
   const { loading:leaguesLoading, data:leaguesData } = useQuery(LEAGUES);
+  const { loading:newsLoading, data:newsData } = useQuery(GET_NEWS);
   //const { loading: loadingProfileUpdate, data: profileUpdate } = useSubscription(USER_UPDATED)
 
   const [myData, setMyData] = useState<any>(initialData.myData);
@@ -53,11 +53,18 @@ useEffect(() => {
   }
 }, [setMyData, adminsLoading, admins]);
 
+
 useEffect(()=>{
   const deepCopiedLeagues = _.cloneDeep(leaguesData?.leagues);
   if (!leaguesLoading && leaguesData) setMyData((prevData:any) => ({...prevData, leagues: deepCopiedLeagues}));
 },[setMyData, leaguesLoading, leaguesData])
 
+useEffect(() => {
+  if (!newsLoading && newsData) {
+    const deepCopiedNews = _.cloneDeep(newsData?.news);
+    setMyData((prevData:any) => ({ ...prevData, news: deepCopiedNews}));
+  }
+}, [setMyData, newsLoading, newsData]);
 
   return (
         <MyContext.Provider value={{ myData, setMyData }}>

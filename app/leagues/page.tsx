@@ -15,7 +15,7 @@ export default function Leagues() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "";
   const headers = ["Leagues", role === "Super Admin"? "Add League":""];
-  const components = [<LeagueList />, <AddLeague />];
+  const components = [<LeagueList />, role === "Super Admin"? <AddLeague />:""];
 
   return (
     <VerifyUser>

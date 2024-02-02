@@ -42,7 +42,7 @@ export default function SelectCheckboxtInput({
     };
   }, [setOpen]);
 
-  const toggleCheckbox = (value: string) => {
+  const toggleCheckbox:any = (value: string) => {
     const index = formik.values.categories.indexOf(value);
     if (index === -1) {
       formik.setFieldValue(name, [...formik.values.categories, value]);
@@ -63,9 +63,9 @@ export default function SelectCheckboxtInput({
           className={`w-full px-4 py-4 text-xs bg-gray-100 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white ${style}`}
           onClick={() => setOpen(!open)}
         >
-          {formik.values.categories.length === 0
+          {formik?.values?.categories && formik?.values?.categories?.length < 1
             ? placeholder || "Select..."
-            : formik.values.categories.join(", ")}
+            : formik?.values?.categories?.join(", ")}
         </div>
         <span className="cursor-pointer px-2" onClick={() => setOpen(!open)}>
           <ArrowIcon direction={open ? "up" : "down"} style="!w-5 !h-5" />
@@ -87,7 +87,7 @@ export default function SelectCheckboxtInput({
                   type="checkbox"
                   id={option.value}
                   value={option.value}
-                  checked={formik.values.categories.includes(option.value)}
+                  checked={formik?.values?.categories?.includes(option.value)}
                   onChange={() => toggleCheckbox(option.value)}
                 />
               )}

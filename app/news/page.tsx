@@ -1,4 +1,5 @@
 "use client";
+import React, { useContext } from "react";
 import { useSearchParams } from "next/navigation";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import VerifyUser from "@/components/verifyUser";
@@ -7,12 +8,61 @@ import SideBar from "@/components/sidebar";
 import Tabs from "@/components/navbar/tabs";
 import Table from "@/components/table";
 import AddNews from "@/components/news/addNews";
+import { MyContext } from "@/components/layout/userContext";
+import newsHooksAndProps from "@/hooks/news/newsCustomHooks";
+import NotiticationResponse from "@/components/Response/notiticationResponse";
+import Headlines from "@/components/news/headlines";
+
+const tableHeaders = [
+  "Title",
+  "Description",
+  "Author",
+  "League",
+  "Categories",
+  "Created At",
+];
+
+const columns = [
+  { name: "title", type: "string" },
+  { name: "description", type: "string" },
+  { name: "author", type: "string" },
+  { name: "league", type: "string" },
+  { name: "categories", type: "array" },
+  { name: "createdAt", type: "date" },
+];
 
 export default function News() {
+  const {
+    myData: { profile, news },
+  } = useContext(MyContext) ?? {};
+  const {
+    tableOptionsNavData,
+    isModal,
+    setIsModal,
+    handleNewsDelete,
+    handleDeleteMultipleNews,
+    response,
+    setResponse,
+  } = newsHooksAndProps();
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "";
-  const headers = ["News", "Add News"];
-  const components = [<Table />, <AddNews />];
+  const headers = ["News", "Add News", "Headlines"];
+
+  const components = [
+    <Table
+      headers={tableHeaders}
+      columns={columns}
+      data={news}
+      optionsData={tableOptionsNavData}
+      searchPlaceHolder="Search title"
+      isModal={isModal}
+      setIsModal={setIsModal}
+      deleteFunction={handleNewsDelete}
+      handleDeleteMultipleFunction={handleDeleteMultipleNews}
+    />,
+    <AddNews />,
+    <Headlines data={news} />
+  ];
 
   return (
     <VerifyUser>
@@ -25,6 +75,7 @@ export default function News() {
           </DashboardLayout>
         </div>
       </main>
+      <NotiticationResponse isOpen={response} setIsOpen={setResponse} />
     </VerifyUser>
   );
 }
