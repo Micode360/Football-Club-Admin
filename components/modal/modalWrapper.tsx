@@ -23,7 +23,7 @@ export default function ModalWrapper({
           open={isOpen}
           onClose={setIsOpen}
           as="div"
-          className="fixed inset-0 z-10 flex items-center modal-wrapper justify-center overflow-y-auto"
+          className="fixed inset-0 z-[99999999] flex items-center modal-wrapper justify-center overflow-y-auto"
         >
           <div className="flex flex-col justify-center items-center py-8 px-4 text-center w-[100%] md:w-[40%]">
             <Dialog.Overlay />

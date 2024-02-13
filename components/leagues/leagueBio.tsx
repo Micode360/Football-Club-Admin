@@ -107,7 +107,7 @@ export default function LeagueBio({ league }: leagueBioProps) {
               {league?.country?.imgPath && (
                 <img
                   className="mr-1"
-                  src={league?.country?.imgPath}
+                  src={league.country && league?.country?.imgPath}
                   width={20}
                   height={20}
                   alt="country"

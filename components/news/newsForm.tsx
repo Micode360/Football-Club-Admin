@@ -26,6 +26,12 @@ type inputProperties = {
   content: string;
 };
 
+interface responseProps {
+  status: boolean | string;
+  message: string;
+  color: string;
+}
+
 export default function NewsForm({ setPreview }: NewsFormProperties) {
   const Editor = useMemo(
     () => dynamic(() => import("./editor"), { ssr: false }),
@@ -51,11 +57,7 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     color: "",
   });
 
-  interface responseProps {
-    status: boolean | string;
-    message: string;
-    color: string;
-  }
+
 
   const formValues = {
     title: "",

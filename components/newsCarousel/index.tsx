@@ -6,22 +6,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-export default function NewsCarousel() {
-  const news = [
-    {
-      title: "Newcastle vs Chelsea",
-      image_path: "/newcastle.jpg",
-      description: "Who will come out on top",
-      league: "Premier League",
-    },
-    {
-      title: "It's going to be a great reunion.",
-      image_path: "/mp.webp",
-      description:
-        "Poch to step ground at the new tottenham stadium only this time, he's the oppositon.",
-      league: "Premier League",
-    },
-  ];
+interface newsDataProps {
+  news: Array<any>;
+}
+
+export default function NewsCarousel({ news }:newsDataProps) {
+ 
   return (
     <Swiper
       pagination={{
@@ -36,7 +26,7 @@ export default function NewsCarousel() {
       navigation={true}
       className="mySwiper"
     >
-      {news.map(({ title, image_path, league, description }, id) => (
+      {news && news.map(({ id, title, coverImage, league, description }:any) => (
         <SwiperSlide key={id}>
           <div className="flex flex-col rounded-lg overflow-hidden">
             <div className="relative w-full h-[20rem] rounded">
@@ -45,14 +35,14 @@ export default function NewsCarousel() {
                   <h2 className="text-white font-[700] text-lg md:text-2xl mb-2">
                     Preview:
                   </h2>
-                  <p className="text-white font-[700] text-lg md:text-2xl mb-2">
+                  <p className="text-white font-[700] text-lg md:text-2xl mb-2 mr-2">
                     {title}
                   </p>
                 </div>
               </div>
               <Image
                 className="object-cover object-center rounded"
-                src={image_path}
+                src={coverImage && coverImage.imgUrl}
                 alt="img"
                 layout="fill"
               />

@@ -105,3 +105,24 @@ export const LEAGUES = gql`
     }
   }
 `;
+
+
+export const HEADLINES = gql`
+query NewsHeadlines {
+  newsHeadlines {
+    headlines {
+      id
+      coverImage {
+        publicId
+        imgUrl
+      }
+      description
+      league
+      sn
+      title
+      categories
+    }
+    id
+  }
+}
+`;

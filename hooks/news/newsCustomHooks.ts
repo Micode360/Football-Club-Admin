@@ -36,7 +36,7 @@ export default function newsHooksAndProps() {
     value: name,
   }));
 
-  const newsInputprops = () => {
+  const newsInputprops:any = () => {
     league.unshift({
       label: "Select Category",
       value: "select",
@@ -205,6 +205,7 @@ export default function newsHooksAndProps() {
     }
   };
 
+
   return {
     newsInputprops,
     tableOptionsNavData,
@@ -218,6 +219,6 @@ export default function newsHooksAndProps() {
     setSearchValue,
     modalDescription,
     handleNewsDelete,
-    handleDeleteMultipleNews,
+    handleDeleteMultipleNews
   };
 }
