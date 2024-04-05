@@ -75,15 +75,11 @@ export default function newsHeadlineHooksAndProps() {
     }
   }
 
-  const clearNewsHeadline = () => {
-    return "Testing";
-  }
 
   return {
     myheadlines,
     response,
     setResponse,
-    updateNewsHeadline,
-    clearNewsHeadline
+    updateNewsHeadline
   };
 }

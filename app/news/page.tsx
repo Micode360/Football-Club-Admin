@@ -33,7 +33,7 @@ const columns = [
 
 export default function News() {
   const {
-    myData: { profile, news },
+    myData: { role, news },
   } = useContext(MyContext) ?? {};
   const {
     tableOptionsNavData,
@@ -46,7 +46,7 @@ export default function News() {
   } = newsHooksAndProps();
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "";
-  const headers = ["News", "Add News", "Headlines"];
+  const headers = ["News", "Add News",role === "Super Admin"? "Headlines":""];
 
   const components = [
     <Table
@@ -61,7 +61,7 @@ export default function News() {
       handleDeleteMultipleFunction={handleDeleteMultipleNews}
     />,
     <AddNews />,
-    <Headlines data={news} />
+    role === "Super Admin"? <Headlines data={news} />:""
   ];
 
   return (

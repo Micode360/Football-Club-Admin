@@ -256,7 +256,8 @@ body {
 }
 
 .scroll-container::-webkit-scrollbar-thumb {
-  background-color: #625af3;
+  background-color: #ffffff;
+  border: 1px solid #eee;
   border-radius: 6px;
 }
 

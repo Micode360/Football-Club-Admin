@@ -74,7 +74,7 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     author: Yup.string().required(),
     league: Yup.string().required(),
     categories: Yup.array().required(),
-    coverimage: Yup.string().required(),
+    coverimage: Yup.mixed().required(),
     content: Yup.string().required(),
   });
 
@@ -90,14 +90,14 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
       coverimage,
       content,
     } = values;
+    
 
     const formData = new FormData();
 
     formData.append("upload", coverimage);
 
     let imageResponse: any;
-
-    if (typeof coverimage === "object") {
+    if (!editId && typeof coverimage === "object") {
       imageResponse = await axios.post(
         `${process.env.NEXT_PUBLIC_IMG_PORT}/api/upload`,
         formData
@@ -108,20 +108,21 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
 
     const img: any = imageResponse?.data || {};
     const coverImage = {
-      publicId: !img.public_id ? editLogoId : img.public_id,
-      imgUrl: !img.url ? coverimage : img.url,
+      publicId:!img.public_id ? coverimage.publicId : img.public_id,
+      imgUrl: !img.url ? coverimage.imgUrl : img.url,
     };
+
     let newsValues = {
       input: {
         id: editId !== "" ? editId : "",
         userId: profile?.id,
-        authorIds: authorIdsArr,
+        authorIds: !editId? [profile.id]: authorIdsArr,
         title,
         description,
         author,
         league,
         categories,
-        coverImage: coverImage,
+        coverImage,
         content,
       },
     };
@@ -190,10 +191,12 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     },
   });
 
+
   useEffect(() => {
     const filteredNews = news.filter((news: any) => news.id === editId)[0];
+   if(filteredNews) {
     setAuthorIdsArr(
-      !editId || editId === "" ? [profile.id] : filteredNews.authorIds
+      filteredNews.authorIds
     );
     if (editId && editId !== "") {
       setEditLogoId(news?.coverImage?.publicId);
@@ -210,6 +213,7 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
         content: filteredNews?.content || "",
       });
     } else formik.setValues(formValues);
+   }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editId, news, profile]);
 

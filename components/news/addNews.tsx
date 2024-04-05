@@ -2,10 +2,6 @@ import React, { useState, useEffect } from "react";
 import NewsForm from "./newsForm";
 import parse from "html-react-parser";
 
-let CoverImage = {
-  publicId: "",
-  imgUrl: ""
-};
 
 export default function AddNews() {
   const [preview, setPreview] = useState<any>({

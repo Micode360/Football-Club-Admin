@@ -126,3 +126,23 @@ query NewsHeadlines {
   }
 }
 `;
+
+export const NOTIFICATIONS = gql`
+query List {
+  notifications {
+    list {
+      id
+      type
+      sender
+      senderProfilePic
+      message
+      action {
+        path
+      }
+      isRead
+      createdAt
+    }
+    recipient
+  }
+}
+`;

@@ -1,6 +1,7 @@
 "use client";
 import React, { useContext } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useSearchParams } from "next/navigation";
 import VerifyUser from "@/components/verifyUser";
 import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
@@ -13,6 +14,8 @@ interface newParamsProps {
 }
 
 export default function NewsDetails({ params }: newParamsProps) {
+  const searchParams = useSearchParams();
+  const requestAccess = searchParams.get("request");
   const {
     myData: { news },
   } = useContext(MyContext);
@@ -34,7 +37,7 @@ export default function NewsDetails({ params }: newParamsProps) {
               </div>
             ) : (
               <>
-                <NewsPreview News={News} />
+                <NewsPreview News={News} requestAccess={requestAccess} />
               </>
             )}
           </DashboardLayout>

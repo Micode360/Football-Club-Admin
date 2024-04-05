@@ -6,7 +6,7 @@ interface dropdownProperties {
   data: Array<{}>;
   showDropdown: boolean;
   setShowDropdown: any;
-  onClickData: string;
+  onClickData?: string;
   style?: string;
 }
 
@@ -42,7 +42,7 @@ export default function DropDownMenu({
     <>
       {showDropdown && (
         <div
-          className={`shadow-xl absolute top-full md:w-full p-2 ${style}`}
+          className={`shadow-xl absolute top-full md:w-full p-2 ${style} z-[999999]`}
           ref={ref}
         >
           {dropdownData.map((data: any) => {
@@ -56,13 +56,13 @@ export default function DropDownMenu({
                     }}
                     key={data.id}
                   >
-                    <div className="flex items-center">
+                    <div className="flex items-center hover:bg-gray-100">
                       {data.icon && data.icon} {data.name}
                     </div>
                   </Link>
                 ) : data.type === "link" ? (
                   <Link href={data.path} key={data.id}>
-                    <div className="flex items-center">
+                    <div className="flex items-center hover:bg-gray-100">
                       {data.icon && data.icon} {data.name}
                     </div>
                   </Link>
@@ -72,7 +72,7 @@ export default function DropDownMenu({
                     onClick={() => data.function()}
                     key={data.id}
                   >
-                    <div className="flex items-center">
+                    <div className="flex items-center hover:bg-gray-100">
                       {data.icon && data.icon} {data.name}
                     </div>
                   </span>

@@ -1,9 +1,9 @@
 "use client";
-import React, { ReactNode, createContext, useState, useEffect } from "react";
+import React, { ReactNode, createContext, useState, useEffect, useMemo } from "react";
 import _ from 'lodash';
 import { useQuery, useSubscription  } from "@apollo/client";
-import { USER_INFO, USERS_INFO, GET_NEWS, LEAGUES, HEADLINES } from "@/graphQL/queries";
-//import { USER_UPDATED } from "@/graphQL/subscriptions";
+import { USER_INFO, USERS_INFO, GET_NEWS, LEAGUES, HEADLINES, NOTIFICATIONS } from "@/graphQL/queries";
+import { NEW_NOTIFICATION } from "@/graphQL/subscriptions";
 
 
 interface mainLayoutProperties {
@@ -23,6 +23,7 @@ const initialData: MyContextProps = {
     leagues: [],
     news: [],
     headlines: [],
+    notifications: {}
   },
   setMyData: (data: any) => {}
 };
@@ -35,45 +36,48 @@ export default function UserContext({ children }: mainLayoutProperties) {
   const { loading:leaguesLoading, data:leaguesData } = useQuery(LEAGUES);
   const { loading:newsLoading, data:newsData } = useQuery(GET_NEWS);
   const { loading:headlinesLoading, data:headlines } = useQuery(HEADLINES);
-  //const { loading: loadingProfileUpdate, data: profileUpdate } = useSubscription(USER_UPDATED)
+  const { loading:notificationsLoading, data:notifications } = useQuery(NOTIFICATIONS);
+  const { loading: loadingNotification, data: newNotification } = useSubscription(NEW_NOTIFICATION)
 
   const [myData, setMyData] = useState<any>(initialData.myData);
 
-
+console.log(notifications, "majorLoad")
+console.log(newNotification?.newNotification, "new notfication subscription")
 
 useEffect(() => {
-  if (!profileLoading && profile) {
+  if (profile && !profileLoading && admins && !adminsLoading && leaguesData && !leaguesLoading &&
+    newsData && !newsLoading && headlines && !headlinesLoading && notifications && !notificationsLoading) {
     const deepCopiedProfile = _.cloneDeep(profile?.user);
-    setMyData((prevData:any) => ({ ...prevData, profile: deepCopiedProfile, role: deepCopiedProfile.role }));
-  }
-}, [setMyData, profileLoading, profile]);
-
-useEffect(() => {
-  if (!adminsLoading && admins) {
     const deepCopiedAdmins = _.cloneDeep(admins?.users);
-    setMyData((prevData:any) => ({ ...prevData, admins: deepCopiedAdmins}));
-  }
-}, [setMyData, adminsLoading, admins]);
-
-
-useEffect(()=>{
-  const deepCopiedLeagues = _.cloneDeep(leaguesData?.leagues);
-  if (!leaguesLoading && leaguesData) setMyData((prevData:any) => ({...prevData, leagues: deepCopiedLeagues}));
-},[setMyData, leaguesLoading, leaguesData])
-
-useEffect(() => {
-  if (!newsLoading && newsData) {
+    const deepCopiedLeagues = _.cloneDeep(leaguesData?.leagues);
     const deepCopiedNews = _.cloneDeep(newsData?.news);
-    setMyData((prevData:any) => ({ ...prevData, news: deepCopiedNews}));
+    const deepCopiedNewsHeadlines = _.cloneDeep(headlines?.newsHeadlines);
+    const deepCopiedNotifications = _.cloneDeep(notifications?.notifications);
+    setMyData({
+      ...myData,
+      profile: deepCopiedProfile,
+      admins: deepCopiedAdmins,
+      leagues: deepCopiedLeagues,
+      news: deepCopiedNews,
+      headlines: deepCopiedNewsHeadlines,
+      notifications: deepCopiedNotifications
+    });
   }
-}, [setMyData, newsLoading, newsData]);
+}, [profile, profileLoading, admins, adminsLoading, leaguesData, leaguesLoading,
+    newsData, newsLoading, headlines, headlinesLoading, notifications, notificationsLoading]);
 
 useEffect(() => {
-  if (!headlinesLoading && headlines) {
-    const deepCopiedNews = _.cloneDeep(headlines?.newsHeadlines);
-    setMyData((prevData:any) => ({ ...prevData, headlines: deepCopiedNews}));
+  if (newNotification && newNotification.newNotification) {
+    const updatedNotificationList = [newNotification.newNotification, ...myData.notifications.list];
+    setMyData((prevData:any) => ({
+      ...prevData,
+      notifications: {
+        ...prevData.notifications,
+        list: updatedNotificationList
+      }
+    }));
   }
-}, [setMyData, headlinesLoading, headlines]);
+}, [newNotification]);
 
   return (
         <MyContext.Provider value={{ myData, setMyData }}>

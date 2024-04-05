@@ -32,13 +32,22 @@ export const DELETE_NEWS = gql`
 `;
 
 
-
 export const HEADLINES_NEWS = gql`
     mutation Mutation($input: NewsHeadline!) {
       UpdateNewsHeadlines(input: $input) {
         success
         status
         message
+      }
+    }
+`;
+
+export const HANDLE_ACCESS = gql`
+    mutation Mutation($input: HandleAccess!) {
+      HandleAccess(input: $input) {
+        message
+        status
+        success
       }
     }
 `;

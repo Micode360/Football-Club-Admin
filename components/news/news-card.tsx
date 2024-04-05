@@ -9,7 +9,6 @@ interface NewsCardProps {
 }
 
 export default function NewsCard({ header, news, newsLink  }: NewsCardProps) {
-console.log(newsLink, "this")
   return (
     <div className="bg-white shadow-lg p-4 h-full flex flex-col justify-between">
       <div>
