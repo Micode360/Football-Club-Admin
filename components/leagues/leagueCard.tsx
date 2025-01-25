@@ -30,7 +30,9 @@ export default function LeagueCard({
   toColor,
   imgPath,
 }: CardProperties) {
-  const { myData: { role }} = useContext(MyContext);
+  const {
+    myData: { role },
+  } = useContext(MyContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [onClickData, setOnClickData] = useState("");
   const {
@@ -46,7 +48,7 @@ export default function LeagueCard({
 
   return (
     <>
-      <div className="relative overflow-hidden cursor-pointer h-fit w-[21.5rem] league_card grid grid-cols-2 px-4 py-4 bg-white shadow-lg rounded-md hover:scale-[1.1] transition">
+      <div className="relative overflow-hidden cursor-pointer h-full w-[21.5rem] league_card grid grid-cols-2 px-4 py-4 bg-white shadow-lg rounded-md hover:scale-[1.1] transition">
         <div className="relative">
           <div
             style={{
@@ -94,15 +96,14 @@ export default function LeagueCard({
           priority
         />
 
-
         {role === "Super Admin" && (
-            <span
+          <span
             className="league-card absolute top-2 right-1 w-fit cursor-pointer"
-            onClick={(e:any) => {
+            onClick={(e: any) => {
               setShowDropdown(!showDropdown);
               setOnClickData(e.target.className);
             }}
-            >
+          >
             <EllipsisIcon property={"horizontal"} />
             <DropDownMenu
               data={leagueDropDownData(id, imgId)}
@@ -111,9 +112,8 @@ export default function LeagueCard({
               onClickData={onClickData}
               style="!w-[8rem] text-black rounded right-0 md:right-none bg-white z-[2]"
             />
-            </span>
+          </span>
         )}
-       
       </div>
       <Modal
         isOpen={isModal}

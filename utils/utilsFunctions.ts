@@ -36,9 +36,9 @@ export const toDate = (timestamp: number) => {
   return dateFormat;
 };
 
-export function DaysAgo(date: string) {
+export function DaysAgo(timestamp: number) {
   const currentDate = new Date();
-  const desiredDate = new Date(date);
+  const desiredDate = new Date(timestamp);
 
   currentDate.setHours(0, 0, 0, 0);
   desiredDate.setHours(0, 0, 0, 0);
@@ -60,6 +60,31 @@ export function DaysAgo(date: string) {
     return `${daysAgo} ${daysAgo === 1 ? "day" : "days"} ago.`;
   }
 }
+
+// export function DaysAgo(date: string) {
+//   const currentDate = new Date();
+//   const desiredDate = new Date(date);
+
+//   currentDate.setHours(0, 0, 0, 0);
+//   desiredDate.setHours(0, 0, 0, 0);
+
+//   const timeDiff = Math.abs(currentDate.getTime() - desiredDate.getTime());
+
+//   const daysAgo = Math.ceil(timeDiff / (1000 * 3600 * 24));
+//   const weeksAgo = Math.floor(daysAgo / 7);
+//   const monthsAgo = Math.floor(daysAgo / 30);
+//   const yearsAgo = Math.floor(daysAgo / 365);
+
+//   if (yearsAgo > 0) {
+//     return `${yearsAgo} ${yearsAgo === 1 ? "year" : "years"} ago.`;
+//   } else if (monthsAgo > 0) {
+//     return `${monthsAgo} ${monthsAgo === 1 ? "month" : "months"} ago.`;
+//   } else if (weeksAgo > 0) {
+//     return `${weeksAgo} ${weeksAgo === 1 ? "week" : "weeks"} ago.`;
+//   } else {
+//     return `${daysAgo} ${daysAgo === 1 ? "day" : "days"} ago.`;
+//   }
+// }
 
 export const fetchCountry = (setState: any) => {
   fetch("https://restcountries.com/v3.1/all?fields=name,flags")

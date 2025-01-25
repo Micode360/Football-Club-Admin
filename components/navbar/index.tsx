@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import DropDownMenu from "../dropDownMenu";
 import Logo from "../icons/logo";
@@ -11,8 +11,13 @@ import DropDownMenuWrapper from "../dropDownMenu/dropDownWrapper";
 import MessageContainer from "../notifications";
 import ModalWrapper from "../modal/modalWrapper";
 import SubAdminPreview from "../settings/admins/adminPreview";
+import { MyContext } from "@/components/layout/userContext";
+import React from "react";
 
 export default function Navbar() {
+  const {
+    myData: { notifications },
+  } = useContext(MyContext);
   const [previewModal, setPreviewModal] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotificationDropdown, setShowNotificationDropdown] =
@@ -22,43 +27,18 @@ export default function Navbar() {
   const [isNotification, setIsNotification] = useState("");
   const [isMessage, setIsMessage] = useState("");
   const [url, setUrl] = useState("");
+  const [notificationActive, setNotificationActive] = useState(false);
+  const [messageActive, setMessageActive] = useState(false);
 
   useEffect(() => {
     setUrl(window.location.pathname.split("/")[1]);
-  }, []);
-
-  const notificationMessages = [
-    {
-      id: 1,
-      message: "James Card created a new Article for the Premier League",
-      time: "2 days ago",
-      read: true,
-    },
-    {
-      id: 2,
-      message: "John Doe published a review for the Champions League",
-      time: "3 days ago",
-      read: true,
-    },
-    {
-      id: 3,
-      message: "Emily Smith shared a video in the Europa League group",
-      time: "4 days ago",
-      read: true,
-    },
-    {
-      id: 4,
-      message: "Mark Johnson commented on your post in the La Liga discussion",
-      time: "5 days ago",
-      read: true,
-    },
-    {
-      id: 5,
-      message: "Samantha White liked your photo in the Serie A community",
-      time: "6 days ago",
-      read: true,
-    },
-  ];
+    const ureadNotification =
+      notifications &&
+      notifications.list &&
+      notifications.list.some(({ isRead }: any) => isRead === false);
+      setNotificationActive(ureadNotification)
+    console.log(ureadNotification, "unread");
+  }, [notifications]);
 
   return (
     <>
@@ -88,25 +68,53 @@ export default function Navbar() {
           >
             <NotificationIcon
               style="text-custom_gray cursor-pointer"
-              active={true}
+              active={notificationActive}
             />
             <DropDownMenuWrapper
               showDropdown={showNotificationDropdown}
               setShowDropdown={setShowNotificationDropdown}
               onClickData={isNotification}
-              style="w-[75vw] md:w-fit right-0 md:right-none bg-white rounded-md"
+              style="w-[75vw] md:w-[45vw] right-0 md:right-none bg-white rounded-md"
             >
               <h4 className="text-base border-b p-2 mb-2">Notifications</h4>
-              {notificationMessages.map(({ id, message, time }) => (
-                <MessageContainer
-                  key={id}
-                  message={message}
-                  time={time}
-                  read={false}
-                  textHeadingsStyle="text-xs"
-                  timeStyle="text-xs"
-                />
-              ))}
+              {notifications &&
+              notifications.list &&
+              notifications.list.some(({ isRead }: any) => !isRead) ? (
+                notifications.list.map(
+                  (
+                    {
+                      id,
+                      message,
+                      sender,
+                      senderProfilePic,
+                      action,
+                      createdAt,
+                      isRead,
+                    }: any,
+                    index: any
+                  ) => {
+                    if (!isRead) {
+                      return (
+                        <div key={index}>
+                          <MessageContainer
+                            listId={id}
+                            sender={sender}
+                            message={message}
+                            time={createdAt}
+                            read={true}
+                            action={action}
+                            profilePic={senderProfilePic}
+                            noDropDown={true}
+                          />
+                        </div>
+                      );
+                    }
+                    return null;
+                  }
+                )
+              ) : (
+                <p className="text-center my-2">No new notifications</p>
+              )}
               <div className="w-full text-center py-2 text-white bg-custom_orange">
                 <Link className="hover:underline" href="/">
                   View All
@@ -123,25 +131,53 @@ export default function Navbar() {
           >
             <MessageIcon
               style="text-custom_gray cursor-pointer"
-              active={true}
+              active={messageActive}
             />
             <DropDownMenuWrapper
               showDropdown={showMessageDropdown}
               setShowDropdown={setShowMessageDropdown}
               onClickData={isMessage}
-              style="w-[75vw] md:w-fit right-0 md:right-none bg-white rounded-md"
+              style="w-[75vw] md:w-[45vw] md:w-fit right-0 md:right-none bg-white rounded-md"
             >
               <h4 className="text-base border-b p-2 mb-2">Messages</h4>
-              {notificationMessages.map(({ id, message, time }) => (
-                <MessageContainer
-                  key={id}
-                  message={message}
-                  time={time}
-                  read={false}
-                  textHeadingsStyle="text-xs"
-                  timeStyle="text-xs"
-                />
-              ))}
+              {notifications &&
+              notifications.list &&
+              notifications.list.some(({ isRead }: any) => !isRead) ? (
+                notifications.list.map(
+                  (
+                    {
+                      id,
+                      message,
+                      sender,
+                      senderProfilePic,
+                      action,
+                      createdAt,
+                      isRead,
+                    }: any,
+                    index: any
+                  ) => {
+                    if (!isRead) {
+                      return (
+                        <div key={index}>
+                          <MessageContainer
+                            listId={id}
+                            sender={sender}
+                            message={message}
+                            time={createdAt}
+                            read={true}
+                            action={action}
+                            profilePic={senderProfilePic}
+                            noDropDown={true}
+                          />
+                        </div>
+                      );
+                    }
+                    return null;
+                  }
+                )
+              ) : (
+                <p className="text-center my-2">No new messages</p>
+              )}
               <div className="w-full text-center py-2 text-white bg-custom_blue">
                 <Link className="hover:underline" href="/">
                   View All
@@ -168,13 +204,6 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-      {/* <ModalWrapper
-        isOpen={previewModal}
-        setIsOpen={setPreviewModal}
-        style={"!px-0 !pt-12"}
-      >
-        <SubAdminPreview data={undefined} userId={""} setTransferRoleModal={undefined} setPreviewModal={undefined} />
-      </ModalWrapper> */}
     </>
   );
 }

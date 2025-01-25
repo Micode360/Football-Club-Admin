@@ -192,11 +192,11 @@ export default function Table({headers, columns, data, optionsData, searchPlaceH
                     {"..."}
                     {selectOption === item.id && (
                       <DropDownMenu
-                        data={optionsData({id: item.id , imgId: item.coverImage.publicId})}
+                        data={optionsData({id: item.id , imgId: item.coverImage.publicId, item})}
                         showDropdown={showDropdown}
                         setShowDropdown={setShowDropdown}
                         onClickData={onClickData}
-                        style="w-[8rem] right-0 md:right-none bg-white z-[2]"
+                        style="!w-fit right-0 md:right-none bg-white z-[2]"
                       />
                     )}
                   </div>

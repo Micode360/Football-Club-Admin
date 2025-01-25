@@ -3,11 +3,13 @@ import { useMutation } from "@apollo/client";
 import { usePathname, useRouter } from "next/navigation";
 import { MyContext } from "@/components/layout/userContext";
 import { useGlobalFunctions } from "../global/globalHooks";
-import { DELETE_NEWS } from "@/graphQL/mutations/news/index";
+import { DELETE_NEWS, HANDLE_ACCESS, REMOVE_AUTHOR } from "@/graphQL/mutations/news/index";
+import notificationHooksAndProps from "../notifications/notificationHooks";
 
-type DeleteProps = {
+type OptionProps = {
   id: string;
   imgId: string;
+  item?: any;
 };
 
 export default function newsHooksAndProps() {
@@ -22,21 +24,36 @@ export default function newsHooksAndProps() {
     setResponse,
     modalDescription,
   }: any = useGlobalFunctions();
+  const { newNotification } = notificationHooksAndProps();
 
   const [deleteNews] = useMutation(DELETE_NEWS);
+  const [handleAccess] = useMutation(HANDLE_ACCESS);
+  const [removeThisAuthor] = useMutation(REMOVE_AUTHOR);
   const [searchValue, setSearchValue] = useState("");
 
   const {
-    myData: { profile, leagues, news },
+    myData: { profile, leagues, news, headlines },
     setMyData,
   } = useContext(MyContext);
+
+  const isAuthor: any = (thisNews: string) => {
+    let result: boolean = false;
+    news.forEach((news: any) => {
+      if (news.id === thisNews) {
+        news.authorIds.forEach((author: any) => {
+          if (author.id === profile.id) return (result = true);
+        });
+      }
+    });
+    return result;
+  };
 
   let league = leagues.map(({ name }: any) => ({
     label: name,
     value: name,
   }));
 
-  const newsInputprops = () => {
+  const newsInputprops: any = () => {
     league.unshift({
       label: "Select Category",
       value: "select",
@@ -120,39 +137,72 @@ export default function newsHooksAndProps() {
     ];
   };
 
-  let tableOptionsNavData = ({ id, imgId }: DeleteProps) => [
-    {
-      id: 1,
-      name: "View",
-      type: "link",
-      path: `/news/view/${id}`,
-    },
-    {
-      id: 2,
-      name: "Edit",
-      type: "link",
-      path: "/news",
-      query: {
-        tab: "1",
-        edit: id,
-      },
-    },
-    {
-      id: 3,
-      name: "Delete",
-      type: "itemClickCallbacks",
-      function: (): any => {
-        setIsModal(true);
-        setModalValue({
-          type: "delete",
-          id,
-          imgId,
-        });
-      },
-    },
-  ];
+  let tableOptionsNavData = ({ id, imgId, item }: OptionProps) => {
+    if (isAuthor(id) || (!isAuthor(id) && profile.role === "Super Admin")) {
+      return [
+        {
+          id: 2,
+          name: "View",
+          type: "link",
+          path: `/news/view/${id}`,
+        },
+        {
+          id: 3,
+          name: "Edit",
+          type: "link",
+          path: "/news",
+          query: {
+            tab: "1",
+            edit: id,
+          },
+        },
+        {
+          id: 4,
+          name: "Delete",
+          type: "itemClickCallbacks",
+          function: (): any => {
+            setIsModal(true);
+            setModalValue({
+              type: "delete",
+              id,
+              imgId,
+            });
+          },
+        },
+      ].filter((option) => option !== null);
+    } else {
+      return [
+        {
+          id: 1,
+          name: "Request Access",
+          type: "itemClickCallbacks",
+          function: (): any => {
+            newNotification({
+              recipient: item?.authorIds[0]?.id,
+              description: "is requesting access to the news",
+              type: "request",
+              path: `/news/view/${item.id}`,
+              item,
+            }).then(() =>
+              setResponse({
+                status: true,
+                message: "request sent",
+                color: "green",
+              })
+            );
+          },
+        },
+        {
+          id: 2,
+          name: "View",
+          type: "link",
+          path: `/news/view/${id}`,
+        },
+      ].filter((option) => option !== null);
+    }
+  };
 
-  const handleDeleteMultipleNews = (arr: Array<DeleteProps>) => {
+  const handleDeleteMultipleNews = (arr: Array<OptionProps>) => {
     setModalValue({
       type: "delete_multiple",
       arr: arr,
@@ -173,6 +223,7 @@ export default function newsHooksAndProps() {
             thisId: id,
             arrIds: modalValue.type === "delete_multiple" ? modalValue.arr : [],
             imgId: imgId ? imgId : "",
+            headLineId: headlines && headlines.id ? headlines.id : "",
           },
         },
       });
@@ -184,15 +235,30 @@ export default function newsHooksAndProps() {
           color: "green",
         });
 
-        const filteredNews = [...news].filter((data) => data.id !== id);
-        const filteredMultipleNews = news.filter(
-          (data: any) =>
-            !modalValue.arr.some((idObj: DeleteProps) => idObj.id === data.id)
-        );
+        const filteredNews =
+          modalValue.type === "delete"
+            ? [...news].filter((data) => data.id !== id)
+            : news.filter(
+                (data: any) =>
+                  !modalValue.arr.some(
+                    (idObj: OptionProps) => idObj.id === data.id
+                  )
+              );
+
+        const filteredHeadlineNews =
+          modalValue.type === "delete"
+            ?  headlines.headlines && headlines.headlines.filter((data:any) => data.id !== id)
+            :  headlines.headlines && headlines.headlines.filter(
+                (data: any) =>
+                  !modalValue.arr.some(
+                    (idObj: OptionProps) => idObj.id === data.id
+                  )
+              );
 
         setMyData((prevData: any) => ({
           ...prevData,
-          news: modalValue.arr ? filteredMultipleNews : filteredNews,
+          news: filteredNews,
+          headlines: { id: headlines.id, headlines: filteredHeadlineNews },
         }));
       } else
         setResponse({
@@ -205,7 +271,102 @@ export default function newsHooksAndProps() {
     }
   };
 
+  const grantNewsAuthorization = async ({ id, userId }: any) => {
+    setIsModal(false);
+    setResponse({ ...response, status: "pending" });
+
+    try {
+      const { data } = await handleAccess({
+        variables: {
+          input: {
+            type: "add",
+            id,
+            authorId: profile.id,
+            userId,
+          },
+        },
+      });
+
+      if (data.HandleAccess.status === 200) {
+        setResponse({
+          status: true,
+          message: `${data.HandleAccess.message.toLowerCase()}`,
+          color: "green",
+        });
+
+        newNotification({
+          recipient: userId,
+          description: "has granted you access to the news",
+          type: "user-type",
+          path: `/news/view/${id}`,
+        });
+
+        // const filteredNews =
+        //   modalValue.type === "delete"
+        //     ? [...news].filter((data) => data.id !== id)
+        //     : news.filter(
+        //         (data: any) =>
+        //           !modalValue.arr.some(
+        //             (idObj: OptionProps) => idObj.id === data.id
+        //           )
+        //       );
+
+        // setMyData((prevData: any) => ({
+        //   ...prevData,
+        //   news: filteredNews,
+        // }));
+      } else
+        setResponse({
+          status: true,
+          message: data.HandleAccess.message,
+          color: "red",
+        });
+    } catch (error: any) {
+      setResponse({ status: true, message: error.message, color: "red" });
+    }
+  };
+
+  const removeAuthor = async (newsId:string, authorId:string) => {
+    setIsModal(false);
+    setResponse({ ...response, status: "pending" });
+
+    try {
+      const { data } = await removeThisAuthor({
+        variables: {
+          input: {
+            authorId,
+            thisId: newsId,
+          },
+        },
+      });
+
+      if (data.RemoveAuthor.status === 200) {
+        setResponse({
+          status: true,
+          message: `${data.RemoveAuthor.message.toLowerCase()}`,
+          color: "green",
+        });
+
+        newNotification({
+          recipient: authorId,
+          description: "has removed your access to this news",
+          type: "user-type",
+          path: `/news/view/${newsId}`,
+        });
+
+      } else
+        setResponse({
+          status: true,
+          message: data.RemoveAuthor.message,
+          color: "red",
+        });
+    } catch (error: any) {
+      setResponse({ status: true, message: error.message, color: "red" });
+    }
+  }
+
   return {
+    isAuthor,
     newsInputprops,
     tableOptionsNavData,
     isModal,
@@ -216,8 +377,10 @@ export default function newsHooksAndProps() {
     setResponse,
     searchValue,
     setSearchValue,
+    removeAuthor,
     modalDescription,
     handleNewsDelete,
+    grantNewsAuthorization,
     handleDeleteMultipleNews,
   };
 }

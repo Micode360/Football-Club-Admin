@@ -1,50 +1,93 @@
-import { string } from "prop-types";
-import React from "react";
+import React, { useState } from "react";
+import parse from "html-react-parser";
+import { DaysAgo } from "@/utils/utilsFunctions";
+import Link from "next/link";
+import DropDownMenu from "../dropDownMenu";
+import EllipsisIcon from "../icons/ellipsisIcon";
+import notificationHooksAndProps from "@/hooks/notifications/notificationHooks";
 
 interface MessageProperties {
-  key: string | number;
+  listId: String;
+  sender: string;
   message: string;
   time: string;
   read: boolean;
-  setOnClick?: () => void;
+  profilePic: string;
+  action: any;
+  type?:string;
   textHeadingsStyle?: string;
   timeStyle?: string;
+  noDropDown?: boolean;
 }
 
 export default function MessageContainer({
-  key,
+  listId,
+  sender,
   message,
   time,
   read,
-  setOnClick,
+  profilePic,
+  action,
+  type,
   textHeadingsStyle,
   timeStyle,
+  noDropDown,
 }: MessageProperties) {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const { markNotificationAsRead, notificationDropdownData } =
+    notificationHooksAndProps();
+    console.log(type, "TYPE")
   return (
     <section
-      onClick={setOnClick}
-      className="flex items-center cursor-pointer border-b py-3 px-4"
-      key={key}
+      style={{ background: read ? "#ffffff" : "#c1dffb" }}
+      id="nav_case"
+      className="flex items-center justify-between cursor-pointer border-b py-3 px-4"
     >
-      {true ? (
-        <img
-          src={"/mp.webp"}
-          className="rounded-full object-cover object-center w-10 h-10 mr-4"
-          alt="profile photo"
-        />
-      ) : (
-        <div className="w-10 h-10 bg-red-500 flex items-center justify-center mr-4 text-white rounded-full">
-          K
+      <div className="flex items-center">
+        {!profilePic || profilePic === "" ? (
+          <div className="w-10 h-10 bg-gray-800 flex items-center justify-center mr-4 text-white rounded-full">
+            !
+          </div>
+        ) : (
+          <img
+            src={profilePic}
+            className="rounded-full object-cover object-center w-10 h-10 mr-4"
+            alt="profile photo"
+          />
+        )}
+        <Link
+          onClick={() => markNotificationAsRead(listId, "single")}
+          href={{
+            pathname: action.path,
+            query: {
+              request: type === "request"? sender: "none",
+            },
+          }}
+        >
+          <div className={`${textHeadingsStyle} text-md`}>
+            {message && parse(message)}
+          </div>
+          <div className={`${timeStyle} text-xs`}>
+            {DaysAgo(parseInt(time, 10))}
+          </div>
+        </Link>
+      </div>
+
+      {!noDropDown && (
+        <div
+          onClick={(e: any) => setShowDropdown(!showDropdown)}
+          id="dropdown"
+          className="relative text-xs"
+        >
+          <EllipsisIcon property={"horizontal"} />
+          <DropDownMenu
+            data={notificationDropdownData(listId, "single")}
+            showDropdown={showDropdown}
+            setShowDropdown={setShowDropdown}
+            style="right-0 md:right-none bg-white rounded-md !w-fit"
+          />
         </div>
       )}
-      <div>
-        <h4 className={`${textHeadingsStyle}`}>
-          {/* <span className="font-bold">James Card</span> created a new Article
-          for the <span className="font-bold">Premier League</span> */}
-          {message}
-        </h4>
-        <p className={`${timeStyle}`}>{time}</p>
-      </div>
     </section>
   );
 }

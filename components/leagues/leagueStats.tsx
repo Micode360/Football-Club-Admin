@@ -4,10 +4,10 @@ import QuestionIcon from "../icons/questionIcon";
 
 export default function LeagueStats() {
   const data = [
-    { name: "Viewed Articles", value: 0 },
-    { name: "Total Likes", value: 0 },
-    { name: "Total Comments", value: 0 },
-    { name: "Total Articles", value: 0 },
+    { name: "Viewed Articles", value: 2 },
+    { name: "Total Likes", value: 4 },
+    { name: "Total Comments", value: 6 },
+    { name: "Total Articles", value: 9 },
   ];
 
   const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];

@@ -49,8 +49,8 @@ export const USERS_INFO = gql`
 
 
 export const GET_NEWS = gql`
-  query Query {
-    news {
+  query GetNews($limit: Int) {
+    news(limit: $limit) {
       id
       title
       coverImage {
@@ -104,4 +104,45 @@ export const LEAGUES = gql`
       }
     }
   }
+`;
+
+
+export const HEADLINES = gql`
+query NewsHeadlines {
+  newsHeadlines {
+    headlines {
+      id
+      coverImage {
+        publicId
+        imgUrl
+      }
+      description
+      league
+      sn
+      title
+      categories
+    }
+    id
+  }
+}
+`;
+
+export const NOTIFICATIONS = gql`
+query List {
+  notifications {
+    list {
+      id
+      type
+      sender
+      senderProfilePic
+      message
+      action {
+        path
+      }
+      isRead
+      createdAt
+    }
+    recipient
+  }
+}
 `;

@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import EyeIcon from "@/components/icons/eye";
 import NewsPaperIcon from "@/components/icons/newspaperIcon";
 import DashboardLayout from "@/components/layout/DashboardLayout";
@@ -8,13 +8,15 @@ import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
 import ShieldIcon from "@/components/icons/shield";
 import StatsCard from "@/components/statsCard";
-import { gql } from "graphql-tag";
 import NewsCarousel from "@/components/newsCarousel";
 import NewsCard from "@/components/news/news-card";
+import { MyContext } from "@/components/layout/userContext";
 
 
 export default function Home() {
-
+  const {
+    myData: { leagues , news, headlines }
+  } = useContext(MyContext);
   return (
     <VerifyUser>
       <main className="flex flex-col md:flex-row min-h-screen">
@@ -27,30 +29,30 @@ export default function Home() {
                 style="bg-custom_orange"
                 Icon={EyeIcon}
                 text={"People"}
-                count={6002000}
+                count={0}
               />
               <StatsCard
                 style="bg-custom_blue"
                 Icon={NewsPaperIcon}
                 text={"New(s)"}
-                count={1002}
+                count={news?Number(news.length):0}
               />
               <StatsCard
                 style="bg-custom_red"
                 Icon={ShieldIcon}
                 text={"League(s)"}
-                count={4}
+                count={leagues?Number(leagues.length):0}
               />
             </section>
             <section className="md:grid md:grid-cols-3 py-8 gap-4 overflow-hidden pad_layout">
               <div className="bg-white shadow-lg rounded md:col-span-2">
-                <NewsCarousel />
+                <NewsCarousel news={headlines.headlines} />
               </div>
               <div className="mt-8 md:mt-0">
-                <NewsCard header={"Recent News"} />
+                <NewsCard header={"Recent News"} news={news.slice(0, 4)} newsLink="/news" />
               </div>
               <div className="mt-8 md:mt-0">
-                <NewsCard header={"Most visited"} />
+                <NewsCard header={"Most visited"} news={news.slice(0, 4)} />
               </div>
             </section>
           </DashboardLayout>
