@@ -13,7 +13,7 @@ export const ADD_NEWS = gql`
 
 export const EDIT_NEWS = gql`
   mutation Mutation($input: NewsInput!) {
-    AddNews(input: $input) {
+    EditNews(input: $input) {
       success
       status
       message
@@ -31,23 +31,32 @@ export const DELETE_NEWS = gql`
   }
 `;
 
-
 export const HEADLINES_NEWS = gql`
-    mutation Mutation($input: NewsHeadline!) {
-      UpdateNewsHeadlines(input: $input) {
-        success
-        status
-        message
-      }
+  mutation Mutation($input: NewsHeadline!) {
+    UpdateNewsHeadlines(input: $input) {
+      success
+      status
+      message
     }
+  }
 `;
 
 export const HANDLE_ACCESS = gql`
-    mutation Mutation($input: HandleAccess!) {
-      HandleAccess(input: $input) {
-        message
-        status
-        success
-      }
+  mutation Mutation($input: HandleAccess!) {
+    HandleAccess(input: $input) {
+      message
+      status
+      success
     }
+  }
+`;
+
+export const REMOVE_AUTHOR = gql`
+  mutation Mutation($input: Delete!) {
+    RemoveAuthor(input: $input) {
+      success
+      status
+      message
+    }
+  }
 `;

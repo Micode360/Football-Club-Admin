@@ -57,8 +57,6 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     color: "",
   });
 
-
-
   const formValues = {
     title: "",
     description: "",
@@ -90,7 +88,6 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
       coverimage,
       content,
     } = values;
-    
 
     const formData = new FormData();
 
@@ -108,15 +105,18 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
 
     const img: any = imageResponse?.data || {};
     const coverImage = {
-      publicId:!img.public_id ? coverimage.publicId : img.public_id,
+      publicId: !img.public_id ? coverimage.publicId : img.public_id,
       imgUrl: !img.url ? coverimage.imgUrl : img.url,
     };
+
+    console.log(coverImage, "coverimage");
+    const authorIds = authorIdsArr.map((author: any) => author.id);
 
     let newsValues = {
       input: {
         id: editId !== "" ? editId : "",
         userId: profile?.id,
-        authorIds: !editId? [profile.id]: authorIdsArr,
+        authorIds: !editId ? [profile.id] : authorIds,
         title,
         description,
         author,
@@ -127,13 +127,15 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
       },
     };
 
+    console.log(newsValues, "NEWS VALUE");
+
     try {
       const { data } =
-        editId && editId !== ""
-          ? await editNews({
+        !editId || editId === ""
+          ? await addNews({
               variables: newsValues,
             })
-          : await addNews({
+          : await editNews({
               variables: newsValues,
             });
 
@@ -148,17 +150,18 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
           color: "green",
         });
 
-        let newOrUpdatedNews: any;
+        // let newOrUpdatedNews: any;
 
-        newOrUpdatedNews = news.filter((news: any) => news?.id !== editId);
-        newOrUpdatedNews.push(filteredInput);
+        // newOrUpdatedNews = news.filter((news: any) => news?.id !== editId);
+        // newOrUpdatedNews.push(filteredInput);
 
-        setMyData((prevData: any) => ({
-          ...prevData,
-          news: newOrUpdatedNews,
-        }));
+        // setMyData((prevData: any) => ({
+        //   ...prevData,
+        //   news: newOrUpdatedNews,
+        // }));
       }
     } catch (error: any) {
+      console.log(error, "something when wrong");
       setResponse({
         status: true,
         message: "Something went wrong",
@@ -191,29 +194,26 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     },
   });
 
-
   useEffect(() => {
     const filteredNews = news.filter((news: any) => news.id === editId)[0];
-   if(filteredNews) {
-    setAuthorIdsArr(
-      filteredNews.authorIds
-    );
-    if (editId && editId !== "") {
-      setEditLogoId(news?.coverImage?.publicId);
-      formik.setValues({
-        title: filteredNews?.title || "",
-        description: filteredNews?.description || "",
-        author: filteredNews?.author || "",
-        league: filteredNews?.league || "",
-        categories: filteredNews?.categories || "",
-        coverimage: {
-          publicId: filteredNews?.coverImage?.publicId || "",
-          imgUrl: filteredNews?.coverImage?.imgUrl || ""
-        },
-        content: filteredNews?.content || "",
-      });
-    } else formik.setValues(formValues);
-   }
+    if (filteredNews) {
+      setAuthorIdsArr(filteredNews.authorIds);
+      if (editId && editId !== "") {
+        setEditLogoId(news?.coverImage?.publicId);
+        formik.setValues({
+          title: filteredNews?.title || "",
+          description: filteredNews?.description || "",
+          author: filteredNews?.author || "",
+          league: filteredNews?.league || "",
+          categories: filteredNews?.categories || "",
+          coverimage: {
+            publicId: filteredNews?.coverImage?.publicId || "",
+            imgUrl: filteredNews?.coverImage?.imgUrl || "",
+          },
+          content: filteredNews?.content || "",
+        });
+      } else formik.setValues(formValues);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editId, news, profile]);
 

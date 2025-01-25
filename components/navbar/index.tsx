@@ -12,6 +12,7 @@ import MessageContainer from "../notifications";
 import ModalWrapper from "../modal/modalWrapper";
 import SubAdminPreview from "../settings/admins/adminPreview";
 import { MyContext } from "@/components/layout/userContext";
+import React from "react";
 
 export default function Navbar() {
   const {
@@ -203,13 +204,6 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-      {/* <ModalWrapper
-        isOpen={previewModal}
-        setIsOpen={setPreviewModal}
-        style={"!px-0 !pt-12"}
-      >
-        <SubAdminPreview data={undefined} userId={""} setTransferRoleModal={undefined} setPreviewModal={undefined} />
-      </ModalWrapper> */}
     </>
   );
 }

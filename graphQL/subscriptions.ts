@@ -46,3 +46,32 @@ export const RESPONSE_SUBSCRIPTION = gql`
     }
   }
 `;
+
+
+export const NEWS_SUBCRIPTION_UPDATE = gql`
+    subscription NewsUpdate {
+      newsUpdate {
+        id
+        title
+        coverImage {
+          publicId
+          imgUrl
+        }
+        description
+        author
+        authorIds {
+          firstName
+          lastName
+          id
+          profilePic {
+            publicId
+            imgUrl
+          }
+        }
+        league
+        categories
+        content
+        createdAt
+      }
+    }
+`;

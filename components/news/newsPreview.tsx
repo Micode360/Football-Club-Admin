@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import parse from "html-react-parser";
 import { toDate } from "@/utils/utilsFunctions";
 import newsHooksAndProps from "@/hooks/news/newsCustomHooks";
 import { identity } from "lodash";
 import NotiticationResponse from "../Response/notiticationResponse";
+import { MyContext } from "@/components/layout/userContext";
+import CloseIcon from "../icons/closeIcon";
+import ExIcon from "../icons/exclamationIcon";
+import Modal from "../modal";
 
 
 export default function NewsPreview({ News, requestAccess }: any) {
- const { isAuthor, response, setResponse, grantNewsAuthorization } = newsHooksAndProps();
-  console.log({News, requestAccess}, 'News');
+  const {
+    myData: { profile } }= useContext(MyContext);
+  const { isModal, setIsModal, isAuthor, removeAuthor, response, setResponse, grantNewsAuthorization } = newsHooksAndProps();
+  const [author, setAuthor] = useState({
+    id:"",
+    firstName: "",
+    lastName: ""
+  });
+
+  console.log({
+    isAuthor: isAuthor(News?.id),
+    requestAccess
+  },"NEWS PREVIEW")
+  
+  console.log({News, requestAccess, id:profile.id}, 'News');
   return (
    <>
      <section className="rounded-md">
@@ -28,7 +45,7 @@ export default function NewsPreview({ News, requestAccess }: any) {
           {News?.league}
         </span>
         {
-          (isAuthor(News.id) && requestAccess && requestAccess !== "") && (
+          (isAuthor(News?.id) && (requestAccess && requestAccess !== "none")) && (
             <div className="flex items-center">
               <button onClick={()=>grantNewsAuthorization({id: News.id, userId: requestAccess})} className="bg-custom_blue hover:bg-blue-500 text-white text-xs shadow-md border mr-2 border-custom_blue py-2 px-4 rounded cursor-pointer">
               Grant Access
@@ -42,7 +59,7 @@ export default function NewsPreview({ News, requestAccess }: any) {
         }
       </div>
 
-      <div className="flex items-center md:justify-between bg-white shadow-lg p-4 mt-2">
+      <div className="flex flex-wrap md:items-center justify-between bg-white shadow-lg p-4 mt-2">
         <div className="flex flex-col">
           <span className="mb-2 font-[700]">{News?.author}</span>
           <span className="text-xs">{toDate(parseInt(News?.createdAt, 10))}</span>
@@ -51,15 +68,37 @@ export default function NewsPreview({ News, requestAccess }: any) {
         <div className="flex items-center">
           <span className="font-[600] mr-2">Editor(s):</span>
           {
-            News.authorIds.map(({ profilePic }:any, id:number)=>(
-              <img
-                key={id}
-                src={profilePic?.imgUrl ?? "/234567891.svg"}
-                width={50}
-                height={50}
-                className="w-10 h-10 rounded-full object-cover object-center mr-1"
-                alt="profile pic"
+            News.authorIds.map(({ firstName, lastName,profilePic, id }:any, index:number)=>(
+              <div className="relative" key={index}>
+                 <span onClick={(()=>{
+                 if(
+                    profile.role === "Super Admin" || 
+                    (profile.role !== "Super Admin" && News.authorIds[0].id === profile.id)
+                  ){
+                    setIsModal(true);
+                  setAuthor({
+                    id,
+                    firstName,
+                    lastName
+                  });
+                }else{
+                    setResponse({
+                      status: true,
+                      message: `You have to be Super Admin or the first creator to be able to delete this news.`,
+                      color: "red",
+                    });
+                  }
+                  })} className="bg-black rounded-full absolute -top-1 -right-0 cursor-pointer">
+                    <CloseIcon type={"circle"} style={"w-4 h-4 text-white"} />
+                </span>
+                <img
+                  src={profilePic?.imgUrl ?? "/234567891.svg"}
+                  width={50}
+                  height={50}
+                  className="w-10 h-10 rounded-full object-cover object-center mr-1"
+                  alt="profile pic"
               />
+              </div>
             ))
           }
         </div>
@@ -70,6 +109,16 @@ export default function NewsPreview({ News, requestAccess }: any) {
       </div>
     </section>
      <NotiticationResponse isOpen={response} setIsOpen={setResponse} />
+     <Modal
+        isOpen={isModal}
+        Icon={<ExIcon style="cursor-pointer" type={"circle"} />}
+        setIsOpen={setIsModal}
+        text={`Are you sure you want to remove ${profile?.id === author?.id? "yourself": `${author.firstName} ${author.lastName}`}  from the role: Author / Editor?`}
+        button1={() =>removeAuthor(News.id, author?.id)}
+        button1Text="Yes, I'm sure"
+        button2={() => setIsModal(!isModal)}
+        button2Text="No, I take it back"
+      />
    </>
   );
 }

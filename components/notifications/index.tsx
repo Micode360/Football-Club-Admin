@@ -14,6 +14,7 @@ interface MessageProperties {
   read: boolean;
   profilePic: string;
   action: any;
+  type?:string;
   textHeadingsStyle?: string;
   timeStyle?: string;
   noDropDown?: boolean;
@@ -27,6 +28,7 @@ export default function MessageContainer({
   read,
   profilePic,
   action,
+  type,
   textHeadingsStyle,
   timeStyle,
   noDropDown,
@@ -34,6 +36,7 @@ export default function MessageContainer({
   const [showDropdown, setShowDropdown] = useState(false);
   const { markNotificationAsRead, notificationDropdownData } =
     notificationHooksAndProps();
+    console.log(type, "TYPE")
   return (
     <section
       style={{ background: read ? "#ffffff" : "#c1dffb" }}
@@ -57,7 +60,7 @@ export default function MessageContainer({
           href={{
             pathname: action.path,
             query: {
-              request: sender,
+              request: type === "request"? sender: "none",
             },
           }}
         >

@@ -73,6 +73,7 @@ export default function Notifications() {
                       sender,
                       senderProfilePic,
                       action,
+                      type,
                       createdAt,
                       isRead,
                     }: any,
@@ -80,6 +81,7 @@ export default function Notifications() {
                   ) => (
                     <div key={index}>
                       <MessageContainer
+                        type={type}
                         listId={id}
                         sender={sender}
                         message={message}

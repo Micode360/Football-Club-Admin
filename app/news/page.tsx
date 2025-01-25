@@ -48,6 +48,7 @@ export default function News() {
   const tab = searchParams.get("tab") || "";
   const headers = ["News", "Add News",role === "Super Admin"? "Headlines":""];
 
+
   const components = [
     <Table
       headers={tableHeaders}
@@ -63,6 +64,8 @@ export default function News() {
     <AddNews />,
     role === "Super Admin"? <Headlines data={news} />:""
   ];
+
+  components[0]
 
   return (
     <VerifyUser>

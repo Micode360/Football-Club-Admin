@@ -49,10 +49,10 @@ export default function Home() {
                 <NewsCarousel news={headlines.headlines} />
               </div>
               <div className="mt-8 md:mt-0">
-                <NewsCard header={"Recent News"} news={news} newsLink="/news" />
+                <NewsCard header={"Recent News"} news={news.slice(0, 4)} newsLink="/news" />
               </div>
               <div className="mt-8 md:mt-0">
-                <NewsCard header={"Most visited"} news={news} />
+                <NewsCard header={"Most visited"} news={news.slice(0, 4)} />
               </div>
             </section>
           </DashboardLayout>

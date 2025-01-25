@@ -48,7 +48,7 @@ export default function LeagueCard({
 
   return (
     <>
-      <div className="relative overflow-hidden cursor-pointer h-fit w-[21.5rem] league_card grid grid-cols-2 px-4 py-4 bg-white shadow-lg rounded-md hover:scale-[1.1] transition">
+      <div className="relative overflow-hidden cursor-pointer h-full w-[21.5rem] league_card grid grid-cols-2 px-4 py-4 bg-white shadow-lg rounded-md hover:scale-[1.1] transition">
         <div className="relative">
           <div
             style={{

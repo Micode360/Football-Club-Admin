@@ -1,0 +1,31 @@
+version: '3'
+services:
+  client:
+    build: .
+    container_name: football-club-admin-client  # Unique name
+    ports:
+      - "3000:3000"  # Next.js runs on port 3000
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: football-club-admin-nginx  # Unique name
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /root/web_applications/nginx-configs/sites-enabled/theleague.conf:/etc/nginx/conf.d/theleague.conf
+      - /etc/letsencrypt:/etc/letsencrypt  # Mount Let's Encrypt certificates
+    depends_on:
+      - client
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

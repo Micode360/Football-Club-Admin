@@ -49,8 +49,8 @@ export const USERS_INFO = gql`
 
 
 export const GET_NEWS = gql`
-  query Query {
-    news {
+  query GetNews($limit: Int) {
+    news(limit: $limit) {
       id
       title
       coverImage {

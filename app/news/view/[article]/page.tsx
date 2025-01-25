@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { useSearchParams } from "next/navigation";
 import VerifyUser from "@/components/verifyUser";
@@ -16,6 +16,7 @@ interface newParamsProps {
 export default function NewsDetails({ params }: newParamsProps) {
   const searchParams = useSearchParams();
   const requestAccess = searchParams.get("request");
+  const [newsToView, setNewsToView] = useState<boolean | string>(false);  
   const {
     myData: { news },
   } = useContext(MyContext);
@@ -24,6 +25,16 @@ export default function NewsDetails({ params }: newParamsProps) {
     (article: any) => article.id === params?.article
   )[0];
 
+  useEffect(()=>{
+    setNewsToView(News)
+        const timer = setTimeout(() => {
+          if (!News) {
+            setNewsToView("notfound");
+          }
+        }, 10000);
+        return () => clearTimeout(timer);
+  },[])
+
   return (
     <VerifyUser>
       <main className="flex flex-col md:flex-row min-h-screen">
@@ -31,9 +42,13 @@ export default function NewsDetails({ params }: newParamsProps) {
         <div className="w-full">
           <Navbar />
           <DashboardLayout style="py-16 mt-[3rem] ml-0 md:ml-[5rem] px-6">
-            {!News ? (
+            {!newsToView ? (
               <div className="flex items-center justify-center mt-8">
                 <MyOnPageLoader text="Please wait" />
+              </div>
+            ) :newsToView === "notfound" ? (
+              <div className="flex items-center justify-center mt-8">
+                News not found.
               </div>
             ) : (
               <>
