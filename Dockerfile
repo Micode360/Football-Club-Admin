@@ -1,23 +1,26 @@
-# Use Node.js 16 as the base image
-FROM node:16
+# Stage 1: Install dependencies
+FROM node:16 AS dependencies
 
-# Set the working directory
 WORKDIR /app
-
-# Copy package.json and yarn.lock
 COPY package.json yarn.lock ./
-
-# Install dependencies
 RUN yarn install --frozen-lockfile
 
-# Copy the rest of the application code
-COPY . .
+# Stage 2: Build the app
+FROM node:16 AS builder
 
-# Build the Next.js app
+WORKDIR /app
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY . .
 RUN yarn build
 
-# Expose the port
-EXPOSE 3000
+# Stage 3: Create the final image
+FROM node:16
 
-# Start the application
+WORKDIR /app
+COPY --from=builder /app/package.json /app/yarn.lock ./
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+
+EXPOSE 3000
 CMD ["yarn", "start"]
