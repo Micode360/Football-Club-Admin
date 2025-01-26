@@ -2,9 +2,9 @@ version: '3'
 services:
   client:
     build: .
-    container_name: football-club-admin-client  # Unique name
+    container_name: football-club-admin-client 
     ports:
-      - "3000:3000"  # Next.js runs on port 3000
+      - "3000:3000" 
     environment:
       - NODE_ENV=production
       - PORT=3000
@@ -14,7 +14,7 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: football-club-admin-nginx  # Unique name
+    container_name: football-club-admin-nginx 
     ports:
       - "80:80"
       - "443:443"
