@@ -3,7 +3,7 @@ name: Deploy with Docker Compose
 on:
   push:
     branches:
-      - main  
+      - main  # Trigger on push to the main branch
 
 jobs:
   build-and-deploy:
