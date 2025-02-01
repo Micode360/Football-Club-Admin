@@ -1,6 +1,6 @@
 [build]
   base = "/"
-  publish = "out" # or ".next" if you're using `next build` without `next export`
+  publish = ".next"
   command = "npm run build"
 
 [build.environment]
