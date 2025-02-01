@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: 'export',
   presets: ["next/babel"],
   swcMinify: true,
   productionBrowserSourceMaps: false,
