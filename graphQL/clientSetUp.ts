@@ -14,7 +14,7 @@ const httpLink = createHttpLink({
 });
 
 const wsLink = new GraphQLWsLink(createClient({
-  url: 'ws://localhost:5000/graphql',
+  url: 'ws://manage.theleague.micode360.com/graphql',
   connectionParams: {
     authToken: accessToken,
   },
