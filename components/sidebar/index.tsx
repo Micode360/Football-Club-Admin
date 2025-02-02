@@ -41,12 +41,12 @@ export default function SideBar() {
       title: "Notifications",
       path: "/notifications",
     },
-    {
-      id: 5,
-      icon: <MessageIcon style="w-5 h-5 md:w-8 md:h-8" active={false} />,
-      title: "Messages",
-      path: "/messages",
-    },
+    // {
+    //   id: 5,
+    //   icon: <MessageIcon style="w-5 h-5 md:w-8 md:h-8" active={false} />,
+    //   title: "Messages",
+    //   path: "/messages",
+    // },
     {
       id: 6,
       icon: <CogIcon style="w-5 h-5 md:w-8 md:h-8" property="outline" />,

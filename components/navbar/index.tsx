@@ -122,7 +122,7 @@ export default function Navbar() {
               </div>
             </DropDownMenuWrapper>
           </span>
-          <span
+          {/* <span
             onClick={(e: any) => {
               setShowMessageDropdown(!showMessageDropdown);
               setIsMessage(e.target.className);
@@ -184,7 +184,7 @@ export default function Navbar() {
                 </Link>
               </div>
             </DropDownMenuWrapper>
-          </span>
+          </span> */}
           <div
             onClick={(e: any) => {
               setShowDropdown(!showDropdown);
