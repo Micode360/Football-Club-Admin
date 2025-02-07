@@ -36,7 +36,7 @@ export default function AdminCard({
           alt="profile photo"
         />
       </div>
-      <h3 className="font-[700]">
+      <h3 className="font-[700] text-center">
         
         {currentUser ? "You" : `${data.firstName} ${data.lastName}`}
       </h3>
