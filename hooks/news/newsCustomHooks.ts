@@ -271,15 +271,24 @@ export default function newsHooksAndProps() {
     }
   };
 
-  const grantNewsAuthorization = async ({ id, userId }: any) => {
+  const grantNewsAuthorization = async ({ type, id, userId }: any) => {
     setIsModal(false);
     setResponse({ ...response, status: "pending" });
+    if(type === "reject"){
+      newNotification({
+        recipient: userId,
+        description: "has rejected your access to the news",
+        type: "request",
+        path: `/news/view/${id}`,
+      });
+      return;
+    }
 
     try {
       const { data } = await handleAccess({
         variables: {
           input: {
-            type: "add",
+            type,
             id,
             authorId: profile.id,
             userId,
@@ -350,7 +359,7 @@ export default function newsHooksAndProps() {
         newNotification({
           recipient: authorId,
           description: "has removed your access to this news",
-          type: "user-type",
+          type: "request",
           path: `/news/view/${newsId}`,
         });
 
