@@ -7,7 +7,7 @@ import EllipsisIcon from "../icons/ellipsisIcon";
 import notificationHooksAndProps from "@/hooks/notifications/notificationHooks";
 
 interface MessageProperties {
-  listId: String;
+  listId: string;
   sender: string;
   message: string;
   time: string;
@@ -60,7 +60,7 @@ export default function MessageContainer({
           href={{
             pathname: action.path,
             query: {
-              request: type === "request"? sender: "none",
+              request: type === "request"? sender: listId,
             },
           }}
         >

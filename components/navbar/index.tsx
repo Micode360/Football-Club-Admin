@@ -53,7 +53,7 @@ export default function Navbar() {
           <span className="hidden md:block text-basic font-[600] mx-2">/</span>
           <h1 className="hidden md:block text-basic font-[600] text-custom_gray">
             {url === ""
-              ? "Darshboard"
+              ? "Dashboard"
               : url.replace(/^\w/, (c: string) => c.toUpperCase())}
           </h1>
         </div>
@@ -74,7 +74,7 @@ export default function Navbar() {
               showDropdown={showNotificationDropdown}
               setShowDropdown={setShowNotificationDropdown}
               onClickData={isNotification}
-              style="w-[75vw] md:w-[45vw] right-0 md:right-none bg-white rounded-md"
+              style="w-[75vw] md:w-[30rem] right-0 md:right-none bg-white rounded-md"
             >
               <h4 className="text-base border-b p-2 mb-2">Notifications</h4>
               {notifications &&
@@ -116,7 +116,7 @@ export default function Navbar() {
                 <p className="text-center my-2">No new notifications</p>
               )}
               <div className="w-full text-center py-2 text-white bg-custom_orange">
-                <Link className="hover:underline" href="/">
+                <Link className="hover:underline" href="/notifications">
                   View All
                 </Link>
               </div>
