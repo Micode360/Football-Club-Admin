@@ -18,7 +18,7 @@ export default function Tabs({ headers, components, tab }: TabsProperties) {
   return (
     <section>
       {headers && (
-        <div className="border-b-2 border-[#E6E6E6] pb-2">
+        <div className="border-b-2 border-[#E6E6E6] flex items-center overflow-x-auto overflow-y-clip">
           {headers.map((header, id) => (
             <Link
               href={{
@@ -31,7 +31,7 @@ export default function Tabs({ headers, components, tab }: TabsProperties) {
               className={`${
                 tabIndex === id &&
                 "border-b-4 border-custom_orange rounded-b-sm text-base leading-6"
-              } pb-2 px-5 cursor-pointer`}
+              } py-2 px-5 cursor-pointer whitespace-nowrap`}
             >
               {header}
             </Link>

@@ -12,10 +12,9 @@ import NewsCarousel from "@/components/newsCarousel";
 import NewsCard from "@/components/news/news-card";
 import { MyContext } from "@/components/layout/userContext";
 
-
 export default function Home() {
   const {
-    myData: { leagues , news, headlines }
+    myData: { leagues, news, headlines },
   } = useContext(MyContext);
   return (
     <VerifyUser>
@@ -35,25 +34,35 @@ export default function Home() {
                 style="bg-custom_blue"
                 Icon={NewsPaperIcon}
                 text={"New(s)"}
-                count={news?Number(news.length):0}
+                count={news ? Number(news.length) : 0}
               />
               <StatsCard
                 style="bg-custom_red"
                 Icon={ShieldIcon}
                 text={"League(s)"}
-                count={leagues?Number(leagues.length):0}
+                count={leagues ? Number(leagues.length) : 0}
               />
             </section>
             <section className="md:grid md:grid-cols-3 py-8 gap-4 overflow-hidden pad_layout">
-              <div className="bg-white shadow-lg rounded md:col-span-2">
-                <NewsCarousel news={headlines.headlines} />
-              </div>
-              <div className="mt-8 md:mt-0">
-                <NewsCard header={"Recent News"} news={news.slice(0, 4)} newsLink="/news" />
-              </div>
-              <div className="mt-8 md:mt-0">
-                <NewsCard header={"Most visited"} news={news.slice(0, 4)} />
-              </div>
+              {headlines && (
+                <div className="bg-white shadow-lg rounded md:col-span-2">
+                  <NewsCarousel news={headlines.headlines} />
+                </div>
+              )}
+              {news && (
+                <div className="mt-8 md:mt-0">
+                  <NewsCard
+                    header={"Recent News"}
+                    news={news.slice(0, 4)}
+                    newsLink="/news"
+                  />
+                </div>
+              )}
+              {news && (
+                <div className="mt-8 md:mt-0">
+                  <NewsCard header={"Most visited"} news={news.slice(0, 4)} />
+                </div>
+              )}
             </section>
           </DashboardLayout>
         </div>

@@ -18,6 +18,7 @@ export default function NewsPreview({ News, requestAccess }: any) {
     setIsModal,
     isAuthor,
     removeAuthor,
+    updateNews,
     response,
     setResponse,
     grantNewsAuthorization,
@@ -63,9 +64,26 @@ export default function NewsPreview({ News, requestAccess }: any) {
         </div>
 
         <div className="flex items-center justify-between bg-white shadow-lg p-4 pt-0">
-          <span className="bg-black w-fit mr-2 text-white font-[600] rounded py-1 px-[0.5rem]">
-            {News?.league}
-          </span>
+          <div className="flex flex-col md:flex-row items-center justify-center">
+            <span className="bg-black w-fit mr-2 text-white font-[600] rounded py-1 px-[0.5rem]">
+              {News?.league}
+            </span>
+
+            {News?.status === "draft" && (
+              <span
+                onClick={() => {
+                  updateNews({
+                    id: News.id,
+                    userId: profile?.id,
+                    status: "published",
+                  });
+                }}
+                className="bg-custom_green hover:bg-green-700 cursor-pointer w-fit mr-2 text-white font-[600] rounded py-1 px-[1rem]"
+              >
+                Publish news
+              </span>
+            )}
+          </div>
           {isAuthor(News?.id) && requestAccess && requestAccess !== "none" && (
             <div className="flex items-center">
               <button

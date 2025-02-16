@@ -59,6 +59,7 @@ export const GET_NEWS = gql`
       }
       description
       author
+      status
       authorIds {
         profilePic {
           imgUrl
@@ -117,6 +118,7 @@ query NewsHeadlines {
         imgUrl
       }
       description
+      status
       league
       sn
       title

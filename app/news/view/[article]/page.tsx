@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useParams } from "next/navigation";
 import VerifyUser from "@/components/verifyUser";
 import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
@@ -9,12 +9,9 @@ import MyOnPageLoader from "@/components/loader";
 import { MyContext } from "@/components/layout/userContext";
 import NewsPreview from "@/components/news/newsPreview";
 
-interface newParamsProps {
-  params: { article: string };
-}
-
-export default function NewsDetails({ params }: newParamsProps) {
+export default function NewsDetails() {
   const searchParams = useSearchParams();
+  const params = useParams(); // Use useParams to get dynamic route parameters
   const requestAccess = searchParams.get("request");
   const [newsToView, setNewsToView] = useState<boolean | string>(false);  
   const {
@@ -25,15 +22,17 @@ export default function NewsDetails({ params }: newParamsProps) {
     (article: any) => article.id === params?.article
   )[0];
 
-  useEffect(()=>{
-    setNewsToView(News)
-        const timer = setTimeout(() => {
-          if (!News) {
-            setNewsToView("notfound");
-          }
-        }, 10000);
-        return () => clearTimeout(timer);
-  },[])
+  useEffect(() => {
+    if (params?.article) {
+      setNewsToView(News);
+      const timer = setTimeout(() => {
+        if (!News) {
+          setNewsToView("notfound");
+        }
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [params?.article, News]);
 
   return (
     <VerifyUser>
@@ -46,7 +45,7 @@ export default function NewsDetails({ params }: newParamsProps) {
               <div className="flex items-center justify-center mt-8">
                 <MyOnPageLoader text="Please wait" />
               </div>
-            ) :newsToView === "notfound" ? (
+            ) : newsToView === "notfound" ? (
               <div className="flex items-center justify-center mt-8">
                 News not found.
               </div>
