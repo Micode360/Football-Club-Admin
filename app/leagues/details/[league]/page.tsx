@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import VerifyUser from "@/components/verifyUser";
 import Navbar from "@/components/navbar";
@@ -8,20 +8,36 @@ import LeagueBio from "@/components/leagues/leagueBio";
 import LeagueStats from "@/components/leagues/leagueStats";
 import MyOnPageLoader from "@/components/loader";
 import { MyContext } from "@/components/layout/userContext";
+import { useParams } from "next/navigation"; // Import useParams
 
-
-interface leagueParamsProps {
-  params: { league: string };
-}
-
-export default function LeagueDetails({ params }: leagueParamsProps) {
+export default function LeagueDetails() {
+  const params = useParams(); // Use useParams to get dynamic route parameters
   const {
     myData: { leagues },
   } = useContext(MyContext);
 
-  const league = leagues.filter((league: any) => {
-    return league.name.split(" ").join("").toLowerCase() === params?.league;
-  })[0];
+  const [league, setLeague] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (params?.league && leagues.length > 0) {
+      const foundLeague = leagues.find((league: any) => {
+        return league.name.split(" ").join("").toLowerCase() === params?.league;
+      });
+
+      if (foundLeague) {
+        setLeague(foundLeague);
+        setLoading(false);
+      } else {
+        // Delay the "not found" check to ensure data has time to load
+        const timer = setTimeout(() => {
+          setLeague("notfound");
+          setLoading(false);
+        }, 3000); // Adjust the timeout duration as needed
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [params?.league, leagues]);
 
   return (
     <VerifyUser>
@@ -30,10 +46,14 @@ export default function LeagueDetails({ params }: leagueParamsProps) {
         <div className="w-full">
           <Navbar />
           <DashboardLayout style="py-16 mt-[3rem] ml-0 md:ml-[5rem] px-6">
-            {!league ? (
-               <div className="flex items-center justify-center mt-8">
-                  <MyOnPageLoader text="Please wait" />
-               </div>
+            {loading ? (
+              <div className="flex items-center justify-center mt-8">
+                <MyOnPageLoader text="Please wait" />
+              </div>
+            ) : league === "notfound" ? (
+              <div className="flex items-center justify-center mt-8">
+                League not found.
+              </div>
             ) : (
               <>
                 <LeagueBio league={league} />

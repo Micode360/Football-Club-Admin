@@ -12,7 +12,7 @@ export default function NewsCard({ header, news, newsLink  }: NewsCardProps) {
   return (
     <div className="bg-white shadow-lg p-4 h-full flex flex-col justify-between">
       <div>
-        <h3 className="font-[700] text-[1.2rem] text-gray-600 mb-4">
+        <h3 className="font-[600] text-[1rem] text-gray-600 mb-4">
           {" "}
           {header}{" "}
         </h3>

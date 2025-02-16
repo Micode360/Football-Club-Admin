@@ -3,8 +3,14 @@ import { useMutation } from "@apollo/client";
 import { usePathname, useRouter } from "next/navigation";
 import { MyContext } from "@/components/layout/userContext";
 import { useGlobalFunctions } from "../global/globalHooks";
-import { DELETE_NEWS, HANDLE_ACCESS, REMOVE_AUTHOR } from "@/graphQL/mutations/news/index";
+import {
+  DELETE_NEWS,
+  EDIT_NEWS,
+  HANDLE_ACCESS,
+  REMOVE_AUTHOR,
+} from "@/graphQL/mutations/news/index";
 import notificationHooksAndProps from "../notifications/notificationHooks";
+import { Console } from "console";
 
 type OptionProps = {
   id: string;
@@ -30,6 +36,7 @@ export default function newsHooksAndProps() {
   const [handleAccess] = useMutation(HANDLE_ACCESS);
   const [removeThisAuthor] = useMutation(REMOVE_AUTHOR);
   const [searchValue, setSearchValue] = useState("");
+  const [editNews] = useMutation(EDIT_NEWS);
 
   const {
     myData: { profile, leagues, news, headlines },
@@ -247,8 +254,10 @@ export default function newsHooksAndProps() {
 
         const filteredHeadlineNews =
           modalValue.type === "delete"
-            ?  headlines.headlines && headlines.headlines.filter((data:any) => data.id !== id)
-            :  headlines.headlines && headlines.headlines.filter(
+            ? headlines.headlines &&
+              headlines.headlines.filter((data: any) => data.id !== id)
+            : headlines.headlines &&
+              headlines.headlines.filter(
                 (data: any) =>
                   !modalValue.arr.some(
                     (idObj: OptionProps) => idObj.id === data.id
@@ -274,7 +283,7 @@ export default function newsHooksAndProps() {
   const grantNewsAuthorization = async ({ type, id, userId }: any) => {
     setIsModal(false);
     setResponse({ ...response, status: "pending" });
-    if(type === "reject"){
+    if (type === "reject") {
       newNotification({
         recipient: userId,
         description: "has rejected your access to the news",
@@ -335,7 +344,7 @@ export default function newsHooksAndProps() {
     }
   };
 
-  const removeAuthor = async (newsId:string, authorId:string) => {
+  const removeAuthor = async (newsId: string, authorId: string) => {
     setIsModal(false);
     setResponse({ ...response, status: "pending" });
 
@@ -362,7 +371,6 @@ export default function newsHooksAndProps() {
           type: "request",
           path: `/news/view/${newsId}`,
         });
-
       } else
         setResponse({
           status: true,
@@ -372,7 +380,28 @@ export default function newsHooksAndProps() {
     } catch (error: any) {
       setResponse({ status: true, message: error.message, color: "red" });
     }
-  }
+  };
+
+  const updateNews = async (news: any) => {
+    try {
+      const { data } = await editNews({
+        variables: {
+          input: news,        
+        },
+      });
+      console.log(data, "news update: published")
+
+      if (data?.EditNews?.status === 200) {
+        setResponse({
+          status: true,
+          message: "News published successfully.",
+          color: "green",
+        });
+      }
+    } catch (error: any) {
+      setResponse({ status: true, message: error.message, color: "red" });
+    }
+  };
 
   return {
     isAuthor,
@@ -388,6 +417,7 @@ export default function newsHooksAndProps() {
     setSearchValue,
     removeAuthor,
     modalDescription,
+    updateNews,
     handleNewsDelete,
     grantNewsAuthorization,
     handleDeleteMultipleNews,

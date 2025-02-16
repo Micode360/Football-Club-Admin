@@ -48,7 +48,7 @@ export default function NewsCarousel({ news }:newsDataProps) {
               />
             </div>
 
-            <div className="p-4">
+            <div className="p-4 xl:py-8">
               <span className="bg-black text-white font-[600] rounded py-1 px-[0.5rem]">
                 {league}
               </span>

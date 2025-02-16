@@ -13,10 +13,12 @@ import newsHooksAndProps from "@/hooks/news/newsCustomHooks";
 import NotiticationResponse from "@/components/Response/notiticationResponse";
 import Headlines from "@/components/news/headlines";
 
+
 const tableHeaders = [
   "Title",
   "Description",
   "Author",
+  "Status",
   "League",
   "Categories",
   "Created At",
@@ -26,6 +28,7 @@ const columns = [
   { name: "title", type: "string" },
   { name: "description", type: "string" },
   { name: "author", type: "string" },
+  { name: "status", type: "string-color" },
   { name: "league", type: "string" },
   { name: "categories", type: "array" },
   { name: "createdAt", type: "date" },

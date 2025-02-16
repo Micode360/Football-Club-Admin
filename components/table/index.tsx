@@ -147,7 +147,7 @@ export default function Table({headers, columns, data, optionsData, searchPlaceH
                 <td className="px-6 py-47 text-xs md:text-base whitespace-nowrap">
                  { index + 1 }
                 </td>
-                {columns.map(({ name, type }: any) => {
+                {columns.map(({ name, type, color }: any) => {
                   const currentDate:any = new Date();
                   if (type === "string") {
                     return (
@@ -156,6 +156,23 @@ export default function Table({headers, columns, data, optionsData, searchPlaceH
                         key={name}
                       >
                          {item[name]?.length > 20 ? item[name].slice(0, 19) + "..." :item[name]?.length < 1? "none":item[name]}
+                      </td>
+                    );
+                  }
+                  if (type === "string-color") {
+                    const color = {
+                      draft: "#00678d",
+                      published: "#4CAF50",
+                      rejected: "#D9534F",
+                    }
+                    return (
+                      <td
+                        className="px-6 py-47 text-xs md:text-base whitespace-nowrap"
+                        key={name}
+                      >
+                         <p className="text-white text-center w-fit px-3 rounded-full" style={{backgroundColor: color[item[name] as keyof typeof color]}}>
+                          {item[name]?.length > 20 ? item[name].slice(0, 19) + "..." :item[name]?.length < 1? "none":item[name]}
+                         </p>
                       </td>
                     );
                   }

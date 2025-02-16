@@ -48,7 +48,7 @@ export default function LeagueCard({
 
   return (
     <>
-      <div className="relative overflow-hidden cursor-pointer h-full w-[21.5rem] league_card grid grid-cols-2 px-4 py-4 bg-white shadow-lg rounded-md hover:scale-[1.1] transition">
+      <div className="relative cursor-pointer !h-fit !xl:h-[15rem] w-[21.5rem] league_card grid grid-cols-2 px-4 py-4 bg-white shadow-lg rounded-md hover:scale-[1.1] transition">
         <div className="relative">
           <div
             style={{
@@ -76,7 +76,7 @@ export default function LeagueCard({
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <div className="w-[6rem] h-[6rem]">
+          <div className="w-[6rem] h-[6rem] xl:w-[10rem] xl:h-[10rem]">
             <Image
               src={imgPath}
               alt="logo"

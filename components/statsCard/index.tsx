@@ -18,7 +18,7 @@ export default function StatsCard({
 }: statsCardPrperties) {
   return (
     <div
-      className={`flex justify-between items-center relative py-6 md:py-8 px-4 shadow-xl rounded ${style} overflow-hidden`}
+      className={`flex justify-between items-center relative py-6 md:py-8 xl:py-14 px-4 shadow-xl rounded ${style} overflow-hidden`}
     >
       {Icon && (
         <Icon style="w-[3rem] h-[3rem] md:w-[6rem] md:h-[6rem] text-[#ebebeb]" />
