@@ -97,7 +97,7 @@ export default function Modal({
                           onClick={button1}
                           className={`${
                             !button1Color ? "bg-custom_blue" : button1Color
-                          } outline-none text-white mr-4 md:mr-4 shadow-md py-2 px-6 rounded`}
+                          } outline-none text-white mr-4 md:mr-4 shadow-md py-2 px-6 rounded w-full md:w-auto mb-2 md:mb-0`}
                         >
                           {button1Text}
                         </button>
@@ -107,7 +107,7 @@ export default function Modal({
                           onClick={button2}
                           className={`${
                             !button2Color ? "bg-custom_red" : button1Color
-                          } outline-none text-white mr-4 md:mr-4 shadow-md py-2 px-6 rounded`}
+                          } outline-none text-white mr-4 md:mr-4 shadow-md py-2 px-6 rounded w-full md:w-auto`}
                         >
                           {button2Text}
                         </button>

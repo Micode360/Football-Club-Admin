@@ -60,12 +60,12 @@ export default function NewsPreview({ News, requestAccess }: any) {
               />
             </div>
           </div>
-          <h1 className="font-[700] mt-2 md:text-[2rem]">{News?.title}</h1>
+          <h1 className="font-[700] mt-2 text-[1.5rem] md:text-[2rem]">{News?.title}</h1>
         </div>
 
-        <div className="flex items-center justify-between bg-white shadow-lg p-4 pt-0">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between bg-white shadow-lg p-4">
           <div className="flex flex-col md:flex-row items-center justify-center">
-            <span className="bg-black w-fit mr-2 text-white font-[600] rounded py-1 px-[0.5rem]">
+            <span className="bg-black mb-2 md:mb-0 w-fit mr-2 text-white font-[600] rounded py-1 px-[0.5rem]">
               {News?.league}
             </span>
 

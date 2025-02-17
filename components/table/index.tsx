@@ -81,8 +81,8 @@ export default function Table({headers, columns, data, optionsData, searchPlaceH
 
   return (
     <section>
-      <div className="bg-white shadow-lg flex justify-between my-4 py-3 px-4 rounded">
-       <div className="flex items-center">
+      <div className="bg-white shadow-lg flex flex-col md:flex-row justify-between my-4 py-3 px-4 rounded">
+       <div className="flex justify-between md:justify-start items-center mb-3 md:mb-0">
        <button
           onClick={handleAllSelect}
           className={`${
@@ -107,7 +107,7 @@ export default function Table({headers, columns, data, optionsData, searchPlaceH
           </div>
        </div>
 
-        <div className="w-[40%]">
+        <div className="w-full md:w-[40%]">
           <SearchBar placeholder={searchPlaceHolder} setState={setSearchValue} style={"!py-0 !px-0 w-full"} />
         </div>
       </div>
