@@ -44,11 +44,11 @@ export default function Notifications() {
         <div className="w-full">
           <Navbar />
           <DashboardLayout style="py-16 mt-[3rem] ml-0 md:ml-[5rem] px-6">
-            <section className="bg-white shadow-lg flex justify-between my-4 py-3 px-4 rounded">
+            <section className="bg-white shadow-lg flex flex-wrap justify-between my-4 py-3 px-4 rounded">
               <div className="flex items-center">
                 <button
                   onClick={() => markNotificationAsRead("", "all")}
-                  className="bg-custom_orange text-white shadow-md py-2 px-4 rounded"
+                  className="bg-custom_orange mb-2 md:mb-0 text-white shadow-md py-2 px-4 rounded"
                 >
                   Mark all as read
                 </button>
@@ -57,7 +57,7 @@ export default function Notifications() {
               <div>
                 <button
                   onClick={() => deleteNotificationFunc("", "all")}
-                  className="bg-custom_blue text-white shadow-md py-2 px-4 rounded"
+                  className="bg-custom_blue text-white shadow-md py-2 px-4 rounded mr-2"
                 >
                   Clear all
                 </button>

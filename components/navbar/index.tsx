@@ -74,7 +74,7 @@ export default function Navbar() {
               showDropdown={showNotificationDropdown}
               setShowDropdown={setShowNotificationDropdown}
               onClickData={isNotification}
-              style="!w-[30rem] right-0 md:right-none bg-white rounded-md"
+              style="w-[80vw] md:w-[30rem] right-0 md:right-none bg-white rounded-md"
             >
               <h4 className="text-base border-b p-2 mb-2">Notifications</h4>
               {notifications &&
@@ -137,7 +137,7 @@ export default function Navbar() {
               showDropdown={showMessageDropdown}
               setShowDropdown={setShowMessageDropdown}
               onClickData={isMessage}
-              style="w-[75vw] md:w-[45vw] md:w-fit right-0 md:right-none bg-white rounded-md"
+              style="w-[80vw] md:w-[30rem] md:w-fit right-0 md:right-none bg-white rounded-md"
             >
               <h4 className="text-base border-b p-2 mb-2">Messages</h4>
               {notifications &&
