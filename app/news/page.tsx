@@ -12,6 +12,7 @@ import { MyContext } from "@/components/layout/userContext";
 import newsHooksAndProps from "@/hooks/news/newsCustomHooks";
 import NotiticationResponse from "@/components/Response/notiticationResponse";
 import Headlines from "@/components/news/headlines";
+import ErrorResponse from "@/components/Response/errorResponse";
 
 
 const tableHeaders = [
@@ -82,6 +83,7 @@ export default function News() {
         </div>
       </main>
       <NotiticationResponse isOpen={response} setIsOpen={setResponse} />
+      {/* <ErrorResponse text="This is a very long text " type="inline" style="bg-green-500"/> */}
     </VerifyUser>
   );
 }
