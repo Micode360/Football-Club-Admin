@@ -65,10 +65,7 @@ export default function UserContext({ children }: mainLayoutProperties) {
 
   const [myData, setMyData] = useState<any>(initialData.myData);
 
-  console.log(notifications, "majorLoad");
-  console.log(newNotification?.newNotification, "new notfication subscription");
-  console.log(newNewsSubscription, "NEWS SUBSCRIPTION UPDATE");
-
+      
   useEffect(() => {
     if (
       profile &&

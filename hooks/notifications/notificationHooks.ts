@@ -98,8 +98,7 @@ export default function notificationHooksAndProps() {
   };
 
   const deleteNotificationFunc = async (id: String, type: string) => {
-    console.log({ id, type }, "deleteNotificationFunc");
-    try {
+        try {
       const { data } = await deleteNotification({
         variables: {
           input: {
@@ -109,8 +108,7 @@ export default function notificationHooksAndProps() {
           },
         },
       });
-      console.log(data, "delete notification");
-      if (data.DeleteNotification.status === 200) {
+            if (data.DeleteNotification.status === 200) {
         let updatedDeleteNotificationList:any;
         
         if (type === "single") {
@@ -122,8 +120,7 @@ export default function notificationHooksAndProps() {
         } else {
           updatedDeleteNotificationList = notifications.list;
         }
-        console.log(updatedDeleteNotificationList, "CHECKING")
-
+        
         setMyData((prevData: any) => ({
           ...prevData,
           notifications: {

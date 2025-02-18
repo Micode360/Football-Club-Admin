@@ -36,7 +36,6 @@ export default function MessageContainer({
   const [showDropdown, setShowDropdown] = useState(false);
   const { markNotificationAsRead, notificationDropdownData } =
     notificationHooksAndProps();
-    console.log(type, "TYPE")
   return (
     <section
       style={{ background: read ? "#ffffff" : "#c1dffb" }}
