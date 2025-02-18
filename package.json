@@ -17,6 +17,7 @@
     "@ckeditor/ckeditor5-utils": "^40.0.0",
     "@ckeditor/ckeditor5-watchdog": "^40.0.0",
     "@headlessui/react": "^1.7.17",
+    "@next/third-parties": "^15.1.7",
     "@types/lodash": "^4.14.202",
     "@types/node": "20.5.0",
     "@types/react": "18.2.20",

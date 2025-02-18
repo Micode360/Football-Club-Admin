@@ -64,7 +64,7 @@ export default function NewsPreview({ News, requestAccess }: any) {
         </div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between bg-white shadow-lg p-4">
-          <div className="flex flex-col md:flex-row items-center justify-center">
+          <div className="flex flex-col md:flex-row md:items-center justify-center">
             <span className="bg-black mb-2 md:mb-0 w-fit mr-2 text-white font-[600] rounded py-1 px-[0.5rem]">
               {News?.league}
             </span>
@@ -75,7 +75,7 @@ export default function NewsPreview({ News, requestAccess }: any) {
                   updateNews({
                     id: News.id,
                     userId: profile?.id,
-                    status: "published",
+                    status: "to_be_published",
                   });
                 }}
                 className="bg-custom_green hover:bg-green-700 cursor-pointer w-fit mr-2 text-white font-[600] rounded py-1 px-[1rem]"

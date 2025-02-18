@@ -12,6 +12,7 @@ import NewsCarousel from "@/components/newsCarousel";
 import NewsCard from "@/components/news/news-card";
 import { MyContext } from "@/components/layout/userContext";
 
+
 export default function Home() {
   const {
     myData: { leagues, news, headlines },

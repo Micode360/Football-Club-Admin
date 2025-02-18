@@ -11,6 +11,7 @@ import { MyContext } from "@/components/layout/userContext";
 import newsHooksAndProps from "@/hooks/news/newsCustomHooks";
 import { ADD_NEWS, EDIT_NEWS } from "@/graphQL/mutations/news/index";
 import NotiticationResponse from "@/components/Response/notiticationResponse";
+import notificationHooksAndProps from "@/hooks/notifications/notificationHooks";
 
 interface NewsFormProperties {
   setPreview: React.Dispatch<React.SetStateAction<any>>;
@@ -45,7 +46,7 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
   const [editLogoId, setEditLogoId] = useState("");
   const [authorIdsArr, setAuthorIdsArr] = useState<any>([]);
   const {
-    myData: { profile, news },
+    myData: { admins, profile, news },
     setMyData,
   } = useContext(MyContext) ?? {};
   const [addNews] = useMutation(ADD_NEWS);
@@ -56,6 +57,8 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
     message: "",
     color: "",
   });
+  
+  const { newNotification } = notificationHooksAndProps();
 
   const formValues = {
     title: "",
@@ -109,7 +112,6 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
       imgUrl: !img.url ? coverimage.imgUrl : img.url,
     };
 
-    console.log(coverImage, "coverimage");
     const authorIds = authorIdsArr.map((author: any) => author.id);
 
     let newsValues = {
@@ -127,7 +129,6 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
       },
     };
 
-    console.log(newsValues, "NEWS VALUE");
 
     try {
       const { data } =
@@ -150,6 +151,18 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
           color: "green",
         });
 
+        if(data?.AddNews?.status && profile.role !== 'Super Admin') {
+          const superUserId = admins.filter((admin: any) => admin.role === "Super Admin")[0];
+
+           newNotification({
+            recipient: superUserId.id,
+            description: "has created a news ready to be published. Waiting for your approval.",
+            type: "request",
+            path: `/news/view/${data?.AddNews?.value}`,
+          });
+        }
+        
+
         // let newOrUpdatedNews: any;
 
         // newOrUpdatedNews = news.filter((news: any) => news?.id !== editId);
@@ -161,7 +174,6 @@ export default function NewsForm({ setPreview }: NewsFormProperties) {
         // }));
       }
     } catch (error: any) {
-      console.log(error, "something when wrong");
       setResponse({
         status: true,
         message: "Something went wrong",
