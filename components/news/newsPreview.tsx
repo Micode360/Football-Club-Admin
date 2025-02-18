@@ -29,15 +29,7 @@ export default function NewsPreview({ News, requestAccess }: any) {
     lastName: "",
   });
 
-  console.log(
-    {
-      isAuthor: isAuthor(News?.id),
-      requestAccess,
-    },
-    "NEWS PREVIEW"
-  );
 
-  console.log({ News, requestAccess, id: profile.id }, "News");
   return (
     <>
       <section className="rounded-md">

@@ -10,8 +10,7 @@ export default function ChatRoom() {
 
   const messageOnChange = (e: any) => {
     setUserChatMessage(e.target.value);
-    console.log(userChatMessage, "user");
-  };
+      };
 
   return (
     <section className="bg-white flex flex-col justify-between shadow-lg rounded h-full lg:col-span-3">

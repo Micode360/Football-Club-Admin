@@ -39,7 +39,6 @@ export default function newsHeadlineHooksAndProps() {
 
 
   const updateNewsHeadline = async (news:any) => {
-    console.log(news,"Add");
     try {
       const { data } = await headlineNews({
         variables: {

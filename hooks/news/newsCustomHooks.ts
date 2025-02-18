@@ -389,7 +389,6 @@ export default function newsHooksAndProps() {
           input: news,        
         },
       });
-      console.log(data, "news update: published")
 
       if (data?.EditNews?.status === 200) {
         setResponse({

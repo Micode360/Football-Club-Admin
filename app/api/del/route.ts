@@ -3,8 +3,7 @@ import { cookies } from "next/headers";
 import crypto from "crypto";
 
 export async function POST(req: Request) {
-  console.log(req);
-  // const secretToken = req.headers.get('X-Secret-Token');
+    // const secretToken = req.headers.get('X-Secret-Token');
   // const hashedSecret = crypto
   // .createHash('sha256')
   // .update(process.env.DEL_SECRET as string)

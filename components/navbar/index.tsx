@@ -37,8 +37,7 @@ export default function Navbar() {
       notifications.list &&
       notifications.list.some(({ isRead }: any) => isRead === false);
       setNotificationActive(ureadNotification)
-    console.log(ureadNotification, "unread");
-  }, [notifications]);
+      }, [notifications]);
 
   return (
     <>
